@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>FanCode Ads — The Broadcast</title>
+<link rel="stylesheet" href="../tokens.css">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#000;color:#fff;font-family:var(--fc_font_body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  img,svg{display:block;max-width:100%}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--fc_color_orange_60);color:#fff}
+
+  .display{font-family:var(--fc_font_display);font-weight:700;text-transform:uppercase;letter-spacing:-0.02em;line-height:0.88}
+  .overline{font-family:var(--fc_font_body);font-weight:800;font-style:italic;text-transform:uppercase;letter-spacing:0.14em;font-size:11px;line-height:1}
+
+  .wrap{max-width:1440px;margin:0 auto;padding:0 80px}
+
+  /* NAV */
+  .nav{position:absolute;top:0;left:0;right:0;z-index:50;padding:32px 80px;display:flex;align-items:center;justify-content:space-between}
+  .brand{display:flex;align-items:center;gap:14px}
+  .brand img{height:22px}
+  .brand-divider{width:1px;height:18px;background:rgba(255,255,255,0.3)}
+  .brand-eyebrow{font-family:var(--fc_font_body);font-weight:800;font-style:italic;font-size:11px;letter-spacing:0.18em;color:#fff;text-transform:uppercase}
+  .nav-cta{padding:11px 22px;border:1px solid rgba(255,255,255,0.3);font-size:13px;font-weight:600;color:#fff;letter-spacing:0.04em;text-transform:uppercase;transition:all 0.2s}
+  .nav-cta:hover{background:#fff;color:#000}
+
+  /* HERO */
+  .hero{position:relative;min-height:920px;background:#000;overflow:hidden;display:flex;align-items:flex-end}
+  .hero-bg{position:absolute;inset:0;background:
+    radial-gradient(ellipse 80% 60% at 50% 30%, #7a2b02 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 80% 70%, #1a0900 0%, transparent 50%),
+    linear-gradient(180deg, #1a0900 0%, #000 70%);
+  }
+  .hero-stadium{position:absolute;inset:0;background-size:cover;background-position:center;
+    background-image:
+      linear-gradient(180deg, transparent 0%, transparent 50%, #000 100%),
+      radial-gradient(circle at 50% 40%, rgba(245,85,5,0.4) 0%, transparent 35%),
+      conic-gradient(from 90deg at 50% 100%, #1a0900 0deg, #3d1501 90deg, #1a0900 180deg);
+    opacity:0.95;
+  }
+  .hero-grain{position:absolute;inset:0;opacity:0.06;mix-blend-mode:overlay;
+    background-image:radial-gradient(rgba(255,255,255,0.4) 1px,transparent 1px);background-size:3px 3px}
+  /* fake stadium silhouette */
+  .stadium-silhouette{position:absolute;left:0;right:0;bottom:0;height:300px;
+    background:linear-gradient(180deg, transparent 0%, #000 60%);
+  }
+  .stadium-lights{position:absolute;left:0;right:0;bottom:280px;height:2px;background:linear-gradient(90deg,
+    transparent 0%, transparent 8%, rgba(255,200,150,0.6) 8.5%, transparent 9%,
+    transparent 22%, rgba(255,200,150,0.6) 22.5%, transparent 23%,
+    transparent 38%, rgba(255,200,150,0.6) 38.5%, transparent 39%,
+    transparent 55%, rgba(255,200,150,0.6) 55.5%, transparent 56%,
+    transparent 71%, rgba(255,200,150,0.6) 71.5%, transparent 72%,
+    transparent 86%, rgba(255,200,150,0.6) 86.5%, transparent 87%,
+    transparent 100%)}
+  .stadium-lights::before{content:"";position:absolute;left:0;right:0;top:-40px;height:40px;
+    background:radial-gradient(ellipse 6% 100% at 8.5% 100%, rgba(255,200,150,0.3) 0%, transparent 70%),
+               radial-gradient(ellipse 6% 100% at 22.5% 100%, rgba(255,200,150,0.3) 0%, transparent 70%),
+               radial-gradient(ellipse 6% 100% at 38.5% 100%, rgba(255,200,150,0.3) 0%, transparent 70%),
+               radial-gradient(ellipse 6% 100% at 55.5% 100%, rgba(255,200,150,0.3) 0%, transparent 70%),
+               radial-gradient(ellipse 6% 100% at 71.5% 100%, rgba(255,200,150,0.3) 0%, transparent 70%),
+               radial-gradient(ellipse 6% 100% at 86.5% 100%, rgba(255,200,150,0.3) 0%, transparent 70%);
+  }
+
+  .hero-content{position:relative;z-index:5;width:100%;padding:0 80px 96px;max-width:1440px;margin:0 auto}
+  .hero-meta{display:flex;align-items:center;gap:20px;margin-bottom:48px;color:rgba(255,255,255,0.7)}
+  .hero-meta-dot{width:6px;height:6px;border-radius:50%;background:var(--fc_color_orange_60)}
+  .hero-h1{font-size:200px;line-height:0.84;color:#fff;margin-bottom:32px;text-wrap:balance;font-weight:700}
+  .hero-h1 .accent{color:var(--fc_color_orange_60)}
+  .hero-foot{display:grid;grid-template-columns:1.4fr 1fr;gap:64px;align-items:end;padding-top:48px;border-top:1px solid rgba(255,255,255,0.15)}
+  .hero-tagline{font-size:22px;line-height:32px;color:rgba(255,255,255,0.85);max-width:540px;font-weight:400}
+  .hero-tagline strong{color:#fff;font-weight:600}
+  .hero-actions{display:flex;flex-direction:column;gap:14px;align-items:flex-end}
+  .btn-primary{display:inline-flex;align-items:center;gap:14px;padding:18px 28px;background:var(--fc_color_orange_60);color:#fff;font-size:14px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;transition:background 0.2s}
+  .btn-primary:hover{background:var(--fc_color_orange_70)}
+  .btn-arrow{font-size:18px}
+  .hero-callcontact{font-size:12px;color:rgba(255,255,255,0.5);letter-spacing:0.06em}
+
+  /* TICKER */
+  .ticker{background:#000;border-top:1px solid rgba(255,255,255,0.12);border-bottom:1px solid rgba(255,255,255,0.12);overflow:hidden;padding:18px 0;color:rgba(255,255,255,0.6)}
+  .ticker-track{display:flex;gap:48px;white-space:nowrap;animation:scroll 40s linear infinite}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  .ticker-item{display:inline-flex;align-items:center;gap:12px;font-family:var(--fc_font_body);font-weight:800;font-style:italic;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;flex-shrink:0}
+  .ticker-item .accent{color:var(--fc_color_orange_60)}
+  .ticker-sep{width:6px;height:6px;background:var(--fc_color_orange_60);transform:rotate(45deg);flex-shrink:0}
+
+  /* QUOTE / EDITORIAL */
+  .quote-section{padding:160px 0;background:#000;position:relative}
+  .quote-section .wrap{display:grid;grid-template-columns:1fr 1.4fr;gap:96px;align-items:center}
+  .quote-meta{display:flex;flex-direction:column;gap:8px}
+  .quote-numplate{font-family:var(--fc_font_display);font-weight:700;font-size:120px;line-height:0.85;color:rgba(255,255,255,0.08);letter-spacing:-0.04em}
+  .quote-mark{font-family:var(--fc_font_display);font-weight:700;font-size:96px;line-height:0.5;color:var(--fc_color_orange_60);margin-bottom:12px}
+  .quote-text{font-family:var(--fc_font_display);font-weight:700;font-size:56px;line-height:1.05;color:#fff;letter-spacing:-0.01em;text-wrap:balance;margin-bottom:48px}
+  .quote-text em{color:var(--fc_color_orange_60);font-style:normal}
+  .quote-attr{display:flex;align-items:center;gap:20px;padding-top:32px;border-top:1px solid rgba(255,255,255,0.15)}
+  .qa-mark{font-family:var(--fc_font_display);font-weight:700;font-size:32px;letter-spacing:0.04em;color:#fff}
+  .qa-meta{flex:1}
+  .qa-name{font-size:14px;font-weight:600;color:#fff;margin-bottom:2px}
+  .qa-role{font-size:12px;color:rgba(255,255,255,0.5);letter-spacing:0.04em}
+  .qa-stat{font-family:var(--fc_font_display);font-weight:700;font-size:48px;color:var(--fc_color_orange_60);line-height:1}
+  .qa-stat-label{font-size:10px;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.14em;margin-top:4px}
+
+  /* FORMATS */
+  .formats-section{padding:160px 0 0;background:#000;border-top:1px solid rgba(255,255,255,0.1)}
+  .formats-head{display:grid;grid-template-columns:1.2fr 1fr;gap:64px;margin-bottom:96px;align-items:end}
+  .formats-h{font-size:120px;color:#fff;line-height:0.86;letter-spacing:-0.02em;text-wrap:balance}
+  .formats-h em{color:var(--fc_color_orange_60);font-style:normal}
+  .formats-sub{font-size:18px;line-height:28px;color:rgba(255,255,255,0.6);max-width:420px}
+
+  .format{display:grid;grid-template-columns:140px 1fr 1.4fr;gap:80px;padding:80px 0;border-top:1px solid rgba(255,255,255,0.12);align-items:start}
+  .format:last-child{border-bottom:1px solid rgba(255,255,255,0.12)}
+  .format-num{font-family:var(--fc_font_display);font-weight:700;font-size:96px;color:var(--fc_color_orange_60);line-height:0.85;letter-spacing:-0.04em}
+  .format-info{padding-top:18px}
+  .format-tag{display:inline-block;font-family:var(--fc_font_body);font-weight:800;font-style:italic;font-size:11px;letter-spacing:0.18em;color:rgba(255,255,255,0.5);text-transform:uppercase;margin-bottom:24px}
+  .format-name{font-family:var(--fc_font_display);font-weight:700;font-size:64px;color:#fff;text-transform:uppercase;letter-spacing:-0.02em;line-height:0.95;margin-bottom:24px}
+  .format-desc{font-size:17px;line-height:28px;color:rgba(255,255,255,0.65);margin-bottom:32px;max-width:420px}
+  .format-stats{display:flex;gap:48px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.12)}
+  .fs{display:flex;flex-direction:column;gap:6px}
+  .fs-label{font-size:10px;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.14em}
+  .fs-val{font-family:var(--fc_font_display);font-weight:700;font-size:32px;color:#fff}
+  .format-mock{aspect-ratio:16/10;background:#0a0d14;border:1px solid rgba(255,255,255,0.08);position:relative;overflow:hidden}
+
+  /* mock variants */
+  .mock-1{background:radial-gradient(ellipse at 50% 60%, #7a2b02 0%, #1a0900 60%, #000 100%)}
+  .mock-1::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,rgba(0,0,0,0.6))}
+  .mock-1::after{content:"AD · 0:08";position:absolute;left:16px;top:16px;font-family:var(--fc_font_body);font-weight:800;font-style:italic;font-size:11px;letter-spacing:0.14em;color:#fff;background:var(--fc_color_orange_60);padding:5px 10px}
+  .mock-1 .play-circle{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:80px;height:80px;border:2px solid rgba(255,255,255,0.6);border-radius:50%;display:flex;align-items:center;justify-content:center}
+  .mock-1 .play-circle::after{content:"";width:0;height:0;border-left:18px solid #fff;border-top:12px solid transparent;border-bottom:12px solid transparent;margin-left:6px}
+  .mock-1 .progress{position:absolute;left:16px;right:16px;bottom:16px;height:3px;background:rgba(255,255,255,0.18)}
+  .mock-1 .progress::before{content:"";position:absolute;left:0;top:0;height:100%;width:32%;background:var(--fc_color_orange_60)}
+
+  .mock-2{background:linear-gradient(135deg, #0a1018 0%, #022963 50%, #0a1018 100%)}
+  .mock-2::before{content:"";position:absolute;left:0;right:0;bottom:30%;height:1px;background:rgba(255,255,255,0.2)}
+  .mock-2::after{content:"";position:absolute;left:24px;bottom:36%;width:60%;height:8px;background:rgba(255,255,255,0.15);box-shadow:0 14px 0 rgba(255,255,255,0.08)}
+  .mock-2 .takeover-banner{position:absolute;left:0;right:0;top:0;height:64%;background:linear-gradient(135deg,#3d1501 0%,#7a2b02 100%);display:flex;align-items:center;justify-content:center}
+  .mock-2 .takeover-banner::after{content:"BRAND";font-family:var(--fc_font_display);font-weight:700;font-size:64px;color:rgba(255,255,255,0.9);letter-spacing:-0.02em}
+
+  .mock-3{background:radial-gradient(circle at 50% 50%, #3d1501 0%, #1a0900 50%, #000 100%)}
+  .mock-3 .ctv-bezel{position:absolute;inset:8% 8% 14% 8%;border:8px solid #1a1a1a;border-radius:6px;background:linear-gradient(135deg,#3d1501,#7a2b02);overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,0.5)}
+  .mock-3 .ctv-bezel::after{content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:48px;height:48px;background:var(--fc_color_orange_60);border-radius:50%;box-shadow:0 0 60px rgba(245,85,5,0.8)}
+  .mock-3 .ctv-stand{position:absolute;left:50%;bottom:6%;transform:translateX(-50%);width:60px;height:6px;background:#1a1a1a;border-radius:2px}
+
+  .mock-4{background:linear-gradient(180deg, #000 0%, #0a0d14 100%)}
+  .mock-4 .feed-row{position:absolute;left:24px;right:24px;height:100px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.02);display:flex;align-items:center;padding:0 16px}
+  .mock-4 .feed-row.r1{top:24px;background:linear-gradient(90deg,rgba(245,85,5,0.18),transparent);border-color:rgba(245,85,5,0.3)}
+  .mock-4 .feed-row.r1::before{content:"SPONSORED · BRAND";font-family:var(--fc_font_body);font-weight:800;font-style:italic;font-size:11px;letter-spacing:0.14em;color:var(--fc_color_orange_60);text-transform:uppercase}
+  .mock-4 .feed-row.r2{top:140px;}
+  .mock-4 .feed-row.r2::before,.mock-4 .feed-row.r3::before{content:"";display:block;width:60%;height:8px;background:rgba(255,255,255,0.12)}
+  .mock-4 .feed-row.r3{top:256px;}
+
+  .mock-5{background:linear-gradient(135deg,#000 0%, #1a0900 50%, #7a2b02 100%)}
+  .mock-5 .live-strip{position:absolute;left:24px;top:24px;display:inline-flex;align-items:center;gap:8px;padding:6px 12px;background:var(--fc_color_red_60);font-family:var(--fc_font_body);font-weight:800;font-style:italic;font-size:11px;letter-spacing:0.14em;color:#fff;text-transform:uppercase}
+  .mock-5 .live-strip::before{content:"";width:6px;height:6px;border-radius:50%;background:#fff}
+  .mock-5 .scoreboard{position:absolute;left:24px;right:24px;bottom:24px;display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.12)}
+  .mock-5 .team{font-family:var(--fc_font_display);font-weight:700;font-size:24px;color:#fff}
+  .mock-5 .score{font-family:var(--fc_font_display);font-weight:700;font-size:36px;color:var(--fc_color_orange_60);letter-spacing:-0.02em}
+
+  /* CTA strip */
+  .cta-strip{padding:160px 0;background:#000;border-top:1px solid rgba(255,255,255,0.12);position:relative;overflow:hidden}
+  .cta-strip::before{content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:1200px;height:600px;background:radial-gradient(ellipse,rgba(245,85,5,0.12),transparent 60%);pointer-events:none}
+  .cta-inner{position:relative;text-align:center;max-width:1100px;margin:0 auto;padding:0 80px}
+  .cta-h{font-size:160px;line-height:0.86;color:#fff;letter-spacing:-0.02em;text-wrap:balance;margin:32px 0}
+  .cta-h em{color:var(--fc_color_orange_60);font-style:normal}
+  .cta-sub{font-size:20px;line-height:30px;color:rgba(255,255,255,0.6);max-width:520px;margin:0 auto 48px}
+  .cta-btn{display:inline-flex;align-items:center;gap:14px;padding:22px 36px;background:var(--fc_color_orange_60);color:#fff;font-size:15px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;transition:background 0.2s}
+  .cta-btn:hover{background:var(--fc_color_orange_70)}
+  .cta-contact{margin-top:32px;font-size:13px;color:rgba(255,255,255,0.4);letter-spacing:0.06em}
+  .cta-contact a{color:#fff;border-bottom:1px solid rgba(255,255,255,0.3)}
+
+  /* FOOT */
+  .foot{padding:48px 80px;border-top:1px solid rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:space-between;font-size:12px;color:rgba(255,255,255,0.4);letter-spacing:0.04em}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="brand">
+    <img src="../assets/fancode-logo.svg" alt="FanCode">
+    <div class="brand-divider"></div>
+    <span class="brand-eyebrow">FOR BRANDS</span>
+  </div>
+  <button class="nav-cta">Book a call</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" data-screen-label="01 Hero">
+  <div class="hero-bg"></div>
+  <div class="hero-stadium"></div>
+  <div class="stadium-lights"></div>
+  <div class="stadium-silhouette"></div>
+  <div class="hero-grain"></div>
+
+  <div class="hero-content">
+    <div class="hero-meta">
+      <span class="overline">FANCODE FOR BRANDS</span>
+      <span class="hero-meta-dot"></span>
+      <span class="overline" style="color:rgba(255,255,255,0.5)">VOL · 01 · 2026</span>
+    </div>
+    <h1 class="display hero-h1">Lights<br>out.<br><span class="accent">Brand on.</span></h1>
+    <div class="hero-foot">
+      <p class="hero-tagline"><strong>Live sport is the last appointment medium left in India.</strong> 5 million fans, 12 sports, one screen they cannot scroll past. Your brand, in the moment they refuse to look away.</p>
+      <div class="hero-actions">
+        <button class="btn-primary">Book a call <span class="btn-arrow">→</span></button>
+        <span class="hero-callcontact">Or write to brands@fancode.com</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span class="ticker-item">IPL <span class="accent">2026</span></span><span class="ticker-sep"></span>
+    <span class="ticker-item">FORMULA <span class="accent">1</span></span><span class="ticker-sep"></span>
+    <span class="ticker-item">LA LIGA</span><span class="ticker-sep"></span>
+    <span class="ticker-item">MOTOGP</span><span class="ticker-sep"></span>
+    <span class="ticker-item">PRO KABADDI</span><span class="ticker-sep"></span>
+    <span class="ticker-item">BUNDESLIGA</span><span class="ticker-sep"></span>
+    <span class="ticker-item">SA20</span><span class="ticker-sep"></span>
+    <span class="ticker-item">NFL</span><span class="ticker-sep"></span>
+    <span class="ticker-item">BBL</span><span class="ticker-sep"></span>
+    <span class="ticker-item">FIH HOCKEY</span><span class="ticker-sep"></span>
+    <span class="ticker-item">PVL</span><span class="ticker-sep"></span>
+    <span class="ticker-item">ATP TENNIS</span><span class="ticker-sep"></span>
+    <span class="ticker-item">IPL <span class="accent">2026</span></span><span class="ticker-sep"></span>
+    <span class="ticker-item">FORMULA <span class="accent">1</span></span><span class="ticker-sep"></span>
+    <span class="ticker-item">LA LIGA</span><span class="ticker-sep"></span>
+    <span class="ticker-item">MOTOGP</span><span class="ticker-sep"></span>
+    <span class="ticker-item">PRO KABADDI</span><span class="ticker-sep"></span>
+    <span class="ticker-item">BUNDESLIGA</span><span class="ticker-sep"></span>
+    <span class="ticker-item">SA20</span><span class="ticker-sep"></span>
+    <span class="ticker-item">NFL</span><span class="ticker-sep"></span>
+    <span class="ticker-item">BBL</span><span class="ticker-sep"></span>
+    <span class="ticker-item">FIH HOCKEY</span><span class="ticker-sep"></span>
+    <span class="ticker-item">PVL</span><span class="ticker-sep"></span>
+    <span class="ticker-item">ATP TENNIS</span><span class="ticker-sep"></span>
+  </div>
+</div>
+
+<!-- QUOTE -->
+<section class="quote-section" data-screen-label="02 Quote">
+  <div class="wrap">
+    <div class="quote-meta">
+      <div class="quote-numplate">01</div>
+      <span class="overline" style="color:rgba(255,255,255,0.5);margin-top:24px">CASE · 01 · F1 SINGAPORE GP</span>
+    </div>
+    <div>
+      <div class="quote-mark">"</div>
+      <p class="quote-text">FanCode put us in front of F1 fans <em>twelve minutes before lights out</em> — the highest-attention buy we ran all year.</p>
+      <div class="quote-attr">
+        <div class="qa-meta">
+          <div class="qa-name">Priya Krishnan</div>
+          <div class="qa-role">Head of Brand · Race&middot;Fuel</div>
+        </div>
+        <div>
+          <div class="qa-stat">+193%</div>
+          <div class="qa-stat-label">AIDED RECALL LIFT</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORMATS -->
+<section class="formats-section" data-screen-label="03 Formats">
+  <div class="wrap">
+    <div class="formats-head">
+      <h2 class="display formats-h">Five formats.<br>Built for the <em>moment</em><br>fans look up.</h2>
+      <p class="formats-sub">Every spot lives inside live sport. No skip-button shortcuts, no scroll-past banners. Just attention, where it actually exists.</p>
+    </div>
+
+    <div class="format">
+      <div class="format-num">01</div>
+      <div class="format-info">
+        <div class="format-tag">VIDEO · IN-STREAM</div>
+        <h3 class="format-name">Pre-roll<br>Live</h3>
+        <p class="format-desc">The slot fans don't skip — because the toss is twelve seconds away. Non-skippable, full-attention, locked to the live event start.</p>
+        <div class="format-stats">
+          <div class="fs"><div class="fs-label">DURATION</div><div class="fs-val">15–30s</div></div>
+          <div class="fs"><div class="fs-label">COMPLETION</div><div class="fs-val">96%</div></div>
+        </div>
+      </div>
+      <div class="format-mock mock-1">
+        <div class="play-circle"></div>
+        <div class="progress"></div>
+      </div>
+    </div>
+
+    <div class="format">
+      <div class="format-num">02</div>
+      <div class="format-info">
+        <div class="format-tag">DISPLAY · 24 HRS</div>
+        <h3 class="format-name">Homepage<br>Takeover</h3>
+        <p class="format-desc">The whole front door is yours. Masthead plus sponsored rail plus native pre-roll for twenty-four hours, scheduled to event launch days.</p>
+        <div class="format-stats">
+          <div class="fs"><div class="fs-label">WINDOW</div><div class="fs-val">24 HRS</div></div>
+          <div class="fs"><div class="fs-label">REACH</div><div class="fs-val">1.8M+</div></div>
+        </div>
+      </div>
+      <div class="format-mock mock-2">
+        <div class="takeover-banner"></div>
+      </div>
+    </div>
+
+    <div class="format">
+      <div class="format-num">03</div>
+      <div class="format-info">
+        <div class="format-tag">CTV · BIG SCREEN</div>
+        <h3 class="format-name">Connected<br>TV</h3>
+        <p class="format-desc">Lean-back, full-screen, household viewing on smart TVs. Affluent metro audience watching on the biggest panel they own.</p>
+        <div class="format-stats">
+          <div class="fs"><div class="fs-label">FORMAT</div><div class="fs-val">4K</div></div>
+          <div class="fs"><div class="fs-label">HHI &gt; ₹15L</div><div class="fs-val">62%</div></div>
+        </div>
+      </div>
+      <div class="format-mock mock-3">
+        <div class="ctv-bezel"></div>
+        <div class="ctv-stand"></div>
+      </div>
+    </div>
+
+    <div class="format">
+      <div class="format-num">04</div>
+      <div class="format-info">
+        <div class="format-tag">DISPLAY · NATIVE</div>
+        <h3 class="format-name">Sponsored<br>Rails</h3>
+        <p class="format-desc">Native rails inside the home feed — "Brand presents Top Moments", co-branded VOD playlists, hosted highlight reels.</p>
+        <div class="format-stats">
+          <div class="fs"><div class="fs-label">CTR LIFT</div><div class="fs-val">2.4×</div></div>
+          <div class="fs"><div class="fs-label">MIN RUN</div><div class="fs-val">7 DAYS</div></div>
+        </div>
+      </div>
+      <div class="format-mock mock-4">
+        <div class="feed-row r1"></div>
+        <div class="feed-row r2"></div>
+        <div class="feed-row r3"></div>
+      </div>
+    </div>
+
+    <div class="format">
+      <div class="format-num">05</div>
+      <div class="format-info">
+        <div class="format-tag">LIVE OVERLAY</div>
+        <h3 class="format-name">Match<br>Sponsorship</h3>
+        <p class="format-desc">Title presence on the live broadcast — scoreboard sting, half-time card, replay bug, post-match wrap. Branded into the moment, not next to it.</p>
+        <div class="format-stats">
+          <div class="fs"><div class="fs-label">EXPOSURE</div><div class="fs-val">FULL MATCH</div></div>
+          <div class="fs"><div class="fs-label">SLOTS</div><div class="fs-val">1 / EVENT</div></div>
+        </div>
+      </div>
+      <div class="format-mock mock-5">
+        <div class="live-strip">LIVE</div>
+        <div class="scoreboard">
+          <span class="team">CSK</span>
+          <span class="score">182<span style="opacity:0.5;font-size:18px">/4</span></span>
+          <span class="team">MI</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-strip" data-screen-label="04 CTA">
+  <div class="cta-inner">
+    <span class="overline" style="color:var(--fc_color_orange_60)">— BOOK YOUR SLOT —</span>
+    <h2 class="display cta-h">Lights out.<br><em>Brand on.</em></h2>
+    <p class="cta-sub">Most briefs come back inside 48 hours. Talk to a sales lead, walk away with a plan and ballpark numbers.</p>
+    <button class="cta-btn">Book a 30-min call <span style="font-size:18px">→</span></button>
+    <div class="cta-contact">Or write to <a href="mailto:brands@fancode.com">brands@fancode.com</a></div>
+  </div>
+</section>
+
+<footer class="foot">
+  <span>© 2026 DREAMSET INC · FANCODE</span>
+  <span>FANCODE FOR BRANDS · VOL 01 · 2026</span>
+</footer>
+
+</body>
+</html>

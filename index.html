@@ -1,0 +1,1456 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>FanCode Ads</title>
+<link rel="stylesheet" href="tokens.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@400;500;600;700&family=Saira:wght@500;600;700;800&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --fc_font_condensed:var(--fc_font_display);
+  --orange:var(--fc_color_orange_60);
+  --orange-dim:rgba(245,85,5,0.15);
+  --orange-glow:rgba(245,85,5,0.08);
+  --accent:var(--orange);
+  --accent-dim:var(--orange-dim);
+  --accent-glow:var(--orange-glow);
+  --glass:var(--fc_color_whiteAlpha_05);
+  --glass-border:var(--fc_color_whiteAlpha_10);
+  --glass-strong:var(--fc_color_whiteAlpha_10);
+  --white:var(--fc_color_whiteAlpha_100);
+  --muted:var(--fc_color_whiteAlpha_50);
+  --dimmer:var(--fc_color_whiteAlpha_30);
+  --page:var(--fc_color_onyx_100);
+  --surface:var(--fc_color_onyx_90);
+  --surface2:var(--fc_color_onyx_80);
+}
+body{background:var(--page);color:var(--fc_color_whiteAlpha_100);margin:0}
+.page{background:var(--page);font-family:var(--fc_font_body);overflow:hidden}
+.condensed{font-family:var(--fc_font_display);font-weight:800;text-transform:uppercase;letter-spacing:-.01em}
+
+/* NAV */
+.nav{background:rgba(7,9,13,0.92);border-bottom:1px solid var(--glass-border);padding:0 48px;height:80px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:14px}
+.nav-logo-divider{width:1px;height:24px;background:var(--glass-border)}
+.nav-logo-box{width:32px;height:32px;background:var(--orange);border-radius:4px;display:flex;align-items:center;justify-content:center}
+.nav-logo-f{font-family:var(--fc_font_display);font-weight:800;font-size:18px;color:#fff}
+.nav-logo-text{font-size:13px;font-weight:500;color:var(--white);letter-spacing:.04em;font-family:var(--fc_font_body)}
+.nav-logo-sub{font-size:11px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;font-weight:600;font-family:var(--fc_font_body)}
+.nav-cta{background:var(--orange);border:none;border-radius:var(--fc_cm_button_cornerRadius);padding:11px 22px;font-size:13px;font-weight:700;color:#fff;cursor:pointer;letter-spacing:0.8px;text-transform:uppercase;font-family:var(--fc_font_display)}
+
+/* HERO */
+.hero{position:relative;height:88vh;min-height:520px;overflow:hidden;background:#000}
+.hero-video-bg{position:absolute;inset:0;background:#000;overflow:hidden}
+.hero-video-bg img,.hero-video-bg video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:var(--hero-video-opacity,1);transition:opacity .3s ease}
+.hero-scrim{position:absolute;inset:0;background:linear-gradient(105deg,rgba(7,9,13,.85) 0%,rgba(7,9,13,.55) 45%,rgba(7,9,13,.2) 75%,rgba(7,9,13,.05) 100%);pointer-events:none}
+.hero-scrim::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,9,13,0) 60%,rgba(7,9,13,.6) 100%)}
+.hero-h1{font-size:52px;line-height:.96;color:var(--white);margin-bottom:20px;max-width:520px;font-family:var(--fc_font_display);overflow:hidden}
+@keyframes heroLineIn{from{transform:scaleX(0);opacity:0}to{transform:scaleX(1);opacity:1}}
+@keyframes heroFadeUp{from{transform:translateY(18px);opacity:0;filter:blur(6px)}to{transform:translateY(0);opacity:1;filter:blur(0)}}
+@keyframes heroWordIn{0%{transform:translateY(40%) skewY(4deg);opacity:0}60%{opacity:1}100%{transform:translateY(0) skewY(0);opacity:1}}
+@keyframes heroEmGlow{0%{background-size:0% 100%}100%{background-size:100% 100%}}
+@keyframes heroScrim{from{opacity:1.2}to{opacity:1}}
+.hero-eyebrow{opacity:0;animation:heroFadeUp .6s cubic-bezier(.2,.8,.2,1) calc(var(--hero-delay, 0s) + 0s) forwards}
+.hero-eyebrow-line{transform-origin:left center;animation:heroLineIn .5s cubic-bezier(.2,.8,.2,1) .5s both}
+.hero-h1 .word{display:inline-block;animation:heroWordIn 5s cubic-bezier(.16,1,.3,1) both}
+.hero-h1 .word.letters{animation:none}
+.hero-h1 .word.letters .letter{display:inline-block;animation:heroWordIn .6s cubic-bezier(.16,1,.3,1) both}
+.hero-h1 .word.w2{animation-delay:calc(var(--hero-delay, 0s) + 1.8s)}
+.hero-h1 .word.w3{animation-delay:calc(var(--hero-delay, 0s) + 2.4s)}
+.hero-h1 em{color:var(--accent);font-style:normal;display:inline-block;animation:heroWordIn 5s cubic-bezier(.16,1,.3,1) calc(var(--hero-delay, 0s) + 3s) both}
+.hero-sub{opacity:0;animation:heroFadeUp .6s cubic-bezier(.2,.8,.2,1) calc(var(--hero-delay, 0s) + 3.6s) forwards}
+.hero-ctas{opacity:0;animation:heroFadeUp .6s cubic-bezier(.2,.8,.2,1) calc(var(--hero-delay, 0s) + 4.2s) forwards}
+.hero-scroll-hint{opacity:0;animation:heroFadeUp .6s cubic-bezier(.2,.8,.2,1) calc(var(--hero-delay, 0s) + 4.8s) forwards}
+.hero-video-bg img,.hero-video-bg video{animation:heroScrim 1.2s ease-out both, kenburns 18s ease-in-out infinite alternate 1.2s}
+@keyframes kenburns{from{transform:scale(1.05)}to{transform:scale(1.18)}}
+.hero-content{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 64px;z-index:3;--hero-delay:0s}
+.hero-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.hero-eyebrow-line{width:24px;height:2px;background:var(--accent)}
+.hero-eyebrow-text{font-size:11px;color:var(--accent);letter-spacing:.14em;text-transform:uppercase;font-weight:500;font-family:var(--fc_font_body)}
+.hero-h1 em-placeholder{display:none}
+.hero-sub{font-size:14px;color:var(--fc_color_whiteAlpha_60);line-height:1.7;max-width:400px;margin-bottom:36px;font-family:var(--fc_font_body)}
+.hero-ctas{display:flex;gap:12px;align-items:center}
+.btn-primary{background:var(--accent);border:none;border-radius:var(--fc_cm_button_cornerRadius);padding:12px 20px;font-size:12px;font-weight:700;color:#fff;cursor:pointer;font-family:var(--fc_font_display);letter-spacing:0.8px;text-transform:uppercase}
+.btn-ghost{background:transparent;border:1px solid var(--fc_color_whiteAlpha_30);border-radius:var(--fc_cm_button_cornerRadius);padding:11px 20px;font-size:12px;font-weight:700;color:var(--fc_color_whiteAlpha_70);cursor:pointer;font-family:var(--fc_font_display);letter-spacing:0.8px;text-transform:uppercase}
+.hero-scroll-hint{position:absolute;bottom:24px;left:64px;display:flex;align-items:center;gap:8px}
+.scroll-line{width:32px;height:1px;background:var(--dimmer)}
+.scroll-text{font-size:10px;color:var(--dimmer);letter-spacing:.1em;text-transform:uppercase;font-family:var(--fc_font_body)}
+
+/* STATS */
+.stats{padding:28px 48px 16px;background:var(--surface);position:relative}
+.stats-header{text-align:center;margin-bottom:24px}
+.stats-header .section-eyebrow{justify-content:center;margin-bottom:14px}
+.stats-h2{font-size:40px;color:var(--white);line-height:1.05;letter-spacing:-.01em;font-weight:600;font-family:var(--fc_font_display)}
+.stats-h2 .muted{color:var(--fc_color_whiteAlpha_50);font-weight:400;font-family:var(--fc_font_body)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:transparent;border-top:1px solid var(--glass-border);border-bottom:1px solid var(--glass-border);border-radius:0;overflow:visible}
+.stat-item{background:transparent;padding:32px 28px 28px;position:relative;overflow:hidden;border-right:1px solid var(--glass-border);transition:background .25s}
+.stat-item:last-child{border-right:none}
+.stat-item::before{content:'';position:absolute;top:-1px;left:0;right:0;height:2px;background:var(--accent);opacity:0;transform:scaleX(0);transform-origin:left;transition:transform .4s ease,opacity .3s}
+.stat-item.in-view::before,.stat-item:hover::before{opacity:1;transform:scaleX(1)}
+.stat-item:hover{background:rgba(255,255,255,.02)}
+.stat-num{font-size:64px;color:var(--white);margin-bottom:10px;line-height:.95;font-weight:600;letter-spacing:-.025em;display:flex;align-items:baseline;gap:2px;font-family:var(--fc_font_display)}
+.stat-num .suffix{font-size:.42em;color:var(--accent);font-weight:500;margin-left:4px;letter-spacing:0;font-family:var(--fc_font_body)}
+.stat-label{font-size:11px;color:var(--muted);letter-spacing:.1em;line-height:1.5;text-transform:uppercase;font-weight:500;font-family:var(--fc_font_body)}
+.stat-spark{position:absolute;bottom:0;left:0;right:0;height:36px;opacity:.4;pointer-events:none}
+.stat-spark path{stroke:var(--accent);stroke-width:1.5;fill:none;stroke-dasharray:240;stroke-dashoffset:240}
+.stat-item.in-view .stat-spark path{animation:sparkDraw 1.6s ease-out .2s forwards}
+@keyframes sparkDraw{to{stroke-dashoffset:0}}
+.stat-num.animate-rise{animation:statRise .9s cubic-bezier(.2,.8,.2,1) both}
+@keyframes statRise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* AUDIENCE — compact band, scales down on small viewports */
+.audience{padding:40px 40px 48px;background:var(--page);position:relative;overflow:hidden}
+.audience::before{content:'';position:absolute;top:-35%;right:-12%;width:48%;height:75%;background:radial-gradient(ellipse at center,rgba(245,85,5,.06) 0%,transparent 70%);pointer-events:none}
+.audience-intro{position:relative;z-index:1;max-width:520px;margin-bottom:22px}
+.audience .section-eyebrow{margin-bottom:8px}
+.audience .section-h2{margin-bottom:0;font-size:clamp(24px,3.4vw,32px);line-height:1.06}
+.section-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+[data-section-align="center"] .section-eyebrow,
+[data-section-align="center"] .proof-header .section-eyebrow{justify-content:center}
+[data-section-align="center"] .audience,
+[data-section-align="center"] .formats,
+[data-section-align="center"] .targeting,
+[data-section-align="center"] .proof-header{text-align:center}
+[data-section-align="center"] .audience-intro{margin-left:auto;margin-right:auto}
+[data-section-align="center"] .target-card,
+[data-section-align="center"] .quote-card{text-align:left}
+[data-section-align="center"] .proof-divider{-webkit-mask-image:linear-gradient(to right,transparent,black,transparent);mask-image:linear-gradient(to right,transparent,black,transparent)}
+.section-eyebrow-line{width:16px;height:2px;background:var(--orange)}
+.section-eyebrow-text{font-size:10px;color:var(--orange);letter-spacing:.12em;text-transform:uppercase;font-weight:500;font-family:var(--fc_font_body)}
+.section-h2{font-size:38px;color:var(--white);margin-bottom:6px;line-height:1.05;font-family:var(--fc_font_display)}
+.section-sub{font-size:13px;color:var(--muted);margin-bottom:32px;font-family:var(--fc_font_body)}
+.aud-card{display:grid;grid-template-columns:1fr;grid-template-rows:auto auto;background:linear-gradient(145deg,rgba(255,255,255,.05) 0%,rgba(255,255,255,.02) 100%);border:1px solid rgba(255,255,255,.1);border-radius:14px;overflow:hidden;position:relative;align-items:stretch;z-index:1;box-shadow:0 16px 44px rgba(0,0,0,.38),0 0 0 1px rgba(245,85,5,.1) inset;min-height:0}
+.aud-card>.aud-img{min-height:0;width:100%}
+.aud-card>.aud-data{align-self:stretch;width:100%}
+.aud-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(245,85,5,.65) 22%,rgba(245,85,5,.35) 50%,transparent);z-index:4;pointer-events:none}
+.aud-img{background:var(--surface2);width:100%;position:relative;overflow:hidden;border:none;border-bottom:1px solid var(--glass-border);aspect-ratio:2.25/1;min-height:200px;max-height:min(360px,46vh)}
+.aud-img-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;z-index:0;opacity:0;transition:opacity .55s ease,transform .55s ease;transform:scale(1.02);display:block}
+.aud-img-photo.active{opacity:1;transform:scale(1)}
+.aud-img-scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,9,13,.2) 0%,transparent 35%),linear-gradient(125deg,rgba(7,9,13,.35) 0%,transparent 50%),linear-gradient(0deg,rgba(0,0,0,.5) 0%,transparent 50%);z-index:1;pointer-events:none}
+.aud-img > *{position:relative;z-index:2}
+.aud-img-sport-bg{position:absolute;font-size:72px;opacity:.04;user-select:none}
+.aud-img-label{font-size:10px;color:var(--fc_color_whiteAlpha_30);letter-spacing:.08em;text-transform:uppercase;position:relative;z-index:1;font-family:var(--fc_font_body)}
+.aud-img-name{font-size:14px;color:var(--fc_color_whiteAlpha_70);font-weight:500;position:relative;z-index:1;font-family:var(--fc_font_body)}
+.aud-progress{position:absolute;bottom:0;left:0;right:0;height:2px;background:rgba(0,0,0,.35);z-index:3}
+.aud-progress-bar{height:100%;background:linear-gradient(90deg,var(--orange),#ff8a4c);width:0;transition:width 3.5s linear;box-shadow:0 0 10px rgba(245,85,5,.35)}
+.aud-data{padding:22px 24px 18px;display:flex;flex-direction:column;justify-content:space-between;gap:18px;background:linear-gradient(180deg,rgba(18,23,33,.6) 0%,rgba(7,9,13,.32) 100%);min-height:0}
+.aud-data-main{flex:1;display:flex;flex-direction:column;min-width:0;text-align:center}
+.aud-sport-name{font-size:clamp(20px,2.4vw,26px);color:var(--white);margin-bottom:6px;line-height:1.08;font-family:var(--fc_font_display);letter-spacing:-.02em}
+.aud-tagline{font-size:12px;color:var(--fc_color_whiteAlpha_60);margin-bottom:14px;line-height:1.55;font-family:var(--fc_font_body);max-width:36em;margin-left:auto;margin-right:auto}
+.aud-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:0;text-align:left}
+.aud-metric{display:flex;flex-direction:column;gap:4px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:10px 10px 8px;transition:border-color .2s,background .2s}
+.aud-metric:hover{background:rgba(255,255,255,.06);border-color:rgba(245,85,5,.22)}
+.aud-val{font-size:clamp(16px,2vw,19px);color:var(--white);line-height:1;font-family:var(--fc_font_display);letter-spacing:-.02em}
+.aud-key{font-size:9px;color:var(--muted);font-family:var(--fc_font_body);letter-spacing:.05em;text-transform:uppercase;line-height:1.3}
+.aud-nav{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 0;border-top:1px solid var(--glass-border)}
+.aud-dots{display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap}
+.adot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.18);cursor:pointer;transition:all .2s ease;border:1px solid transparent}
+.adot:hover{background:rgba(255,255,255,.28)}
+.adot.active{background:var(--orange);width:18px;border-radius:5px;border-color:rgba(245,85,5,.45);box-shadow:0 0 10px rgba(245,85,5,.3)}
+
+@media (max-width:639px){
+  .aud-metrics{grid-template-columns:1fr 1fr;gap:8px;}
+  .aud-img{aspect-ratio:16/10;max-height:min(280px,52vw);}
+}
+
+/* Schema card (alternative section) */
+.schema-section{position:relative;top:0;left:0;padding:56px 48px;background:var(--surface);overflow:hidden}
+.schema-canvas{position:absolute;left:0;right:0;top:-120px;width:100%;height:556px;display:block}
+.schema-overlay{position:relative;z-index:1;display:flex;align-items:center;justify-content:center}
+.schema-card{width:min(520px,92%);border-radius:18px;background:rgba(7,9,13,.78);border:1px solid rgba(255,255,255,.12);box-shadow:0 22px 50px rgba(0,0,0,.45);backdrop-filter:blur(10px);overflow:hidden}
+.schema-card-top{padding:18px 18px 6px}
+.schema-preview{height:160px;border-radius:14px;position:relative;overflow:hidden;background:rgba(10,12,18,.7);border:1px solid rgba(255,255,255,.08)}
+.schema-grid{position:absolute;inset:0;opacity:.12;background-image:linear-gradient(90deg,rgba(255,255,255,.3) 1px,transparent 1px),linear-gradient(rgba(255,255,255,.3) 1px,transparent 1px);background-size:14px 14px}
+.schema-glow{position:absolute;inset:0;background:radial-gradient(circle at 70% 30%,rgba(245,85,5,.25),transparent 60%)}
+.schema-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent)}
+.schema-body{padding:18px 20px 20px;background:linear-gradient(180deg,rgba(255,255,255,.02) 0%,rgba(7,9,13,0) 100%)}
+.schema-pill{display:inline-block;padding:4px 10px;border-radius:999px;background:rgba(245,85,5,.16);border:1px solid rgba(245,85,5,.45);font-size:10px;color:var(--orange);font-family:var(--fc_font_body);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px}
+.schema-title{margin-bottom:6px}
+.schema-title.section-h2{font-size:28px}
+.schema-text{font-size:12px;color:var(--fc_color_whiteAlpha_60);line-height:1.6;margin-bottom:16px;max-width:38ch;white-space:nowrap}
+.schema-metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.schema-metric{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px 12px 10px;position:relative;overflow:hidden}
+.schema-metric::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:rgba(245,85,5,.7)}
+.schema-metric-val{font-size:18px;color:var(--white);font-family:var(--fc_font_display);margin-bottom:4px}
+.schema-metric-key{font-size:10px;color:var(--fc_color_whiteAlpha_50);letter-spacing:.1em;text-transform:uppercase}
+
+/* Shared panel styling (match data section) */
+.section-panel{margin:0 48px;padding:32px;border-radius:18px;background:rgba(7,9,13,.78);border:1px solid rgba(255,255,255,.12);box-shadow:0 22px 50px rgba(0,0,0,.45);backdrop-filter:blur(10px)}
+.proof .section-panel{padding:28px}
+
+/* FORMATS */
+.formats{padding:56px 48px;background:var(--surface)}
+.format-row{display:grid;grid-template-columns:1fr 1fr;gap:1px;border-top:1px solid var(--glass-border);padding:36px 0;align-items:center}
+.format-row:last-child{border-bottom:1px solid var(--glass-border)}
+.format-row.flip{direction:rtl}
+.format-row.flip>*{direction:ltr}
+.format-text{padding-right:40px;text-align:center}
+.format-row.flip .format-text{padding-right:0;padding-left:40px;text-align:center}
+.format-text .format-tag{justify-content:center;display:flex}
+.format-tag{font-size:10px;color:var(--orange);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;font-weight:500;font-family:var(--fc_font_body)}
+.format-name{font-size:26px;color:var(--white);margin-bottom:12px;line-height:1.1;font-family:var(--fc_font_display)}
+.format-desc{font-size:13px;color:var(--fc_color_whiteAlpha_50);line-height:1.7;max-width:340px;margin-left:auto;margin-right:auto;font-family:var(--fc_font_body)}
+.format-mockup{height:160px;background:var(--glass);border:1px solid var(--glass-border);border-radius:8px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.format-mockup::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(245,85,5,.03),transparent 60%)}
+.mockup-inner{display:flex;flex-direction:column;align-items:center;gap:6px}
+.mockup-bar{width:80px;height:3px;background:var(--dimmer);border-radius:2px}
+.mockup-bar.orange{background:var(--orange);width:40px}
+.mockup-label-sm{font-size:10px;color:var(--fc_color_whiteAlpha_30);letter-spacing:.06em;text-transform:uppercase;font-family:var(--fc_font_body)}
+
+/* TARGETING */
+.targeting{padding:56px 0;background:var(--page);position:relative;overflow:hidden}
+.targeting::before{content:'';position:absolute;inset:-20% 0 auto auto;width:60%;height:80%;background:radial-gradient(circle at 70% 30%,rgba(245,85,5,.08),transparent 65%);pointer-events:none}
+.targeting-panel{margin:0 48px;padding:32px 36px 36px;border-radius:18px;background:rgba(7,9,13,.7);border:1px solid rgba(255,255,255,.12);box-shadow:0 22px 50px rgba(0,0,0,.45);backdrop-filter:blur(10px);text-align:center;position:relative;z-index:1}
+.targeting-panel .section-h2{margin-bottom:10px}
+.targeting-panel .section-eyebrow{justify-content:center}
+.target-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:24px;text-align:left}
+.target-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:20px;position:relative;overflow:hidden;transition:border-color .2s}
+.target-card:hover{border-color:rgba(245,85,5,.3)}
+.target-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--orange),transparent);opacity:0;transition:opacity .2s}
+.target-card:hover::after{opacity:1}
+.target-icon-wrap{width:32px;height:32px;border:1px solid var(--glass-border);border-radius:6px;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.target-icon{width:18px;height:18px;stroke:var(--orange);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.target-name{font-size:14px;font-weight:500;color:var(--white);margin-bottom:6px;font-family:var(--fc_font_display)}
+.target-desc{font-size:12px;color:var(--fc_color_whiteAlpha_50);line-height:1.6;font-family:var(--fc_font_body)}
+
+/* PROOF */
+.proof{padding:48px 40px;background:var(--surface);position:relative;overflow:hidden}
+.proof-header{text-align:left;margin-bottom:40px}
+.proof-header .section-eyebrow{justify-content:flex-start}
+.proof-h2{font-size:36px;color:var(--white);line-height:1.1;letter-spacing:-.005em;font-family:var(--fc_font_display)}
+.proof-h2 .muted{color:var(--fc_color_whiteAlpha_50);font-weight:400;font-family:var(--fc_font_body)}
+.proof-divider{height:1px;max-width:none;margin:24px 0;background:var(--glass-border);-webkit-mask-image:linear-gradient(to right,black,black,transparent);mask-image:linear-gradient(to right,black,black,transparent)}
+.logo-cloud{overflow:hidden;padding:14px 0;-webkit-mask-image:linear-gradient(to right,transparent,black 12%,black 88%,transparent);mask-image:linear-gradient(to right,transparent,black 12%,black 88%,transparent)}
+.logo-cloud--feds{padding:24px 0;-webkit-mask-image:linear-gradient(to right,transparent,black 8%,black 92%,transparent);mask-image:linear-gradient(to right,transparent,black 8%,black 92%,transparent)}
+.logo-group-label{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--orange);font-weight:500;margin-top:18px;text-align:center;font-family:var(--fc_font_body)}
+.logo-group-label--feds{margin-top:22px}
+.logo-track-rev{animation:logoSlideRev 55s linear infinite !important}
+@keyframes logoSlideRev{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+.logo-track{display:flex;width:max-content;gap:64px;align-items:center;animation:logoSlide 50s linear infinite}
+.logo-cloud--feds:hover .logo-track{animation-duration:100s}
+@keyframes logoSlide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.logo-mark{display:inline-flex;align-items:center;height:28px;font-family:var(--fc_font_body),Helvetica,Arial,sans-serif;font-weight:800;color:rgba(255,255,255,.6);font-size:22px;letter-spacing:-.01em;white-space:nowrap;flex-shrink:0;transition:opacity .2s ease,color .2s ease;text-transform:none}
+.logo-mark:hover{color:rgba(255,255,255,.95)}
+.logo-mark.upper{text-transform:uppercase;letter-spacing:.02em}
+.logo-mark.tracked{letter-spacing:.22em;font-weight:700;font-size:15px;text-transform:uppercase;font-family:var(--fc_font_display)}
+.logo-mark.serif{font-family:Georgia,'Times New Roman',serif;font-style:italic;letter-spacing:0}
+.logo-mark.script{font-family:'Brush Script MT','Lucida Handwriting',cursive;font-weight:400;font-size:30px;letter-spacing:0}
+.logo-mark.thin{font-weight:400;letter-spacing:.04em}
+.logo-img{height:22px;width:auto;opacity:.55;flex-shrink:0;transition:opacity .2s ease;display:inline-block;vertical-align:middle;filter:brightness(0) invert(1)}
+.logo-img:hover{opacity:1}
+.logo-img-wrap{display:inline-flex;align-items:center;justify-content:center;width:112px;height:40px;flex-shrink:0;vertical-align:middle}
+.logo-img-wrap .logo-img{width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain;object-position:center;opacity:1;filter:none}
+.logo-img-wrap:hover .logo-img{opacity:1}
+.logo-cloud--feds .logo-track{gap:88px}
+.logo-cloud--feds .logo-img-wrap{width:140px;height:48px}
+.logo-cloud--feds .logo-img-wrap .logo-img{opacity:1}
+.logo-svg-wrap{display:inline-flex;align-items:center;height:28px;flex-shrink:0;opacity:.55;transition:opacity .2s;color:#fff}
+.logo-svg-wrap:hover{opacity:1}
+.logo-svg-wrap svg{height:22px;width:auto;fill:currentColor}
+
+/* QUOTE */
+.quote-scroller{position:relative;margin-top:20px}
+.quote-track{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:8px 4px;scrollbar-width:none;-ms-overflow-style:none}
+.quote-track::-webkit-scrollbar{display:none}
+.quote-card{flex:0 0 min(560px,86%);scroll-snap-align:start;background:var(--glass);border:1px solid var(--glass-border);border-radius:10px;padding:28px;position:relative;overflow:hidden;text-align:left}
+.quote-next{position:absolute;top:50%;right:-4px;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:var(--page);border:1px solid var(--glass-border);color:var(--white);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;transition:background .15s,border-color .15s,transform .15s}
+.quote-next:hover{background:var(--accent);border-color:var(--accent);transform:translateY(-50%) scale(1.05)}
+.quote-next svg{width:18px;height:18px}
+.quote-scroller::after{content:'';position:absolute;top:0;right:0;width:80px;height:100%;background:linear-gradient(to right,transparent,var(--surface));pointer-events:none}
+.quote-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--orange)}
+.quote-text{font-size:15px;color:var(--fc_color_whiteAlpha_60);line-height:1.8;font-style:italic;margin-bottom:20px;max-width:540px;font-family:var(--fc_font_body)}
+.quote-attr{display:flex;align-items:center;gap:12px}
+.quote-avatar{width:36px;height:36px;background:var(--dimmer);border-radius:50%}
+.quote-name{font-size:12px;color:var(--muted);font-family:var(--fc_font_body)}
+.quote-brand{font-size:11px;color:var(--fc_color_whiteAlpha_30);margin-top:2px;font-family:var(--fc_font_body)}
+
+/* CTA */
+.cta-section{padding:64px 48px;background:var(--page);text-align:center;border-top:1px solid var(--glass-border);position:relative;overflow:hidden}
+.cta-section::before{content:'';position:absolute;inset:-20% 0 auto auto;width:60%;height:80%;background:radial-gradient(circle at 70% 30%,rgba(245,85,5,.08),transparent 65%);pointer-events:none}
+.cta-h2{font-size:40px;color:var(--white);margin-bottom:8px;line-height:1.1;position:relative;font-family:var(--fc_font_display)}
+.cta-sub{font-size:13px;color:var(--muted);margin-bottom:40px;position:relative;font-family:var(--fc_font_body)}
+.cta-pair{display:flex;gap:16px;justify-content:center;position:relative}
+.cta-box{background:var(--glass);border:1px solid var(--glass-border);border-radius:10px;padding:24px 32px;display:flex;flex-direction:column;align-items:center;gap:6px;min-width:200px;transition:border-color .2s}
+.cta-box:hover{border-color:rgba(255,255,255,.15)}
+.cta-icon{width:40px;height:40px;background:var(--orange-dim);border:1px solid rgba(245,85,5,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:4px}
+.cta-icon-dot{width:10px;height:10px;border-radius:50%;background:var(--orange)}
+.cta-label{font-size:14px;font-weight:500;color:var(--white);font-family:var(--fc_font_body)}
+.cta-desc{font-size:12px;color:var(--muted);font-family:var(--fc_font_body)}
+.cta-btn{margin-top:10px;border-radius:var(--fc_cm_button_cornerRadius);padding:10px 16px;font-size:12px;cursor:pointer;width:100%;font-family:var(--fc_font_display);font-weight:700;text-transform:uppercase;letter-spacing:0.8px}
+.cta-btn-orange{background:var(--orange);border:none;color:#fff}
+.cta-btn-ghost{background:var(--orange);border:none;color:#fff}
+
+/* MODAL */
+.modal-backdrop{position:fixed;inset:0;background:rgba(2,3,5,.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:9000;display:none;align-items:center;justify-content:center;padding:24px;animation:mfade .18s ease}
+.modal-backdrop.open{display:flex}
+@keyframes mfade{from{opacity:0}to{opacity:1}}
+.modal{background:#0d1014;border:1px solid var(--glass-border);border-radius:14px;width:100%;max-width:760px;max-height:90vh;overflow:auto;position:relative;animation:mrise .22s cubic-bezier(.2,.7,.3,1)}
+@keyframes mrise{from{transform:translateY(12px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-form{max-width:560px}
+.modal-head{padding:24px 28px 16px;border-bottom:1px solid var(--glass-border);position:sticky;top:0;background:#0d1014;z-index:2}
+.modal-eyebrow{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.modal-eyebrow-line{width:18px;height:1px;background:var(--orange)}
+.modal-eyebrow-text{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--orange);font-weight:600;font-family:var(--fc_font_body)}
+.modal-title{font-size:24px;color:var(--white);line-height:1.15;letter-spacing:-.01em;font-weight:600;margin-bottom:4px;font-family:var(--fc_font_display)}
+.modal-sub{font-size:13px;color:var(--muted);font-family:var(--fc_font_body)}
+.modal-close{position:absolute;top:18px;right:18px;width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid var(--glass-border);color:var(--fc_color_whiteAlpha_50);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .15s}
+.modal-close:hover{background:rgba(255,255,255,.08);color:var(--white)}
+.modal-body{padding:20px 28px 28px}
+
+/* Sales reps */
+.region-tabs{display:flex;gap:4px;background:rgba(255,255,255,.03);border:1px solid var(--glass-border);border-radius:8px;padding:3px;margin-bottom:18px}
+.region-tab{flex:1;padding:8px 12px;border-radius:6px;background:transparent;border:none;color:var(--muted);font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;font-family:var(--fc_font_display);transition:all .15s}
+.region-tab.active{background:var(--orange);color:#fff}
+.rep-list{display:flex;flex-direction:column;gap:10px}
+.rep-card{display:grid;grid-template-columns:48px 1fr auto;gap:14px;align-items:center;padding:14px 16px;background:rgba(255,255,255,.025);border:1px solid var(--glass-border);border-radius:10px;transition:border-color .15s}
+.rep-card:hover{border-color:rgba(245,85,5,.4)}
+.rep-avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--orange) 0%,#c0410a 100%);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px;letter-spacing:-.02em;font-family:var(--fc_font_display)}
+.rep-info{min-width:0}
+.rep-name{font-size:14px;font-weight:600;color:var(--white);margin-bottom:2px;font-family:var(--fc_font_body)}
+.rep-role{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;font-family:var(--fc_font_body)}
+.rep-contacts{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;font-family:var(--fc_font_body)}
+.rep-contact{display:inline-flex;align-items:center;gap:5px;color:var(--fc_color_whiteAlpha_50);text-decoration:none;transition:color .15s}
+.rep-contact:hover{color:var(--white)}
+.rep-contact svg{width:12px;height:12px;flex-shrink:0;opacity:.7}
+.rep-contact:hover svg{opacity:1}
+.rep-cta{padding:8px 14px;border-radius:6px;background:var(--orange);border:none;color:#fff;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;cursor:pointer;font-family:var(--fc_font_display);white-space:nowrap;text-decoration:none;display:inline-flex;align-items:center;gap:4px}
+.rep-cta:hover{background:#ff6510}
+.modal-footer-note{margin-top:16px;padding-top:14px;border-top:1px solid var(--glass-border);font-size:11px;color:var(--muted);text-align:center;letter-spacing:.04em;font-family:var(--fc_font_body)}
+
+/* Form */
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.form-row.single{grid-template-columns:1fr}
+.form-field{display:flex;flex-direction:column;gap:5px}
+.form-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:600;font-family:var(--fc_font_body)}
+.form-input,.form-select,.form-textarea{background:rgba(255,255,255,.03);border:1px solid var(--glass-border);border-radius:8px;padding:10px 12px;color:var(--white);font-size:13px;font-family:var(--fc_font_body);transition:border-color .15s;width:100%}
+.form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:var(--orange)}
+.form-textarea{resize:vertical;min-height:84px}
+.form-select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='none' stroke='%239ba1ad' stroke-width='1.5' d='M1 1l4 4 4-4'/></svg>");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+.form-submit{margin-top:6px;width:100%;padding:13px;border-radius:var(--fc_cm_button_cornerRadius);background:var(--orange);border:none;color:#fff;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;cursor:pointer;font-family:var(--fc_font_display)}
+.form-submit:hover{background:#ff6510}
+.form-success{text-align:center;padding:32px 16px}
+.form-success-icon{width:56px;height:56px;margin:0 auto 16px;border-radius:50%;background:rgba(245,85,5,.12);border:1px solid rgba(245,85,5,.3);display:flex;align-items:center;justify-content:center;color:var(--orange);font-size:24px}
+.form-success-title{font-size:20px;color:var(--white);margin-bottom:6px;font-weight:600;font-family:var(--fc_font_display)}
+.form-success-msg{font-size:13px;color:var(--muted);max-width:340px;margin:0 auto;font-family:var(--fc_font_body)}
+
+/* FOOTER */
+.footer{background:#050608;border-top:1px solid var(--glass-border);padding:0}
+.footer-main{padding:48px 48px 32px;display:grid;grid-template-columns:repeat(4,1fr);gap:36px 32px}
+.footer-col-title{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--orange);font-weight:700;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--glass-border);font-family:var(--fc_font_display)}
+.footer-links{display:flex;flex-direction:column;gap:9px}
+.footer-link{font-size:13px;color:var(--fc_color_whiteAlpha_50);text-decoration:none;transition:color .15s;font-family:var(--fc_font_body)}
+.footer-link:hover{color:var(--white)}
+.footer-mid{padding:28px 48px;border-top:1px solid var(--glass-border);display:grid;grid-template-columns:auto 1fr auto auto;gap:32px;align-items:center}
+.footer-brand{display:flex;align-items:center;gap:14px}
+.footer-brand-divider{width:1px;height:32px;background:var(--glass-border)}
+.footer-ds-text{font-size:10px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;line-height:1.4;font-family:var(--fc_font_body)}
+.footer-ds-text strong{color:var(--fc_color_whiteAlpha_50);font-weight:700;display:block;font-size:11px;letter-spacing:.06em;text-transform:none;font-family:var(--fc_font_body)}
+.footer-app{display:flex;flex-direction:column;gap:6px}
+.footer-app-label{font-size:10px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;font-weight:600;font-family:var(--fc_font_body)}
+.footer-app-badges{display:flex;gap:8px}
+.footer-badge{height:36px;padding:0 12px;background:rgba(255,255,255,.04);border:1px solid var(--glass-border);border-radius:6px;display:inline-flex;align-items:center;gap:8px;color:var(--white);text-decoration:none;font-size:11px;transition:all .15s;font-family:var(--fc_font_body)}
+.footer-badge:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.18)}
+.footer-badge svg{width:18px;height:18px;flex-shrink:0}
+.footer-badge-store{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;line-height:1;font-family:var(--fc_font_body)}
+.footer-badge-name{font-size:12px;color:var(--white);font-weight:600;line-height:1;margin-top:1px;font-family:var(--fc_font_body)}
+.footer-social{display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+.footer-social-label{font-size:10px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;font-weight:600;font-family:var(--fc_font_body)}
+.footer-social-icons{display:flex;gap:8px}
+.footer-social-icon{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.04);border:1px solid var(--glass-border);display:flex;align-items:center;justify-content:center;color:var(--fc_color_whiteAlpha_50);transition:all .15s}
+.footer-social-icon:hover{background:var(--orange);border-color:var(--orange);color:#fff}
+.footer-social-icon svg{width:14px;height:14px}
+.footer-info{padding:24px 48px;border-top:1px solid var(--glass-border);display:grid;grid-template-columns:1fr 1.6fr;gap:48px}
+.footer-info-block{display:flex;flex-direction:column;gap:8px}
+.footer-info-title{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--fc_color_whiteAlpha_50);font-weight:700;font-family:var(--fc_font_display)}
+.footer-info-text{font-size:12px;color:var(--muted);line-height:1.65;font-family:var(--fc_font_body)}
+.footer-helpdesk{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--orange);text-decoration:none;font-weight:600;letter-spacing:.04em;font-family:var(--fc_font_body)}
+.footer-helpdesk:hover{color:#ff6510}
+.footer-bottom{padding:16px 48px;border-top:1px solid var(--glass-border);display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--fc_color_whiteAlpha_30);letter-spacing:.04em;font-family:var(--fc_font_body)}
+.footer-bottom-links{display:flex;gap:18px}
+.footer-bottom-links a{color:var(--fc_color_whiteAlpha_30);text-decoration:none}
+.footer-bottom-links a:hover{color:var(--white)}
+
+/* ============================================================================
+   RESPONSIVE LAYER — big screens cap content, small screens stack & rescale
+   ========================================================================= */
+
+/* Big screens: cap content width by growing horizontal padding outward.
+   Inner content centers within a comfortable max line-length. */
+@media (min-width:1600px){
+  .nav,
+  .stats,
+  .audience,
+  .formats,
+  .targeting,
+  .proof,
+  .cta-section,
+  .footer-main,
+  .footer-bottom{
+    padding-left:max(48px, calc((100vw - 1440px) / 2));
+    padding-right:max(48px, calc((100vw - 1440px) / 2));
+  }
+  .hero-content{padding-left:max(64px, calc((100vw - 1440px) / 2));padding-right:max(64px, calc((100vw - 1440px) / 2));}
+  .hero-scroll-hint{left:max(64px, calc((100vw - 1440px) / 2));}
+  .hero{min-height:600px;}
+  .hero-h1{font-size:64px;max-width:640px;}
+  .hero-sub{font-size:15px;max-width:480px;}
+  .stats-h2,.section-h2,.cta-h2,.proof-h2{font-size:48px;}
+  .audience .section-h2{font-size:clamp(28px,2.2vw,34px);}
+  .stat-num{font-size:80px;}
+}
+@media (min-width:1920px){
+  .hero{min-height:680px;}
+  .hero-h1{font-size:72px;max-width:720px;}
+  .stats-h2,.section-h2,.cta-h2,.proof-h2{font-size:56px;}
+  .audience .section-h2{font-size:clamp(30px,2vw,36px);}
+  .stat-num{font-size:88px;}
+  .stats,.formats,.targeting,.proof,.cta-section{padding-top:80px;padding-bottom:80px;}
+  .audience{padding-top:44px;padding-bottom:52px;}
+}
+
+/* Tablet — keep desktop architecture, reduce padding & 2-col where needed */
+@media (max-width:1024px){
+  .nav{padding:0 32px;height:72px;}
+  .nav-cta{padding:10px 18px;font-size:12px;}
+  .hero{height:480px;}
+  .hero-content{padding:0 32px;}
+  .hero-h1{font-size:42px;max-width:520px;}
+  .hero-sub{max-width:380px;}
+  .hero-scroll-hint{left:32px;}
+  .stats,.audience,.formats,.cta-section{padding-left:32px;padding-right:32px;}
+  .proof{padding-left:32px;padding-right:32px;}
+  .targeting{padding:48px 0;}
+  .targeting-panel{margin:0 32px;padding:28px 30px 32px;}
+  .section-panel{margin:0 32px;padding:28px;}
+  .stats{padding-top:48px;padding-bottom:32px;}
+  .stats-h2,.section-h2,.cta-h2,.proof-h2{font-size:34px;}
+  .stat-num{font-size:54px;}
+  .stats-grid{grid-template-columns:repeat(2,1fr);}
+  .stats-grid .stat-item{border-bottom:1px solid var(--glass-border);}
+  .stats-grid .stat-item:nth-child(2n){border-right:none;}
+  .stats-grid .stat-item:nth-last-child(-n+2){border-bottom:none;}
+  .target-grid{grid-template-columns:repeat(2,1fr);}
+  .footer-main{padding:40px 32px 28px;grid-template-columns:repeat(2,1fr);gap:32px 28px;}
+  .footer-bottom{padding:14px 32px;}
+}
+
+/* Mobile — stack everything */
+@media (max-width:720px){
+  .page{overflow-x:hidden;}
+
+  /* Nav */
+  .nav{padding:0 20px;height:64px;}
+  .nav-logo{gap:10px;}
+  .nav-logo-divider{display:none;}
+  .nav-logo-sub{display:none;}
+  .nav-logo-text{font-size:12px;}
+  .nav-cta{padding:9px 14px;font-size:11px;letter-spacing:.6px;}
+
+  /* Hero — flow layout, not absolute */
+  .hero{height:auto;min-height:540px;padding:96px 0 56px;}
+  .hero-content{position:relative;inset:auto;padding:0 20px;}
+  .hero-h1{font-size:40px;max-width:none;line-height:1;margin-bottom:18px;}
+  .hero-sub{font-size:14px;max-width:none;margin-bottom:28px;}
+  .hero-ctas{flex-direction:column;align-items:stretch;gap:10px;}
+  .hero-ctas .btn-primary,.hero-ctas .btn-ghost{justify-content:center;text-align:center;width:100%;}
+  .hero-scroll-hint{display:flex;position:relative;left:auto;bottom:auto;margin-top:28px;opacity:1;}
+
+  /* Stats */
+  .stats{padding:40px 20px 24px;}
+  .stats-h2,.section-h2,.cta-h2,.proof-h2{font-size:28px;line-height:1.1;}
+  .audience .section-h2{font-size:clamp(22px,6vw,26px);line-height:1.12;}
+  .stats-h2 br,.section-h2 br,.cta-h2 br{display:none;}
+  .stats-grid{grid-template-columns:1fr;}
+  .stat-item{border-right:none !important;border-bottom:1px solid var(--glass-border);padding:24px 4px;}
+  .stat-item:last-child{border-bottom:none;}
+  .stat-num{font-size:56px;}
+
+  /* Audience */
+  .audience{padding:28px 16px 36px;}
+  .audience-intro{margin-bottom:16px;max-width:none;}
+  .audience .section-eyebrow-text{font-size:9px;}
+  .aud-card{border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,.38);}
+  .aud-img{aspect-ratio:16/10;max-height:min(220px,50vw);min-height:0;}
+  .aud-data{padding:16px 14px 14px;gap:14px;}
+  .aud-sport-name{font-size:clamp(19px,5.2vw,22px);}
+  .aud-tagline{font-size:11px;margin-bottom:12px;line-height:1.5;}
+  .aud-metrics{grid-template-columns:1fr 1fr;gap:6px;}
+  .aud-metric{padding:8px 8px 6px;border-radius:8px;}
+  .aud-val{font-size:clamp(15px,3.8vw,17px);}
+  .aud-key{font-size:8px;letter-spacing:.04em;}
+  .aud-nav{gap:6px;}
+  .adot{width:6px;height:6px;}
+  .adot.active{width:16px;border-radius:4px;}
+  .section-panel{margin:0 20px;padding:24px;}
+  .schema-section{padding:48px 20px;}
+  .schema-card{width:min(320px,92%);}
+  .schema-preview{height:140px;}
+  .schema-metrics{gap:8px;}
+  .schema-metric{padding:10px 10px 8px;}
+  .schema-metric-val{font-size:14px;}
+  .schema-metric-key{font-size:9px;}
+
+  /* Logo marquees — uniform slots on narrow screens */
+  .logo-img-wrap{width:92px;height:36px;}
+  .logo-cloud--feds .logo-img-wrap{width:112px;height:44px;}
+  .logo-track{gap:48px;}
+  .logo-cloud--feds .logo-track{gap:56px;}
+
+  /* Formats — strip RTL flip, stack and left-align */
+  .formats{padding:48px 20px;}
+  .format-row{grid-template-columns:1fr;gap:18px;padding:28px 0;direction:ltr !important;}
+  .format-row.flip>*{direction:ltr;}
+  .format-text,
+  .format-row.flip .format-text{padding:0;text-align:left;}
+  .format-text .format-tag{justify-content:flex-start;}
+  .format-desc{margin-left:0;margin-right:0;max-width:none;}
+  .format-name{font-size:24px;}
+  .format-mockup{height:140px;}
+
+  /* Targeting */
+  .targeting{padding:40px 0;}
+  .targeting-panel{margin:0 20px;padding:24px 20px 28px;}
+  .target-grid{grid-template-columns:1fr;gap:10px;}
+
+  /* Proof / quotes */
+  .proof{padding:56px 20px;}
+  .quote-card{flex:0 0 88%;padding:24px;}
+  .quote-text{font-size:14px;}
+  .quote-next{display:none;}
+  .quote-scroller::after{width:32px;}
+
+  /* CTA */
+  .cta-section{padding:48px 20px;}
+  .cta-pair{flex-direction:column;gap:12px;align-items:stretch;}
+  .cta-box{min-width:0;padding:20px 24px;}
+  .cta-btn{width:100%;}
+
+  /* Modal */
+  .modal-backdrop{padding:12px;}
+  .modal{max-height:96vh;border-radius:12px;}
+  .modal-head{padding:20px 20px 14px;}
+  .modal-body{padding:16px 20px 20px;}
+  .modal-title{font-size:24px;}
+  .modal-form{max-width:none;}
+  .form-row{grid-template-columns:1fr;gap:10px;}
+  .rep-card{grid-template-columns:42px 1fr;gap:12px;padding:14px;}
+  .rep-cta{grid-column:1 / -1;width:100%;text-align:center;padding:10px;}
+  .rep-contacts{font-size:11px;gap:10px;flex-direction:column;align-items:flex-start;}
+
+  /* Footer */
+  .footer-main{padding:36px 20px 24px;grid-template-columns:1fr 1fr;gap:24px 20px;}
+  .footer-bottom{padding:14px 20px;flex-direction:column;gap:8px;align-items:flex-start;text-align:left;}
+}
+
+/* Small phones */
+@media (max-width:420px){
+  .hero-h1{font-size:34px;}
+  .stats-h2,.section-h2,.cta-h2,.proof-h2{font-size:26px;}
+  .audience .section-h2{font-size:21px;}
+  .audience{padding:24px 12px 32px;}
+  .aud-img{max-height:min(180px,52vw);}
+  .aud-metrics{gap:5px;}
+  .aud-metric{padding:7px 6px 6px;}
+  .stat-num{font-size:48px;}
+  .footer-main{grid-template-columns:1fr;}
+}
+</style>
+
+<div class="page">
+
+  <div class="nav">
+    <div class="nav-logo">
+      <img src="assets/fancode-logo.svg" alt="FanCode" style="height:32px;width:auto;display:block">
+      <div class="nav-logo-divider"></div>
+      <div class="nav-logo-sub">Advertising</div>
+    </div>
+    <button class="nav-cta" onclick="document.getElementById('contactSection').scrollIntoView({behavior:'smooth',block:'start'})">Get in touch</button>
+  </div>
+
+  <div class="hero">
+    <div class="hero-video-bg" id="heroVideoBg">
+      <img src="assets/hero-loop.gif" alt="" id="heroVideoEl">
+    </div>
+    <div class="hero-scrim"></div>
+    <div class="hero-content" id="heroContent">
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-line"></div>
+        <span class="hero-eyebrow-text">Advertise on FanCode</span>
+      </div>
+      <div class="hero-h1 condensed"><span class="word w1 letters"><span class="letter" style="animation-delay:calc(var(--hero-delay, 0s) + .4s)">R</span><span class="letter" style="animation-delay:calc(var(--hero-delay, 0s) + .55s)">e</span><span class="letter" style="animation-delay:calc(var(--hero-delay, 0s) + .7s)">a</span><span class="letter" style="animation-delay:calc(var(--hero-delay, 0s) + .85s)">c</span><span class="letter" style="animation-delay:calc(var(--hero-delay, 0s) + 1s)">h</span></span> <span class="word w2">India's</span><br><span class="word w3">most passionate</span><br><em>sports fans</em></div>
+      <div class="hero-sub">FanCode streams F1, La Liga, MotoGP, Tennis, Golf and more to millions of fans across India. Your brand, in the moments that matter most.</div>
+      <div class="hero-ctas">
+        <button class="btn-primary" onclick="document.getElementById('contactSection').scrollIntoView({behavior:'smooth',block:'start'})">Book a call</button>
+        <a class="btn-ghost" href="https://www.fancode.com/" target="_blank" rel="noopener" style="text-decoration:none;display:inline-flex;align-items:center">Watch live sports →</a>
+      </div>
+    </div>
+    <div class="hero-scroll-hint">
+      <div class="scroll-line"></div>
+      <span class="scroll-text">Scroll to explore</span>
+    </div>
+  </div>
+
+  <div class="proof" style="padding-top:40px;padding-bottom:40px">
+    <div class="section-panel">
+      <div class="logo-group-label logo-group-label--brands" style="margin-top:0">Brands that advertise on us</div>
+      <div class="logo-cloud logo-cloud--brands">
+        <div class="logo-track" id="logoTrack"></div>
+      </div>
+      <div class="logo-group-label logo-group-label--feds">Leading sports federations we work with</div>
+      <div class="logo-cloud logo-cloud--feds">
+        <div class="logo-track logo-track--feds logo-track-rev" id="logoTrack2"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="audience">
+    <div class="section-panel">
+      <div class="audience-intro">
+        <div class="section-eyebrow"><div class="section-eyebrow-line"></div><span class="section-eyebrow-text">Audience profiles</span></div>
+        <div class="section-h2 condensed">Every sport has a<br>distinct fan. Find yours.</div>
+      </div>
+      <div class="aud-card">
+        <div class="aud-img">
+          <img class="aud-img-photo active" id="aiphoto" src="assets/audience-f1.jpg" alt="Formula 1 — FanCode audience profile">
+          <div class="aud-img-scrim"></div>
+          <div class="aud-progress"><div class="aud-progress-bar" id="apbar"></div></div>
+        </div>
+        <div class="aud-data">
+          <div class="aud-data-main">
+            <div class="aud-sport-name condensed" id="asname">Formula 1</div>
+            <div class="aud-tagline" id="atagline">Urban, high-income, tech-forward fans</div>
+            <div class="aud-metrics">
+              <div class="aud-metric"><div class="aud-val condensed" id="am1">2.1M</div><div class="aud-key">Fans on FanCode</div></div>
+              <div class="aud-metric"><div class="aud-val condensed" id="am2">25–34</div><div class="aud-key">Primary age</div></div>
+              <div class="aud-metric"><div class="aud-val condensed" id="am3">78% M</div><div class="aud-key">Gender split</div></div>
+              <div class="aud-metric"><div class="aud-val condensed" id="am4">84 min</div><div class="aud-key">Avg. session</div></div>
+            </div>
+          </div>
+          <div class="aud-nav">
+            <div class="aud-dots" id="adots" role="tablist" aria-label="Sports audience profiles">
+              <div class="adot active" role="tab" aria-selected="true" tabindex="0" onclick="jumpSport(0)"></div>
+              <div class="adot" role="tab" aria-selected="false" tabindex="-1" onclick="jumpSport(1)"></div>
+              <div class="adot" role="tab" aria-selected="false" tabindex="-1" onclick="jumpSport(2)"></div>
+              <div class="adot" role="tab" aria-selected="false" tabindex="-1" onclick="jumpSport(3)"></div>
+              <div class="adot" role="tab" aria-selected="false" tabindex="-1" onclick="jumpSport(4)"></div>
+              <div class="adot" role="tab" aria-selected="false" tabindex="-1" onclick="jumpSport(5)"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="schema-section">
+    <canvas class="schema-canvas" id="schemaCanvas" aria-hidden="true"></canvas>
+    <div class="schema-overlay">
+      <div class="schema-card">
+        <div class="schema-card-top">
+          <div class="schema-preview">
+            <div class="schema-grid"></div>
+            <div class="schema-glow"></div>
+          </div>
+        </div>
+        <div class="schema-divider"></div>
+        <div class="schema-body">
+          <span class="schema-pill">Data</span>
+          <div class="schema-title section-h2 condensed">FanCode at a glance</div>
+          <p class="schema-text">Scale, coverage, and watch time across the platform.</p>
+          <div class="schema-metrics" aria-label="FanCode highlights">
+            <div class="schema-metric">
+              <div class="schema-metric-val">50,000+</div>
+              <div class="schema-metric-key">Matches</div>
+            </div>
+            <div class="schema-metric">
+              <div class="schema-metric-val">20+</div>
+              <div class="schema-metric-key">Sports</div>
+            </div>
+            <div class="schema-metric">
+              <div class="schema-metric-val">150M</div>
+              <div class="schema-metric-key">Audience reach</div>
+            </div>
+            <div class="schema-metric">
+              <div class="schema-metric-val">8M</div>
+              <div class="schema-metric-key">Hours watched / mo</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="formats">
+    <div class="section-panel">
+      <div class="section-eyebrow"><div class="section-eyebrow-line"></div><span class="section-eyebrow-text">Ad formats</span></div>
+      <div class="section-h2 condensed">Formats built<br>for live sports</div>
+
+    <div class="format-row">
+      <div class="format-text">
+        <div class="format-tag">In-stream · Premium</div>
+        <div class="format-name condensed">Pre-roll — live event</div>
+        <div class="format-desc">Plays before the live stream begins. Non-skippable in-stream context — highest attention moment. 15–30s. Fans are locked in, race is about to start.</div>
+      </div>
+      <div class="format-mockup">
+        <div class="mockup-inner">
+          <div class="mockup-bar orange"></div>
+          <div class="mockup-bar"></div>
+          <div class="mockup-bar"></div>
+          <div class="mockup-label-sm">[ Pre-roll screen ]</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="format-row flip">
+      <div class="format-text">
+        <div class="format-tag">In-stream · Mid-match</div>
+        <div class="format-name condensed">Mid-roll</div>
+        <div class="format-desc">Inserted during natural breaks — half-time, pit stops, changeovers. High completion rates. 10–30s. Contextually placed, not disruptive.</div>
+      </div>
+      <div class="format-mockup">
+        <div class="mockup-inner">
+          <div class="mockup-bar"></div>
+          <div class="mockup-bar orange"></div>
+          <div class="mockup-bar"></div>
+          <div class="mockup-label-sm">[ Mid-roll screen ]</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="format-row">
+      <div class="format-text">
+        <div class="format-tag">Display · 24hr</div>
+        <div class="format-name condensed">Homepage takeover</div>
+        <div class="format-desc">Full homepage ownership for 24 hours. Masthead + banners + sponsored content rail. Maximum brand presence on event launch days.</div>
+      </div>
+      <div class="format-mockup">
+        <div class="mockup-inner">
+          <div class="mockup-bar orange" style="width:100px"></div>
+          <div class="mockup-bar" style="width:100px"></div>
+          <div class="mockup-label-sm">[ Takeover mockup ]</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="format-row flip">
+      <div class="format-text">
+        <div class="format-tag">Big screen · CTV</div>
+        <div class="format-name condensed">Connected TV</div>
+        <div class="format-desc">Reach fans watching FanCode on smart TVs. Immersive lean-back context. Affluent urban household audience. Full-screen unskippable inventory.</div>
+      </div>
+      <div class="format-mockup">
+        <div class="mockup-inner">
+          <div class="mockup-bar" style="width:100px"></div>
+          <div class="mockup-bar orange" style="width:60px"></div>
+          <div class="mockup-bar" style="width:100px"></div>
+          <div class="mockup-label-sm">[ CTV screen ]</div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <div class="targeting">
+    <div class="targeting-panel section-panel">
+      <div class="section-eyebrow"><div class="section-eyebrow-line"></div><span class="section-eyebrow-text">Targeting</span></div>
+      <div class="section-h2 condensed">Reach the right fan<br>at the right moment</div>
+      <div class="target-grid">
+      <div class="target-card">
+        <div class="target-icon-wrap">
+          <svg class="target-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 3h8v3a4 4 0 0 1-8 0V3z"></path>
+            <path d="M6 6H4a4 4 0 0 0 4 4"></path>
+            <path d="M18 6h2a4 4 0 0 1-4 4"></path>
+            <path d="M12 13v5"></path>
+            <path d="M8 21h8"></path>
+          </svg>
+        </div>
+        <div class="target-name">Sport affinity</div>
+        <div class="target-desc">Reach fans of specific sports — F1, La Liga, MotoGP — not just sports fans generically.</div>
+      </div>
+      <div class="target-card">
+        <div class="target-icon-wrap">
+          <svg class="target-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="8"></circle>
+            <path d="M12 8v4l3 2"></path>
+          </svg>
+        </div>
+        <div class="target-name">Live event moments</div>
+        <div class="target-desc">Target by match state — pre-race, half-time, final lap. Different moments, different mindsets.</div>
+      </div>
+      <div class="target-card">
+        <div class="target-icon-wrap">
+          <svg class="target-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 21s6-5.2 6-10a6 6 0 1 0-12 0c0 4.8 6 10 6 10z"></path>
+            <circle cx="12" cy="11" r="2"></circle>
+          </svg>
+        </div>
+        <div class="target-name">Geography</div>
+        <div class="target-desc">City-level targeting. Reach Mumbai F1 fans or Bengaluru La Liga fans specifically.</div>
+      </div>
+      <div class="target-card">
+        <div class="target-icon-wrap">
+          <svg class="target-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 19v-2a4 4 0 0 1 8 0v2"></path>
+            <circle cx="12" cy="8" r="3"></circle>
+          </svg>
+        </div>
+        <div class="target-name">Subscriber type</div>
+        <div class="target-desc">Separate PPV buyers from free-tier. Target high-intent fans who already pay to watch.</div>
+      </div>
+      <div class="target-card">
+        <div class="target-icon-wrap">
+          <svg class="target-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="3" y="6" width="18" height="12" rx="2"></rect>
+            <path d="M7 18v2"></path>
+            <path d="M17 18v2"></path>
+          </svg>
+        </div>
+        <div class="target-name">Device</div>
+        <div class="target-desc">Mobile, CTV, or desktop. CTV targets affluent household viewers on the big screen.</div>
+      </div>
+      <div class="target-card">
+        <div class="target-icon-wrap">
+          <svg class="target-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="8" cy="9" r="2.5"></circle>
+            <circle cx="16" cy="9" r="2.5"></circle>
+            <path d="M4.5 19a4 4 0 0 1 7 0"></path>
+            <path d="M12.5 19a4 4 0 0 1 7 0"></path>
+          </svg>
+        </div>
+        <div class="target-name">Demographics</div>
+        <div class="target-desc">Age, gender, interest segments built from FanCode's first-party behavioural data.</div>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="proof">
+    <div class="section-panel">
+      <div class="quote-scroller">
+        <div class="quote-track" id="quoteTrack">
+        <div class="quote-card">
+          <div class="quote-text">FanCode gave us something no other platform could — we reached F1 fans in India right before the race started. The attention quality was unlike anything we'd seen on a standard OTT buy.</div>
+          <div class="quote-attr">
+            <div class="quote-avatar"></div>
+            <div>
+              <div class="quote-name">[Name, Role]</div>
+              <div class="quote-brand">[Brand name] — placeholder</div>
+            </div>
+          </div>
+        </div>
+        <div class="quote-card">
+          <div class="quote-text">The mid-innings sponsorship slot during the IPL gave us 3x the recall of any other digital placement. FanCode's audience is genuinely tuned in, not scrolling past.</div>
+          <div class="quote-attr">
+            <div class="quote-avatar"></div>
+            <div>
+              <div class="quote-name">[Name, Role]</div>
+              <div class="quote-brand">[Brand name] — placeholder</div>
+            </div>
+          </div>
+        </div>
+        <div class="quote-card">
+          <div class="quote-text">We targeted Pro Kabaddi viewers in tier-2 cities and saw a 4.2x lift in app installs versus our blended digital benchmark. The granular targeting is the unlock.</div>
+          <div class="quote-attr">
+            <div class="quote-avatar"></div>
+            <div>
+              <div class="quote-name">[Name, Role]</div>
+              <div class="quote-brand">[Brand name] — placeholder</div>
+            </div>
+          </div>
+        </div>
+        <div class="quote-card">
+          <div class="quote-text">CTV during live football has become a core line item for us. Premium environment, captive audience, measurable outcomes — hard to beat.</div>
+          <div class="quote-attr">
+            <div class="quote-avatar"></div>
+            <div>
+              <div class="quote-name">[Name, Role]</div>
+              <div class="quote-brand">[Brand name] — placeholder</div>
+            </div>
+          </div>
+        </div>
+        </div>
+        <button class="quote-next" id="quoteNext" aria-label="Next testimonial">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-section" id="contactSection">
+    <div class="section-panel">
+      <div class="cta-h2 condensed">Ready to reach<br>India's sports fans?</div>
+      <div class="cta-sub">Pick the option that works best for you</div>
+      <div class="cta-pair">
+        <div class="cta-box">
+          <div class="cta-icon"><div class="cta-icon-dot"></div></div>
+          <div class="cta-label">Talk to sales</div>
+          <div class="cta-desc">Get the rep for your region directly</div>
+          <button class="cta-btn cta-btn-orange" onclick="openModal('sales')">Contact Sales →</button>
+        </div>
+        <div class="cta-box">
+          <div class="cta-icon" style="background:rgba(255,255,255,.04);border-color:var(--glass-border)"><div class="cta-icon-dot" style="background:var(--fc_color_whiteAlpha_50)"></div></div>
+          <div class="cta-label">Send us a brief</div>
+          <div class="cta-desc">Fill a form, we'll get back to you</div>
+          <button class="cta-btn cta-btn-ghost" onclick="openModal('brief')">Open form</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sales contact modal -->
+  <div class="modal-backdrop" id="salesModal" onclick="if(event.target===this)closeModal()">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="salesModalTitle">
+      <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
+      <div class="modal-head">
+        <div class="modal-eyebrow"><div class="modal-eyebrow-line"></div><span class="modal-eyebrow-text">Contact Sales</span></div>
+        <div class="modal-title condensed" id="salesModalTitle">Speak to your regional rep</div>
+        <div class="modal-sub">Pick a region. Reach out directly, or book a slot on their calendar.</div>
+      </div>
+      <div class="modal-body">
+        <div class="region-tabs" role="tablist">
+          <button class="region-tab active" data-region="west" onclick="setRegion('west')">West</button>
+          <button class="region-tab" data-region="north" onclick="setRegion('north')">North</button>
+          <button class="region-tab" data-region="south" onclick="setRegion('south')">South</button>
+        </div>
+        <div class="rep-list" id="repList"></div>
+        <div class="modal-footer-note">All times IST · Replies within 1 business day</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Brief form modal -->
+  <div class="modal-backdrop" id="briefModal" onclick="if(event.target===this)closeModal()">
+    <div class="modal modal-form" role="dialog" aria-modal="true" aria-labelledby="briefModalTitle">
+      <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
+      <div class="modal-head">
+        <div class="modal-eyebrow"><div class="modal-eyebrow-line"></div><span class="modal-eyebrow-text">Send us a brief</span></div>
+        <div class="modal-title condensed" id="briefModalTitle">Tell us what you're planning</div>
+        <div class="modal-sub">Quick brief — our team will get back to you within 1 business day.</div>
+      </div>
+      <div class="modal-body">
+        <form id="briefForm" onsubmit="submitBrief(event)">
+          <div class="form-row">
+            <div class="form-field">
+              <label class="form-label" for="bf-name">Full name</label>
+              <input class="form-input" id="bf-name" type="text" required placeholder="Priya Mehta">
+            </div>
+            <div class="form-field">
+              <label class="form-label" for="bf-company">Company</label>
+              <input class="form-input" id="bf-company" type="text" required placeholder="Acme Pvt Ltd">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label class="form-label" for="bf-email">Work email</label>
+              <input class="form-input" id="bf-email" type="email" required placeholder="priya@acme.com">
+            </div>
+            <div class="form-field">
+              <label class="form-label" for="bf-phone">Phone</label>
+              <input class="form-input" id="bf-phone" type="tel" placeholder="+91 98xxx xxxxx">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label class="form-label" for="bf-budget">Budget range</label>
+              <select class="form-select" id="bf-budget" required>
+                <option value="">Select…</option>
+                <option>Under ₹10L</option>
+                <option>₹10L – ₹50L</option>
+                <option>₹50L – ₹2Cr</option>
+                <option>₹2Cr+</option>
+                <option>Not sure yet</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label class="form-label" for="bf-sport">Primary sport interest</label>
+              <select class="form-select" id="bf-sport" required>
+                <option value="">Select…</option>
+                <option>Formula 1</option>
+                <option>La Liga</option>
+                <option>MotoGP</option>
+                <option>Tennis</option>
+                <option>Golf</option>
+                <option>Cricket</option>
+                <option>Multiple / Mix</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row single">
+            <div class="form-field">
+              <label class="form-label" for="bf-msg">Brief / requirements</label>
+              <textarea class="form-textarea" id="bf-msg" required placeholder="Tell us about the campaign, timeline, audience and goals."></textarea>
+            </div>
+          </div>
+          <button class="form-submit" type="submit">Send brief</button>
+        </form>
+        <div class="form-success" id="briefSuccess" style="display:none">
+          <div class="form-success-icon">✓</div>
+          <div class="form-success-title condensed">Brief received</div>
+          <div class="form-success-msg">Thanks — our team will reach out within 1 business day at the email you provided.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-main">
+      <div class="footer-col">
+        <div class="footer-col-title">Sports</div>
+        <div class="footer-links">
+          <a class="footer-link" href="https://www.fancode.com/cricket" target="_blank" rel="noopener">Cricket</a>
+          <a class="footer-link" href="https://www.fancode.com/football" target="_blank" rel="noopener">Football</a>
+          <a class="footer-link" href="https://www.fancode.com/formula1" target="_blank" rel="noopener">Formula 1</a>
+          <a class="footer-link" href="https://www.fancode.com/golf" target="_blank" rel="noopener">Golf</a>
+          <a class="footer-link" href="https://www.fancode.com/lawn-tennis" target="_blank" rel="noopener">Tennis</a>
+          <a class="footer-link" href="https://www.fancode.com/motogp" target="_blank" rel="noopener">MotoGP</a>
+          <a class="footer-link" href="https://www.fancode.com/kabaddi" target="_blank" rel="noopener">Kabaddi</a>
+          <a class="footer-link" href="https://www.fancode.com/racing" target="_blank" rel="noopener">Motorsports</a>
+          <a class="footer-link" href="https://www.fancode.com/liveevents" target="_blank" rel="noopener">Live Events</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Schedule</div>
+        <div class="footer-links">
+          <a class="footer-link" href="https://www.fancode.com/cricket/schedule" target="_blank" rel="noopener">Cricket Schedule</a>
+          <a class="footer-link" href="https://www.fancode.com/football/schedule" target="_blank" rel="noopener">Football Schedule</a>
+          <a class="footer-link" href="https://www.fancode.com/formula1/schedule" target="_blank" rel="noopener">Formula 1 Schedule</a>
+          <a class="footer-link" href="https://www.fancode.com/motogp/schedule" target="_blank" rel="noopener">MotoGP Schedule</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Featured Tours</div>
+        <div class="footer-links">
+          <a class="footer-link" href="https://www.fancode.com/football/tour/a-league-2025-26-19245183/matches" target="_blank" rel="noopener">A League 2025-26</a>
+          <a class="footer-link" href="https://www.fancode.com/football/tour/afc-champions-league-elite-2025-26-18953370/matches" target="_blank" rel="noopener">AFC Champions League Elite</a>
+          <a class="footer-link" href="https://www.fancode.com/football/tour/dfb-pokal-2025-26-18881890/matches" target="_blank" rel="noopener">DFB Pokal 2025-26</a>
+          <a class="footer-link" href="https://www.fancode.com/football/tour/afc-champions-league-two-2025-26-18953371/matches" target="_blank" rel="noopener">AFC Champions League Two</a>
+          <a class="footer-link" href="https://www.fancode.com/football/tour/efl-championship-2025-26-18835060/matches" target="_blank" rel="noopener">EFL Championship 2025-26</a>
+          <a class="footer-link" href="https://www.fancode.com/football/tour/saudi-pro-league-2025-2026-18961588/matches" target="_blank" rel="noopener">Roshn Saudi League</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Other Links</div>
+        <div class="footer-links">
+          <a class="footer-link" href="https://www.fancode.com/about" target="_blank" rel="noopener">About</a>
+          <a class="footer-link" href="https://jobs.lever.co/dreamsports/?department=FanCode" target="_blank" rel="noopener">Careers</a>
+          <a class="footer-link" href="https://www.fancode.com/faq" target="_blank" rel="noopener">Help Desk</a>
+          <a class="footer-link" href="https://www.fancode.com/about/tnc" target="_blank" rel="noopener">T&amp;Cs</a>
+          <a class="footer-link" href="https://www.fancode.com/about/privacy-policy" target="_blank" rel="noopener">Privacy</a>
+          <a class="footer-link" href="https://www.fancode.com/content/subscribe" target="_blank" rel="noopener">Subscribe</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-mid">
+      <div class="footer-brand">
+        <img src="assets/fancode-logo.svg" alt="FanCode" style="height:28px;width:auto;display:block">
+        <div class="footer-brand-divider"></div>
+        <div class="footer-ds-text"><strong>From Dream Sports</strong>Makers of Dream11</div>
+      </div>
+      <div></div>
+      <div class="footer-app">
+        <div class="footer-app-label">Experience the App</div>
+        <div class="footer-app-badges">
+          <a class="footer-badge" href="https://fancode.onelink.me/tTJR/DWebAndroid" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 2.05v19.9c0 .82.95 1.27 1.59.74L17.97 12 4.59 1.31C3.95.78 3 1.23 3 2.05zM18.81 11.13l2.39 1.92c.45.36.45 1.04 0 1.4l-2.39 1.92-2.7-2.62 2.7-2.62z"/></svg>
+            <div><div class="footer-badge-store">Get it on</div><div class="footer-badge-name">Google Play</div></div>
+          </a>
+          <a class="footer-badge" href="https://fancode.onelink.me/tTJR/DWebiOS" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 12.04c-.03-2.79 2.27-4.13 2.38-4.2-1.3-1.9-3.32-2.16-4.04-2.19-1.72-.17-3.36 1.02-4.23 1.02-.88 0-2.21-.99-3.65-.97-1.87.03-3.61 1.09-4.58 2.77-1.96 3.4-.5 8.42 1.41 11.18.93 1.36 2.05 2.88 3.49 2.83 1.4-.06 1.93-.91 3.62-.91 1.69 0 2.16.91 3.64.88 1.51-.03 2.46-1.38 3.38-2.74 1.07-1.57 1.51-3.09 1.53-3.17-.03-.01-2.93-1.13-2.95-4.5zm-2.79-8.27c.77-.94 1.29-2.24 1.15-3.54-1.11.05-2.46.74-3.26 1.67-.71.83-1.34 2.16-1.17 3.43 1.24.1 2.51-.63 3.28-1.56z"/></svg>
+            <div><div class="footer-badge-store">Download on the</div><div class="footer-badge-name">App Store</div></div>
+          </a>
+        </div>
+      </div>
+      <div class="footer-social">
+        <div class="footer-social-label">Keep in Touch</div>
+        <div class="footer-social-icons">
+          <a class="footer-social-icon" href="https://www.facebook.com/Fancode/" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.19 21.5v-8.13H6.43V10.1h2.76V7.59c0-2.74 1.67-4.23 4.12-4.23 1.17 0 2.18.09 2.47.13v2.86h-1.69c-1.33 0-1.59.63-1.59 1.56v2.05h3.18l-.41 3.27h-2.76v8.27"/></svg>
+          </a>
+          <a class="footer-social-icon" href="https://www.instagram.com/fancode/" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+          </a>
+          <a class="footer-social-icon" href="https://twitter.com/fancode" target="_blank" rel="noopener" aria-label="X">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a class="footer-social-icon" href="https://www.youtube.com/FanCode" target="_blank" rel="noopener" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.5a3 3 0 0 0-2.1-2.12C19.5 4 12 4 12 4s-7.5 0-9.4.38A3 3 0 0 0 .5 6.5C.13 8.4.13 12 .13 12s0 3.6.37 5.5a3 3 0 0 0 2.1 2.12C4.5 20 12 20 12 20s7.5 0 9.4-.38A3 3 0 0 0 23.5 17.5c.37-1.9.37-5.5.37-5.5s0-3.6-.37-5.5zM9.75 15.5v-7l6.5 3.5z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-info">
+      <div class="footer-info-block">
+        <div class="footer-info-title">Helpdesk</div>
+        <a class="footer-helpdesk" href="https://wa.me/917021862182?text=hello" target="_blank" rel="noopener">CHAT WITH US →</a>
+        <div class="footer-info-title" style="margin-top:14px">Corporate Office</div>
+        <div class="footer-info-text">Ascent, 6th floor, Sudam Kalu Ahire Marg, Opposite GSK, Worli, Mumbai, Maharashtra 400030</div>
+      </div>
+      <div class="footer-info-block">
+        <div class="footer-info-title">About FanCode</div>
+        <div class="footer-info-text">FanCode is India's premier destination for live sports streaming, match moments, and highlights. Trusted by over 3 crore sports fans, FanCode brings you seamless access to live matches, real-time scores, and instant replays from across the world of sports — cricket, football, F1, MotoGP, tennis, golf and more, live and on demand. Watch live and relive every moment — only on FanCode.</div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>© 2025 FanCode, All Rights Reserved.</div>
+      <div class="footer-bottom-links">
+        <a href="https://www.fancode.com/about/privacy-policy" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://www.fancode.com/about/tnc" target="_blank" rel="noopener">Terms</a>
+        <a href="https://www.fancode.com/faq" target="_blank" rel="noopener">Help</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const sports=[
+  {name:'Formula 1',tag:'Urban, high-income, tech-forward fans',m1:'2.1M',m2:'25–34',m3:'78% M',m4:'84 min',bg:'🏎',img:'assets/audience-f1.jpg'},
+  {name:'La Liga',tag:'Young, football-obsessed, mobile-first fans',m1:'1.4M',m2:'18–28',m3:'72% M',m4:'92 min',bg:'⚽',img:'assets/audience-laliga.jpg'},
+  {name:'MotoGP',tag:'Speed-driven, brand-loyal enthusiasts',m1:'0.9M',m2:'22–35',m3:'81% M',m4:'76 min',bg:'🏍',img:'assets/audience-motogp.jpg'},
+  {name:'Tennis',tag:'Premium lifestyle, affluent, mixed gender',m1:'0.7M',m2:'28–40',m3:'54% M',m4:'68 min',bg:'🎾',img:'assets/audience-tennis.jpg'},
+  {name:'Golf',tag:'Senior, high-net-worth, CTV-heavy audience',m1:'0.4M',m2:'32–50',m3:'67% M',m4:'58 min',bg:'⛳',img:'assets/audience-golf.jpg'},
+  {name:'Cricket',tag:'Mass market, high-frequency, India-wide reach',m1:'3.8M',m2:'20–35',m3:'69% M',m4:'110 min',bg:'🏏',img:'assets/audience-cricket.jpg'},
+];
+let cur=0,timer;
+function updateSport(){
+  const s=sports[cur];
+  document.getElementById('asname').textContent=s.name;
+  const photo=document.getElementById('aiphoto');
+  if(photo){
+    if(s.img){photo.src=s.img;photo.classList.add('active');photo.alt=s.name+' — FanCode audience profile';}
+    else{photo.classList.remove('active');}
+  }
+  document.getElementById('atagline').textContent=s.tag;
+  document.getElementById('am1').textContent=s.m1;
+  document.getElementById('am2').textContent=s.m2;
+  document.getElementById('am3').textContent=s.m3;
+  document.getElementById('am4').textContent=s.m4;
+  document.querySelectorAll('.adot').forEach((d,i)=>{
+    d.classList.toggle('active',i===cur);
+    d.setAttribute('aria-selected',i===cur?'true':'false');
+    d.setAttribute('tabindex',i===cur?'0':'-1');
+  });
+}
+function startSport(){
+  clearTimeout(timer);
+  const bar=document.getElementById('apbar');
+  bar.style.transition='none';bar.style.width='0%';
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    bar.style.transition='width 3.5s linear';bar.style.width='100%';
+  }));
+  timer=setTimeout(()=>{cur=(cur+1)%6;updateSport();startSport();},3500);
+}
+function jumpSport(i){cur=i;updateSport();startSport();}
+startSport();
+
+// Schema card canvas (section background)
+(function(){
+  const section=document.querySelector('.schema-section');
+  const canvas=document.getElementById('schemaCanvas');
+  if(!section||!canvas||!canvas.getContext)return;
+  const ctx=canvas.getContext('2d');
+  let time=0;
+  const waveData=Array.from({length:8}).map(()=>({
+    value:Math.random()*0.5+0.1,
+    targetValue:Math.random()*0.5+0.1,
+    speed:Math.random()*0.02+0.01
+  }));
+  const resize=()=>{
+    const rect=section.getBoundingClientRect();
+    canvas.width=Math.max(1,Math.floor(rect.width));
+    canvas.height=Math.max(1,Math.floor(rect.height));
+  };
+  const updateWaveData=()=>{
+    waveData.forEach(data=>{
+      if(Math.random()<0.01) data.targetValue=Math.random()*0.7+0.1;
+      const diff=data.targetValue-data.value;
+      data.value+=diff*data.speed;
+    });
+  };
+  const draw=()=>{
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle='rgba(7,9,13,0.9)';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    waveData.forEach((data,i)=>{
+      const freq=data.value*7;
+      ctx.beginPath();
+      for(let x=0;x<canvas.width;x+=2){
+        const nx=(x/canvas.width)*2-1;
+        const px=nx+i*0.04+freq*0.03;
+        const py=Math.sin(px*10+time)*Math.cos(px*2)*freq*0.1*((i+1)/8);
+        const y=(py+1)*canvas.height/2;
+        if(x===0){ctx.moveTo(x,y);}else{ctx.lineTo(x,y);}
+      }
+      const intensity=Math.min(1,freq*0.3);
+      const r=245+intensity*10;
+      const g=85+intensity*30;
+      const b=5+intensity*10;
+      ctx.lineWidth=1+i*0.3;
+      ctx.strokeStyle=`rgba(${r},${g},${b},0.45)`;
+      ctx.shadowColor=`rgba(${r},${g},${b},0.3)`;
+      ctx.shadowBlur=5;
+      ctx.stroke();
+      ctx.shadowBlur=0;
+    });
+  };
+  const animate=()=>{
+    time+=0.02;
+    updateWaveData();
+    draw();
+    requestAnimationFrame(animate);
+  };
+  window.addEventListener('resize',resize);
+  resize();
+  animate();
+})();
+
+// Stats — count up + spark draw on scroll into view
+(function(){
+  const items=document.querySelectorAll('.stat-item');
+  if(!items.length||!('IntersectionObserver' in window))return;
+  const ease=t=>1-Math.pow(1-t,3);
+  const animate=(el)=>{
+    el.classList.add('in-view');
+    const target=parseFloat(el.dataset.target||'0');
+    const valEl=el.querySelector('.num-val');
+    const numEl=el.querySelector('.stat-num');
+    if(numEl)numEl.classList.add('animate-rise');
+    if(!valEl||!target)return;
+    const dur=1100;const start=performance.now();
+    const isInt=Number.isInteger(target);
+    const tick=(now)=>{
+      const p=Math.min(1,(now-start)/dur);const v=target*ease(p);
+      valEl.textContent=isInt?Math.round(v):v.toFixed(1);
+      if(p<1)requestAnimationFrame(tick);else valEl.textContent=target;
+    };
+    requestAnimationFrame(tick);
+  };
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting){animate(e.target);io.unobserve(e.target);}});
+  },{threshold:.4});
+  items.forEach(el=>io.observe(el));
+})();
+
+// Quote scroller — next arrow
+const qTrack=document.getElementById('quoteTrack');
+const qNext=document.getElementById('quoteNext');
+if(qTrack&&qNext){
+  qNext.addEventListener('click',()=>{
+    const card=qTrack.querySelector('.quote-card');
+    const step=card?card.getBoundingClientRect().width+16:560;
+    const max=qTrack.scrollWidth-qTrack.clientWidth-2;
+    if(qTrack.scrollLeft>=max){qTrack.scrollTo({left:0,behavior:'smooth'});}
+    else{qTrack.scrollBy({left:step,behavior:'smooth'});}
+  });
+}
+
+// Logo cloud — brand SVGs from ./logos/ (paths relative to this HTML file)
+const LOGOS=[
+  {src:'logos/Mercedes.svg',alt:'Mercedes-Benz'},
+  {src:'logos/Audi.svg',alt:'Audi'},
+  {src:'logos/Rolex.svg',alt:'Rolex'},
+  {src:'logos/Red_Bull.svg',alt:'Red Bull'},
+  {src:'logos/Heineken.svg',alt:'Heineken'},
+  {src:'logos/Visa.svg',alt:'Visa'},
+  {src:'logos/Toyota.svg',alt:'Toyota'},
+  {src:'logos/Apple.svg',alt:'Apple'},
+  {src:'logos/Google.svg',alt:'Google'},
+  {src:'logos/Flipkart.svg',alt:'Flipkart'},
+  {src:'logos/Zomato.svg',alt:'Zomato'},
+  {src:'logos/Airtel.svg',alt:'Airtel'},
+  {src:'logos/Hero.svg',alt:'Hero'},
+  {src:'logos/Vivo.svg',alt:'Vivo'},
+  {src:'logos/Lenovo.svg',alt:'Lenovo'},
+  {src:'logos/LIC.svg',alt:'LIC'},
+  {src:'logos/Kotak.svg',alt:'Kotak'},
+  {src:'logos/MRF.svg',alt:'MRF'},
+  {src:'logos/Bank_of_Baroda.svg',alt:'Bank of Baroda'},
+  {src:'logos/AMFI.svg',alt:'AMFI'},
+  {src:'logos/Tudor.svg',alt:'Tudor'},
+  {src:'logos/TotalEnergies.svg',alt:'TotalEnergies'},
+  {src:'logos/Glenfiddich.svg',alt:'Glenfiddich'},
+  {src:'logos/Jindal_Steel.svg',alt:'Jindal Steel'},
+  {src:'logos/Mangaldeep.svg',alt:'Mangaldeep'},
+  {src:'logos/Paisabazaar.svg',alt:'Paisabazaar'},
+  {src:'logos/Scaler.svg',alt:'Scaler'},
+  {src:'logos/Thums_Up.svg',alt:'Thums Up'},
+];
+const FEDERATIONS=[
+  {src:'Feds/Formula_1.svg',alt:'Formula 1'},
+  {src:'Feds/MotoGP.svg',alt:'MotoGP'},
+  {src:'Feds/LaLiga.svg',alt:'LaLiga'},
+  {src:'Feds/ICC.svg',alt:'ICC'},
+  {src:'Feds/Cricket_Australia.svg',alt:'Cricket Australia'},
+  {src:'Feds/ECB.svg',alt:'England & Wales Cricket Board'},
+  {src:'Feds/PCB.svg',alt:'Pakistan Cricket Board'},
+  {src:'Feds/Bangladesh_Cricket.svg',alt:'Bangladesh Cricket'},
+  {src:'Feds/West_Indies_Cricket.svg',alt:'Cricket West Indies'},
+  {src:'Feds/AFC.svg',alt:'Asian Football Confederation'},
+  {src:'Feds/MLB.svg',alt:'MLB'},
+  {src:'Feds/Masters_Tournament.svg',alt:'Masters Tournament'},
+  {src:'Feds/Roland_Garros.svg',alt:'Roland Garros'},
+  {src:'Feds/Volleyball_Nations_League.svg',alt:'Volleyball Nations League'},
+  {src:'Feds/Rugby_World_Cup_2023.svg',alt:'Rugby World Cup'},
+];
+function fillLogoTrack(id, list){
+  const t=document.getElementById(id);
+  if(!t)return;
+  const esc=(s)=>String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+  const html=list.map(l=>{
+    if(l.src){
+      return `<span class="logo-img-wrap" title="${esc(l.alt)}"><img class="logo-img" src="${esc(l.src)}" alt="${esc(l.alt)}" loading="lazy" decoding="async"></span>`;
+    }
+    return `<span class="logo-mark ${l.c||''}">${l.t}</span>`;
+  }).join('');
+  t.innerHTML=html+html;
+}
+fillLogoTrack('logoTrack', LOGOS);
+fillLogoTrack('logoTrack2', FEDERATIONS);
+
+/* ===== Contact modals ===== */
+const SALES_REPS = {
+  west: [
+    {name:'Ashish Naik', role:'Sales Representative — West', initials:'AN', email:'ashish.naik@fancode.com', phone:'+91 98198 99976', linkedin:'', calendly:'https://calendly.com/fancode-ashish-naik'},
+    {name:'Karan Mahajan', role:'Sales Representative — West', initials:'KM', email:'karan.mahajan@fancode.com', phone:'+91 98192 70071', linkedin:'', calendly:'https://calendly.com/fancode-karan-mahajan'},
+  ],
+  north: [
+    {name:'Krishnakant Singh', role:'Sales Representative — North', initials:'KS', email:'krishna.singh@fancode.com', phone:'+91 98110 08478', linkedin:'', calendly:'https://calendly.com/fancode-krishna-singh'},
+  ],
+  south: [
+    {name:'Anup Pillai', role:'Sales Representative — South', initials:'AP', email:'anup.pillai@fancode.com', phone:'+91 99165 55088', linkedin:'', calendly:'https://calendly.com/fancode-anup-pillai'},
+  ],
+};
+
+const ICON_MAIL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>';
+const ICON_PHONE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/></svg>';
+const ICON_LI = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM10 9h3.8v1.7h.05c.53-1 1.84-2.06 3.79-2.06 4.05 0 4.8 2.66 4.8 6.12V21h-4v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.08 1.4-2.08 2.86V21h-4z"/></svg>';
+
+function renderReps(region){
+  const list = document.getElementById('repList');
+  if(!list) return;
+  const reps = SALES_REPS[region]||[];
+  list.innerHTML = reps.map(r=>`
+    <div class="rep-card">
+      <div class="rep-avatar">${r.initials}</div>
+      <div class="rep-info">
+        <div class="rep-name">${r.name}</div>
+        <div class="rep-role">${r.role}</div>
+        <div class="rep-contacts">
+          <a class="rep-contact" href="mailto:${r.email}">${ICON_MAIL}<span>${r.email}</span></a>
+          <a class="rep-contact" href="tel:${r.phone.replace(/\s/g,'')}">${ICON_PHONE}<span>${r.phone}</span></a>
+          <a class="rep-contact" href="${r.linkedin}" target="_blank" rel="noopener">${ICON_LI}<span>LinkedIn</span></a>
+        </div>
+      </div>
+      <a class="rep-cta" href="${r.calendly}" target="_blank" rel="noopener">Book a call →</a>
+    </div>
+  `).join('');
+}
+
+function setRegion(region){
+  document.querySelectorAll('.region-tab').forEach(t=>{
+    t.classList.toggle('active', t.dataset.region===region);
+  });
+  renderReps(region);
+}
+
+function openModal(kind){
+  closeModal();
+  if(kind==='sales'){
+    setRegion('west');
+    document.getElementById('salesModal').classList.add('open');
+  } else if(kind==='brief'){
+    document.getElementById('briefForm').style.display='';
+    document.getElementById('briefForm').reset();
+    document.getElementById('briefSuccess').style.display='none';
+    document.getElementById('briefModal').classList.add('open');
+  }
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  document.querySelectorAll('.modal-backdrop.open').forEach(m=>m.classList.remove('open'));
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',(e)=>{ if(e.key==='Escape') closeModal(); });
+
+function submitBrief(e){
+  e.preventDefault();
+  document.getElementById('briefForm').style.display='none';
+  document.getElementById('briefSuccess').style.display='';
+}
+
+// expose for inline handlers
+window.openModal=openModal; window.closeModal=closeModal; window.setRegion=setRegion; window.submitBrief=submitBrief;
+</script>
+
+<div id="tweaks-root"></div>
+<script type="text/babel">
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "videoOpacity": 0.2,
+  "accent": "orange",
+  "sectionAlign": "center",
+  "statsStyle": "minimal"
+}/*EDITMODE-END*/;
+
+const ACCENTS = {
+  orange: { color: '#f55505', dim: 'rgba(245,85,5,0.15)', glow: 'rgba(245,85,5,0.08)' },
+  red:    { color: '#e01b2f', dim: 'rgba(224,27,47,0.15)', glow: 'rgba(224,27,47,0.08)' },
+  cyan:   { color: '#22d3ee', dim: 'rgba(34,211,238,0.15)', glow: 'rgba(34,211,238,0.08)' },
+};
+
+function applyTweaks(t) {
+  const root = document.documentElement;
+  root.style.setProperty('--hero-video-opacity', String(t.videoOpacity));
+  const a = ACCENTS[t.accent] || ACCENTS.orange;
+  root.style.setProperty('--accent', a.color);
+  root.style.setProperty('--accent-dim', a.dim);
+  root.style.setProperty('--accent-glow', a.glow);
+  root.setAttribute('data-section-align', t.sectionAlign || 'left');
+}
+
+function App() {
+  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  const accentHex = ACCENTS[t.accent]?.color || ACCENTS.orange.color;
+  React.useEffect(() => applyTweaks(t), [t.videoOpacity, t.accent, t.sectionAlign, t.statsStyle]);
+  const onAccent = (hex) => {
+    const key = Object.keys(ACCENTS).find(k => ACCENTS[k].color === hex) || 'orange';
+    setTweak('accent', key);
+  };
+  return (
+    <TweaksPanel title="Tweaks">
+      <TweakSection label="Hero video" />
+      <TweakSlider label="Opacity" value={t.videoOpacity}
+        min={0.2} max={1} step={0.05}
+        onChange={(v) => setTweak('videoOpacity', v)} />
+      <TweakSection label="Accent color" />
+      <TweakColor label="Accent" value={accentHex}
+        options={['#f55505', '#e01b2f', '#22d3ee']}
+        onChange={onAccent} />
+      <TweakSection label="Section headers" />
+      <TweakRadio label="Alignment" value={t.sectionAlign}
+        options={[{value:'left',label:'Left'},{value:'center',label:'Center'}]}
+        onChange={(v) => setTweak('sectionAlign', v)} />
+      <TweakSection label="Stats style" />
+      <TweakSelect label="Variant" value={t.statsStyle}
+        options={[
+          {value:'minimal',label:'Minimal + sparklines'},
+          {value:'cards',label:'Cards'},
+          {value:'editorial',label:'Editorial (huge)'},
+          {value:'ticker',label:'Ticker'}
+        ]}
+        onChange={(v) => setTweak('statsStyle', v)} />
+    </TweaksPanel>
+  );
+}
+
+applyTweaks(TWEAK_DEFAULTS);
+ReactDOM.createRoot(document.getElementById('tweaks-root')).render(<App />);
+</script>

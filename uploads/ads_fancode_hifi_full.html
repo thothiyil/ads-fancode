@@ -1,0 +1,457 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Inter:wght@400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --red:#E8002D;
+  --red-dim:rgba(232,0,45,0.15);
+  --red-glow:rgba(232,0,45,0.08);
+  --glass:rgba(255,255,255,0.04);
+  --glass-border:rgba(255,255,255,0.08);
+  --glass-strong:rgba(255,255,255,0.07);
+  --white:#F0F0F0;
+  --muted:#666;
+  --dimmer:#333;
+  --page:#080808;
+  --surface:#0f0f0f;
+  --surface2:#141414;
+}
+.page{background:var(--page);font-family:'Inter',sans-serif;overflow:hidden}
+.condensed{font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:-.01em}
+
+/* NAV */
+.nav{background:rgba(8,8,8,0.9);border-bottom:1px solid var(--glass-border);padding:0 48px;height:56px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:10px}
+.nav-logo-box{width:32px;height:32px;background:var(--red);border-radius:4px;display:flex;align-items:center;justify-content:center}
+.nav-logo-f{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:18px;color:#fff}
+.nav-logo-text{font-size:13px;font-weight:500;color:var(--white);letter-spacing:.04em}
+.nav-logo-sub{font-size:10px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.nav-cta{background:var(--red);border:none;border-radius:4px;padding:8px 20px;font-size:12px;font-weight:500;color:#fff;cursor:pointer;letter-spacing:.04em;font-family:'Inter',sans-serif}
+
+/* HERO */
+.hero{position:relative;height:520px;overflow:hidden;background:var(--page)}
+.hero-video-bg{position:absolute;inset:0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(2,1fr);gap:1px;opacity:.35}
+.hvc{overflow:hidden;position:relative}
+.hvc::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,0,0,.4),transparent)}
+.hvc:nth-child(1){background:#1a0a08}
+.hvc:nth-child(2){background:#080e12}
+.hvc:nth-child(3){background:#0a080e}
+.hvc:nth-child(4){background:#08110a}
+.hvc:nth-child(5){background:#0e0808}
+.hvc:nth-child(6){background:#0a0a14}
+.hvc:nth-child(7){background:#08120e}
+.hvc:nth-child(8){background:#140808}
+.hvc-label{position:absolute;bottom:8px;left:10px;font-size:9px;color:rgba(255,255,255,.15);letter-spacing:.08em;text-transform:uppercase}
+.hero-scrim{position:absolute;inset:0;background:linear-gradient(105deg,rgba(8,8,8,.95) 38%,rgba(8,8,8,.5) 65%,rgba(8,8,8,.2) 100%)}
+.hero-red-line{position:absolute;left:48px;top:0;bottom:0;width:2px;background:var(--red);opacity:.6}
+.hero-content{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 64px}
+.hero-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.hero-eyebrow-line{width:24px;height:2px;background:var(--red)}
+.hero-eyebrow-text{font-size:11px;color:var(--red);letter-spacing:.14em;text-transform:uppercase;font-weight:500}
+.hero-h1{font-size:52px;line-height:.96;color:var(--white);margin-bottom:20px;max-width:520px}
+.hero-h1 em{color:var(--red);font-style:normal}
+.hero-sub{font-size:14px;color:#888;line-height:1.7;max-width:400px;margin-bottom:36px}
+.hero-ctas{display:flex;gap:12px;align-items:center}
+.btn-primary{background:var(--red);border:none;border-radius:4px;padding:13px 28px;font-size:13px;font-weight:500;color:#fff;cursor:pointer;font-family:'Inter',sans-serif;letter-spacing:.02em}
+.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.2);border-radius:4px;padding:12px 28px;font-size:13px;color:#888;cursor:pointer;font-family:'Inter',sans-serif}
+.hero-scroll-hint{position:absolute;bottom:24px;left:64px;display:flex;align-items:center;gap:8px}
+.scroll-line{width:32px;height:1px;background:var(--dimmer)}
+.scroll-text{font-size:10px;color:var(--dimmer);letter-spacing:.1em;text-transform:uppercase}
+
+/* STATS */
+.stats{padding:48px;background:var(--surface)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--glass-border);border-radius:8px;overflow:hidden}
+.stat-item{background:var(--surface2);padding:24px 28px;position:relative;overflow:hidden}
+.stat-item::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--red);opacity:0;transition:opacity .3s}
+.stat-item:hover::before{opacity:1}
+.stat-num{font-size:36px;color:var(--white);margin-bottom:4px;line-height:1}
+.stat-label{font-size:11px;color:var(--muted);letter-spacing:.04em;line-height:1.5}
+.stat-item:first-child::before{opacity:1}
+
+/* AUDIENCE */
+.audience{padding:56px 48px;background:var(--page)}
+.section-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.section-eyebrow-line{width:16px;height:2px;background:var(--red)}
+.section-eyebrow-text{font-size:10px;color:var(--red);letter-spacing:.12em;text-transform:uppercase;font-weight:500}
+.section-h2{font-size:38px;color:var(--white);margin-bottom:6px;line-height:1.05}
+.section-sub{font-size:13px;color:var(--muted);margin-bottom:32px}
+.aud-card{display:grid;grid-template-columns:1fr 1fr;background:var(--glass);border:1px solid var(--glass-border);border-radius:12px;overflow:hidden;position:relative}
+.aud-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--red)}
+.aud-img{background:var(--surface2);min-height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border-right:1px solid var(--glass-border);position:relative;overflow:hidden}
+.aud-img-sport-bg{position:absolute;font-size:96px;opacity:.04;user-select:none}
+.aud-img-label{font-size:10px;color:#2a2a2a;letter-spacing:.08em;text-transform:uppercase;position:relative;z-index:1}
+.aud-img-name{font-size:14px;color:#222;font-weight:500;position:relative;z-index:1}
+.aud-progress{position:absolute;bottom:0;left:0;right:0;height:2px;background:rgba(255,255,255,.04)}
+.aud-progress-bar{height:100%;background:var(--red);width:0;transition:width 3.5s linear}
+.aud-data{padding:32px;display:flex;flex-direction:column;justify-content:space-between;background:rgba(255,255,255,.02)}
+.aud-sport-label{font-size:10px;color:var(--red);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
+.aud-sport-name{font-size:28px;color:var(--white);margin-bottom:4px;line-height:1.1}
+.aud-tagline{font-size:12px;color:var(--muted);margin-bottom:28px;line-height:1.6}
+.aud-metrics{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+.aud-metric{display:flex;flex-direction:column;gap:3px}
+.aud-val{font-size:22px;color:var(--white);line-height:1}
+.aud-key{font-size:11px;color:var(--muted)}
+.aud-dots{display:flex;gap:6px;align-items:center}
+.adot{width:6px;height:6px;border-radius:50%;background:var(--dimmer);cursor:pointer;transition:all .2s}
+.adot.active{background:var(--red);width:18px;border-radius:3px}
+
+/* FORMATS */
+.formats{padding:56px 48px;background:var(--surface)}
+.format-row{display:grid;grid-template-columns:1fr 1fr;gap:1px;border-top:1px solid var(--glass-border);padding:36px 0;align-items:center}
+.format-row:last-child{border-bottom:1px solid var(--glass-border)}
+.format-row.flip{direction:rtl}
+.format-row.flip>*{direction:ltr}
+.format-text{padding-right:40px}
+.format-row.flip .format-text{padding-right:0;padding-left:40px}
+.format-tag{font-size:10px;color:var(--red);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;font-weight:500}
+.format-name{font-size:26px;color:var(--white);margin-bottom:12px;line-height:1.1}
+.format-desc{font-size:13px;color:#666;line-height:1.7;max-width:280px}
+.format-mockup{height:160px;background:var(--glass);border:1px solid var(--glass-border);border-radius:8px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.format-mockup::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(232,0,45,.03),transparent 60%)}
+.mockup-inner{display:flex;flex-direction:column;align-items:center;gap:6px}
+.mockup-bar{width:80px;height:3px;background:var(--dimmer);border-radius:2px}
+.mockup-bar.red{background:var(--red);width:40px}
+.mockup-label-sm{font-size:10px;color:#2a2a2a;letter-spacing:.06em;text-transform:uppercase}
+
+/* TARGETING */
+.targeting{padding:56px 48px;background:var(--page)}
+.target-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:32px}
+.target-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:8px;padding:20px;position:relative;overflow:hidden;transition:border-color .2s}
+.target-card:hover{border-color:rgba(232,0,45,.3)}
+.target-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--red),transparent);opacity:0;transition:opacity .2s}
+.target-card:hover::after{opacity:1}
+.target-icon-wrap{width:32px;height:32px;border:1px solid var(--glass-border);border-radius:6px;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.target-icon-dot{width:8px;height:8px;border-radius:50%;background:var(--red)}
+.target-name{font-size:14px;font-weight:500;color:var(--white);margin-bottom:6px}
+.target-desc{font-size:12px;color:#555;line-height:1.6}
+
+/* PROOF */
+.proof{padding:56px 48px;background:var(--surface)}
+.logo-wall{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px}
+.logo-pill{height:40px;padding:0 20px;background:var(--glass);border:1px solid var(--glass-border);border-radius:6px;display:flex;align-items:center;justify-content:center}
+.logo-pill-inner{width:64px;height:10px;background:var(--dimmer);border-radius:2px}
+.quote-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:10px;padding:32px;position:relative;overflow:hidden}
+.quote-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--red)}
+.quote-mark{font-size:48px;color:var(--dimmer);line-height:.8;margin-bottom:12px;font-family:Georgia,serif}
+.quote-text{font-size:15px;color:#888;line-height:1.8;font-style:italic;margin-bottom:20px;max-width:540px}
+.quote-attr{display:flex;align-items:center;gap:12px}
+.quote-avatar{width:36px;height:36px;background:var(--dimmer);border-radius:50%}
+.quote-name{font-size:12px;color:var(--muted)}
+.quote-brand{font-size:11px;color:#333;margin-top:2px}
+
+/* CTA */
+.cta-section{padding:64px 48px;background:var(--page);text-align:center;border-top:1px solid var(--glass-border);position:relative;overflow:hidden}
+.cta-section::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:400px;height:200px;background:radial-gradient(ellipse,var(--red-glow) 0%,transparent 70%);pointer-events:none}
+.cta-h2{font-size:40px;color:var(--white);margin-bottom:8px;line-height:1.1;position:relative}
+.cta-sub{font-size:13px;color:var(--muted);margin-bottom:40px;position:relative}
+.cta-pair{display:flex;gap:16px;justify-content:center;position:relative}
+.cta-box{background:var(--glass);border:1px solid var(--glass-border);border-radius:10px;padding:24px 32px;display:flex;flex-direction:column;align-items:center;gap:6px;min-width:200px;transition:border-color .2s}
+.cta-box:hover{border-color:rgba(255,255,255,.15)}
+.cta-icon{width:40px;height:40px;background:var(--red-dim);border:1px solid rgba(232,0,45,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:4px}
+.cta-icon-dot{width:10px;height:10px;border-radius:50%;background:var(--red)}
+.cta-label{font-size:14px;font-weight:500;color:var(--white)}
+.cta-desc{font-size:12px;color:var(--muted)}
+.cta-btn{margin-top:10px;border-radius:4px;padding:10px 24px;font-size:12px;cursor:pointer;width:100%;font-family:'Inter',sans-serif;font-weight:500}
+.cta-btn-red{background:var(--red);border:none;color:#fff}
+.cta-btn-ghost{background:transparent;border:1px solid var(--dimmer);color:#666}
+
+/* FOOTER */
+.footer{background:#050505;border-top:1px solid var(--glass-border);padding:16px 48px;display:flex;align-items:center;justify-content:space-between}
+.footer-left{display:flex;align-items:center;gap:8px}
+.footer-logo-box{width:22px;height:22px;background:var(--red);border-radius:3px;display:flex;align-items:center;justify-content:center}
+.footer-logo-f{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:13px;color:#fff}
+.footer-name{font-size:12px;color:#333;font-weight:500}
+.footer-right{font-size:11px;color:#252525}
+</style>
+
+<h2 class="sr-only">High-fidelity prototype for ads.fancode.com — full page from nav to footer</h2>
+
+<div class="page">
+
+  <div class="nav">
+    <div class="nav-logo">
+      <div class="nav-logo-box"><span class="nav-logo-f">F</span></div>
+      <div><div class="nav-logo-text">FanCode</div><div class="nav-logo-sub">Advertising</div></div>
+    </div>
+    <button class="nav-cta">Get in touch</button>
+  </div>
+
+  <div class="hero">
+    <div class="hero-video-bg">
+      <div class="hvc"><span class="hvc-label">F1 Race</span></div>
+      <div class="hvc"><span class="hvc-label">MotoGP</span></div>
+      <div class="hvc"><span class="hvc-label">La Liga</span></div>
+      <div class="hvc"><span class="hvc-label">Tennis</span></div>
+      <div class="hvc"><span class="hvc-label">Golf</span></div>
+      <div class="hvc"><span class="hvc-label">F1 Pit</span></div>
+      <div class="hvc"><span class="hvc-label">Cricket</span></div>
+      <div class="hvc"><span class="hvc-label">MotoGP</span></div>
+    </div>
+    <div class="hero-scrim"></div>
+    <div class="hero-red-line"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-line"></div>
+        <span class="hero-eyebrow-text">Advertise on FanCode</span>
+      </div>
+      <div class="hero-h1 condensed">Reach India's<br>most passionate<br><em>sports fans</em></div>
+      <div class="hero-sub">FanCode streams F1, La Liga, MotoGP, Tennis, Golf and more to millions of fans across India. Your brand, in the moments that matter most.</div>
+      <div class="hero-ctas">
+        <button class="btn-primary">Book a call</button>
+        <button class="btn-ghost">Contact us</button>
+      </div>
+    </div>
+    <div class="hero-scroll-hint">
+      <div class="scroll-line"></div>
+      <span class="scroll-text">Scroll to explore</span>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-num condensed">5M+</div>
+        <div class="stat-label">Monthly active fans</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num condensed">6</div>
+        <div class="stat-label">Sports streamed live</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num condensed">72 min</div>
+        <div class="stat-label">Avg. session duration</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num condensed">60%</div>
+        <div class="stat-label">Paid subscribers</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="audience">
+    <div class="section-eyebrow"><div class="section-eyebrow-line"></div><span class="section-eyebrow-text">Audience profiles</span></div>
+    <div class="section-h2 condensed">Every sport has a<br>distinct fan. Find yours.</div>
+    <div class="section-sub">Select a sport to explore the audience behind it</div>
+    <div class="aud-card">
+      <div class="aud-img">
+        <div class="aud-progress"><div class="aud-progress-bar" id="apbar"></div></div>
+        <div class="aud-img-sport-bg" id="aibg" style="font-size:96px;color:#fff">🏎</div>
+        <div class="aud-img-label">[ Sport image placeholder ]</div>
+        <div class="aud-img-name" id="ainame">Formula 1</div>
+      </div>
+      <div class="aud-data">
+        <div>
+          <div class="aud-sport-label">Audience profile</div>
+          <div class="aud-sport-name condensed" id="asname">Formula 1</div>
+          <div class="aud-tagline" id="atagline">Urban, high-income, tech-forward fans</div>
+          <div class="aud-metrics">
+            <div class="aud-metric"><div class="aud-val condensed" id="am1">2.1M</div><div class="aud-key">Fans on FanCode</div></div>
+            <div class="aud-metric"><div class="aud-val condensed" id="am2">25–34</div><div class="aud-key">Primary age</div></div>
+            <div class="aud-metric"><div class="aud-val condensed" id="am3">78% M</div><div class="aud-key">Gender split</div></div>
+            <div class="aud-metric"><div class="aud-val condensed" id="am4">84 min</div><div class="aud-key">Avg. session</div></div>
+          </div>
+        </div>
+        <div class="aud-dots" id="adots">
+          <div class="adot active" onclick="jumpSport(0)"></div>
+          <div class="adot" onclick="jumpSport(1)"></div>
+          <div class="adot" onclick="jumpSport(2)"></div>
+          <div class="adot" onclick="jumpSport(3)"></div>
+          <div class="adot" onclick="jumpSport(4)"></div>
+          <div class="adot" onclick="jumpSport(5)"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="formats">
+    <div class="section-eyebrow"><div class="section-eyebrow-line"></div><span class="section-eyebrow-text">Ad formats</span></div>
+    <div class="section-h2 condensed">Formats built<br>for live sports</div>
+
+    <div class="format-row">
+      <div class="format-text">
+        <div class="format-tag">In-stream · Premium</div>
+        <div class="format-name condensed">Pre-roll — live event</div>
+        <div class="format-desc">Plays before the live stream begins. Non-skippable in-stream context — highest attention moment. 15–30s. Fans are locked in, race is about to start.</div>
+      </div>
+      <div class="format-mockup">
+        <div class="mockup-inner">
+          <div class="mockup-bar red"></div>
+          <div class="mockup-bar"></div>
+          <div class="mockup-bar"></div>
+          <div class="mockup-label-sm">[ Pre-roll screen ]</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="format-row flip">
+      <div class="format-text">
+        <div class="format-tag">In-stream · Mid-match</div>
+        <div class="format-name condensed">Mid-roll</div>
+        <div class="format-desc">Inserted during natural breaks — half-time, pit stops, changeovers. High completion rates. 10–30s. Contextually placed, not disruptive.</div>
+      </div>
+      <div class="format-mockup">
+        <div class="mockup-inner">
+          <div class="mockup-bar"></div>
+          <div class="mockup-bar red"></div>
+          <div class="mockup-bar"></div>
+          <div class="mockup-label-sm">[ Mid-roll screen ]</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="format-row">
+      <div class="format-text">
+        <div class="format-tag">Display · 24hr</div>
+        <div class="format-name condensed">Homepage takeover</div>
+        <div class="format-desc">Full homepage ownership for 24 hours. Masthead + banners + sponsored content rail. Maximum brand presence on event launch days.</div>
+      </div>
+      <div class="format-mockup">
+        <div class="mockup-inner">
+          <div class="mockup-bar red" style="width:100px"></div>
+          <div class="mockup-bar" style="width:100px"></div>
+          <div class="mockup-label-sm">[ Takeover mockup ]</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="format-row flip">
+      <div class="format-text">
+        <div class="format-tag">Big screen · CTV</div>
+        <div class="format-name condensed">Connected TV</div>
+        <div class="format-desc">Reach fans watching FanCode on smart TVs. Immersive lean-back context. Affluent urban household audience. Full-screen unskippable inventory.</div>
+      </div>
+      <div class="format-mockup">
+        <div class="mockup-inner">
+          <div class="mockup-bar" style="width:100px"></div>
+          <div class="mockup-bar red" style="width:60px"></div>
+          <div class="mockup-bar" style="width:100px"></div>
+          <div class="mockup-label-sm">[ CTV screen ]</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="targeting">
+    <div class="section-eyebrow"><div class="section-eyebrow-line"></div><span class="section-eyebrow-text">Targeting</span></div>
+    <div class="section-h2 condensed">Reach the right fan<br>at the right moment</div>
+    <div class="target-grid">
+      <div class="target-card">
+        <div class="target-icon-wrap"><div class="target-icon-dot"></div></div>
+        <div class="target-name">Sport affinity</div>
+        <div class="target-desc">Reach fans of specific sports — F1, La Liga, MotoGP — not just sports fans generically.</div>
+      </div>
+      <div class="target-card">
+        <div class="target-icon-wrap"><div class="target-icon-dot"></div></div>
+        <div class="target-name">Live event moments</div>
+        <div class="target-desc">Target by match state — pre-race, half-time, final lap. Different moments, different mindsets.</div>
+      </div>
+      <div class="target-card">
+        <div class="target-icon-wrap"><div class="target-icon-dot"></div></div>
+        <div class="target-name">Geography</div>
+        <div class="target-desc">City-level targeting. Reach Mumbai F1 fans or Bengaluru La Liga fans specifically.</div>
+      </div>
+      <div class="target-card">
+        <div class="target-icon-wrap"><div class="target-icon-dot"></div></div>
+        <div class="target-name">Subscriber type</div>
+        <div class="target-desc">Separate PPV buyers from free-tier. Target high-intent fans who already pay to watch.</div>
+      </div>
+      <div class="target-card">
+        <div class="target-icon-wrap"><div class="target-icon-dot"></div></div>
+        <div class="target-name">Device</div>
+        <div class="target-desc">Mobile, CTV, or desktop. CTV targets affluent household viewers on the big screen.</div>
+      </div>
+      <div class="target-card">
+        <div class="target-icon-wrap"><div class="target-icon-dot"></div></div>
+        <div class="target-name">Demographics</div>
+        <div class="target-desc">Age, gender, interest segments built from FanCode's first-party behavioural data.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="proof">
+    <div class="section-eyebrow"><div class="section-eyebrow-line"></div><span class="section-eyebrow-text">Social proof</span></div>
+    <div class="section-h2 condensed" style="margin-bottom:24px">Brands that advertise<br>with FanCode</div>
+    <div class="logo-wall">
+      <div class="logo-pill"><div class="logo-pill-inner"></div></div>
+      <div class="logo-pill"><div class="logo-pill-inner"></div></div>
+      <div class="logo-pill"><div class="logo-pill-inner"></div></div>
+      <div class="logo-pill"><div class="logo-pill-inner"></div></div>
+      <div class="logo-pill"><div class="logo-pill-inner"></div></div>
+      <div class="logo-pill"><div class="logo-pill-inner"></div></div>
+    </div>
+    <div class="quote-card">
+      <div class="quote-mark">"</div>
+      <div class="quote-text">FanCode gave us something no other platform could — we reached F1 fans in India right before the race started. The attention quality was unlike anything we'd seen on a standard OTT buy.</div>
+      <div class="quote-attr">
+        <div class="quote-avatar"></div>
+        <div>
+          <div class="quote-name">[Name, Role]</div>
+          <div class="quote-brand">[Brand name] — placeholder, replace with real quote</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-section">
+    <div class="cta-h2 condensed">Ready to reach<br>India's sports fans?</div>
+    <div class="cta-sub">Pick the option that works best for you</div>
+    <div class="cta-pair">
+      <div class="cta-box">
+        <div class="cta-icon"><div class="cta-icon-dot"></div></div>
+        <div class="cta-label">Book a call</div>
+        <div class="cta-desc">Speak to our sales team directly</div>
+        <button class="cta-btn cta-btn-red">Open Calendly →</button>
+      </div>
+      <div class="cta-box">
+        <div class="cta-icon" style="background:rgba(255,255,255,.04);border-color:var(--glass-border)"><div class="cta-icon-dot" style="background:#444"></div></div>
+        <div class="cta-label">Send us a brief</div>
+        <div class="cta-desc">Fill a form, we'll get back to you</div>
+        <button class="cta-btn cta-btn-ghost">Open form</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-left">
+      <div class="footer-logo-box"><span class="footer-logo-f">F</span></div>
+      <span class="footer-name">FanCode Advertising</span>
+    </div>
+    <div class="footer-right">© 2025 FanCode · Privacy · Terms</div>
+  </div>
+
+</div>
+
+<script>
+const sports=[
+  {name:'Formula 1',tag:'Urban, high-income, tech-forward fans',m1:'2.1M',m2:'25–34',m3:'78% M',m4:'84 min',bg:'🏎'},
+  {name:'La Liga',tag:'Young, football-obsessed, mobile-first fans',m1:'1.4M',m2:'18–28',m3:'72% M',m4:'92 min',bg:'⚽'},
+  {name:'MotoGP',tag:'Speed-driven, brand-loyal enthusiasts',m1:'0.9M',m2:'22–35',m3:'81% M',m4:'76 min',bg:'🏍'},
+  {name:'Tennis',tag:'Premium lifestyle, affluent, mixed gender',m1:'0.7M',m2:'28–40',m3:'54% M',m4:'68 min',bg:'🎾'},
+  {name:'Golf',tag:'Senior, high-net-worth, CTV-heavy audience',m1:'0.4M',m2:'32–50',m3:'67% M',m4:'58 min',bg:'⛳'},
+  {name:'Cricket',tag:'Mass market, high-frequency, India-wide reach',m1:'3.8M',m2:'20–35',m3:'69% M',m4:'110 min',bg:'🏏'},
+];
+let cur=0,timer;
+function updateSport(){
+  const s=sports[cur];
+  document.getElementById('asname').textContent=s.name;
+  document.getElementById('ainame').textContent=s.name;
+  document.getElementById('aibg').textContent=s.bg;
+  document.getElementById('atagline').textContent=s.tag;
+  document.getElementById('am1').textContent=s.m1;
+  document.getElementById('am2').textContent=s.m2;
+  document.getElementById('am3').textContent=s.m3;
+  document.getElementById('am4').textContent=s.m4;
+  document.querySelectorAll('.adot').forEach((d,i)=>d.classList.toggle('active',i===cur));
+}
+function startSport(){
+  clearTimeout(timer);
+  const bar=document.getElementById('apbar');
+  bar.style.transition='none';bar.style.width='0%';
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    bar.style.transition='width 3.5s linear';bar.style.width='100%';
+  }));
+  timer=setTimeout(()=>{cur=(cur+1)%6;updateSport();startSport();},3500);
+}
+function jumpSport(i){cur=i;updateSport();startSport();}
+startSport();
+</script>

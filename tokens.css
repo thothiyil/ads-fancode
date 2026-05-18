@@ -1,0 +1,1011 @@
+/* =============================================================================
+ * FanUIDS · Design Tokens
+ *
+ * This file is a 1:1 mirror of @ds-fancode/fanui-theme. Structure:
+ *
+ *   1. GLOBAL PALETTE       — raw color primitives (fc_color_*)
+ *   2. GLOBAL MEASURES      — raw unit primitives (--unit-*)
+ *   3. SEMANTIC COLORS      — token aliases per role/intent/weight
+ *                             (fc_colour_{surface|border|text|icon}_{intent}_{weight})
+ *   4. SEMANTIC MEASURES    — spacing_* and borderRadius_*
+ *   5. TYPOGRAPHY           — fc_text_* per breakpoint (mobile/tablet/desktopSmall/desktopLarge)
+ *   6. BREAKPOINTS          — mobile / tablet / desktopSmall / desktopLarge
+ *
+ * Tokens are exposed as CSS custom properties with the same names as the TS tokens
+ * in FanUI/packages/theme so designs & code speak the same language.
+ * ============================================================================= */
+
+/* ----------------------------------------------------------------------------
+ * 1. GLOBAL PALETTE  —  mirrors global/global-colors.ts
+ * ---------------------------------------------------------------------------- */
+:root {
+  /* orange — brand ramp */
+  --fc_color_orange_100: #1a0900;
+  --fc_color_orange_90:  #3d1501;
+  --fc_color_orange_80:  #7a2b02;
+  --fc_color_orange_70:  #b84004;
+  --fc_color_orange_60:  #f55505;  /* brand primary */
+  --fc_color_orange_50:  #f5651d;
+  --fc_color_orange_40:  #ff925c;
+  --fc_color_orange_30:  #ffcbad;
+  --fc_color_orange_20:  #ffece0;
+  --fc_color_orange_10:  #fff9f5;
+  --fc_color_orange_05:  #fffcfa;
+
+  /* navyBlue */
+  --fc_color_navyBlue_100: #00030a;
+  --fc_color_navyBlue_90:  #02143d;
+  --fc_color_navyBlue_80:  #041e5c;
+  --fc_color_navyBlue_70:  #223d7a;
+  --fc_color_navyBlue_60:  #56678f;
+  --fc_color_navyBlue_50:  #7c88a3;
+  --fc_color_navyBlue_40:  #9ba3b8;
+  --fc_color_navyBlue_30:  #d2d7e1;
+  --fc_color_navyBlue_20:  #eef0f5;
+  --fc_color_navyBlue_10:  #f7f8fa;
+  --fc_color_navyBlue_05:  #fafbfc;
+
+  /* grey */
+  --fc_color_grey_100: #000000;
+  --fc_color_grey_90:  #141414;
+  --fc_color_grey_85:  #1e1e1e;
+  --fc_color_grey_80:  #292929;
+  --fc_color_grey_75:  #333333;
+  --fc_color_grey_70:  #3d3d3d;
+  --fc_color_grey_60:  #525252;
+  --fc_color_grey_50:  #666666;
+  --fc_color_grey_40:  #8f8f8f;
+  --fc_color_grey_30:  #b8b8b8;
+  --fc_color_grey_20:  #f0f0f0;
+  --fc_color_grey_10:  #f5f5f5;
+  --fc_color_grey_05:  #fafafa;
+  --fc_color_grey_00:  #ffffff;
+
+  /* onyx — dark neutral */
+  --fc_color_onyx_100: #07090d;
+  --fc_color_onyx_90:  #121721;
+  --fc_color_onyx_80:  #202532;
+  --fc_color_onyx_70:  #2c3344;
+  --fc_color_onyx_60:  #343d51;
+  --fc_color_onyx_50:  #49556e;
+  --fc_color_onyx_40:  #5c6884;
+  --fc_color_onyx_30:  #8591ad;
+  --fc_color_onyx_20:  #e8eaed;
+  --fc_color_onyx_10:  #f4f4f6;
+  --fc_color_onyx_05:  #fafafa;
+  --fc_color_onyx_00:  #ffffff;
+
+  /* semantic · red */
+  --fc_color_red_100: #290004;
+  --fc_color_red_90:  #3d0006;
+  --fc_color_red_80:  #7a0713;
+  --fc_color_red_70:  #a30d1c;
+  --fc_color_red_60:  #e01b2f;
+  --fc_color_red_50:  #eb2f42;
+  --fc_color_red_40:  #fa6e7d;
+  --fc_color_red_30:  #f9a9b1;
+  --fc_color_red_20:  #ffcbd0;
+  --fc_color_red_10:  #ffe0e3;
+  --fc_color_red_05:  #feeff0;
+
+  /* semantic · green */
+  --fc_color_green_100: #001f0e;
+  --fc_color_green_90:  #002913;
+  --fc_color_green_80:  #003d1e;
+  --fc_color_green_70:  #007a3e;
+  --fc_color_green_60:  #008f43;
+  --fc_color_green_50:  #2ea368;
+  --fc_color_green_40:  #5acc92;
+  --fc_color_green_30:  #99e0bc;
+  --fc_color_green_20:  #c2ffe0;
+  --fc_color_green_10:  #e0ffef;
+  --fc_color_green_05:  #f0fff9;
+
+  /* semantic · yellow */
+  --fc_color_yellow_100: #291900;
+  --fc_color_yellow_90:  #503002;
+  --fc_color_yellow_80:  #99600a;
+  --fc_color_yellow_70:  #b87614;
+  --fc_color_yellow_60:  #f2a32c;
+  --fc_color_yellow_50:  #fbb54b;
+  --fc_color_yellow_40:  #ffc670;
+  --fc_color_yellow_30:  #ffd699;
+  --fc_color_yellow_20:  #fee6c1;
+  --fc_color_yellow_10:  #fef2df;
+  --fc_color_yellow_05:  #fff9f0;
+
+  /* semantic · blue */
+  --fc_color_Blue_100: #000f1f;
+  --fc_color_Blue_95:  #001a33;
+  --fc_color_Blue_90:  #002952;
+  --fc_color_Blue_80:  #003e7a;
+  --fc_color_Blue_70:  #0053a3;
+  --fc_color_Blue_60:  #007cf5;
+  --fc_color_Blue_50:  #2790f6;
+  --fc_color_Blue_40:  #47a3ff;
+  --fc_color_Blue_30:  #99ccff;
+  --fc_color_Blue_20:  #c2e0ff;
+  --fc_color_Blue_10:  #e0f0ff;
+  --fc_color_Blue_05:  #f0f7ff;
+
+  /* alpha · grey */
+  --fc_color_greyAlpha_100: #000000e0;
+  --fc_color_greyAlpha_90:  #000000b8;
+  --fc_color_greyAlpha_80:  #000000a3;
+  --fc_color_greyAlpha_70:  #0000008f;
+  --fc_color_greyAlpha_60:  #00000066;
+  --fc_color_greyAlpha_50:  #0000003d;
+  --fc_color_greyAlpha_40:  #00000029;
+  --fc_color_greyAlpha_30:  #0000001f;
+  --fc_color_greyAlpha_20:  #00000014;
+  --fc_color_greyAlpha_10:  #0000000a;
+  --fc_color_greyAlpha_05:  #00000005;
+  --fc_color_greyAlpha_00:  #00000000;
+
+  /* alpha · white */
+  --fc_color_whiteAlpha_100: #ffffffd9;
+  --fc_color_whiteAlpha_90:  #ffffffb8;
+  --fc_color_whiteAlpha_80:  #ffffff99;
+  --fc_color_whiteAlpha_70:  #ffffff80;
+  --fc_color_whiteAlpha_60:  #ffffff6e;
+  --fc_color_whiteAlpha_50:  #ffffff3d;
+  --fc_color_whiteAlpha_40:  #ffffff29;
+  --fc_color_whiteAlpha_30:  #ffffff1f;
+  --fc_color_whiteAlpha_20:  #ffffff17;
+  --fc_color_whiteAlpha_10:  #ffffff0f;
+  --fc_color_whiteAlpha_05:  #ffffff08;
+  --fc_color_whiteAlpha_00:  #ffffff00;
+
+  /* alpha · onyx */
+  --fc_color_onyxAlpha_100: #07090de0;
+  --fc_color_onyxAlpha_90:  #07090db8;
+  --fc_color_onyxAlpha_80:  #07090da3;
+  --fc_color_onyxAlpha_70:  #07090d8f;
+  --fc_color_onyxAlpha_60:  #07090d66;
+  --fc_color_onyxAlpha_50:  #07090d3d;
+  --fc_color_onyxAlpha_40:  #07090d29;
+  --fc_color_onyxAlpha_30:  #07090d1f;
+  --fc_color_onyxAlpha_20:  #07090d14;
+  --fc_color_onyxAlpha_10:  #07090d0a;
+  --fc_color_onyxAlpha_05:  #07090d05;
+  --fc_color_onyxAlpha_00:  #07090d00;
+
+  /* ----------------------------------------------------------------------------
+   * 2. GLOBAL MEASURES  —  mirrors global/global-measures.ts (px values)
+   * ---------------------------------------------------------------------------- */
+  --unit-0:   0px;
+  --unit-02:  2px;
+  --unit-04:  4px;
+  --unit-06:  6px;
+  --unit-08:  8px;
+  --unit-12: 12px;
+  --unit-16: 16px;
+  --unit-20: 20px;
+  --unit-24: 24px;
+  --unit-28: 28px;
+  --unit-32: 32px;
+  --unit-36: 36px;
+  --unit-40: 40px;
+  --unit-48: 48px;
+  --unit-56: 56px;
+  --unit-64: 64px;
+  --unit-72: 72px;
+  --unit-80: 80px;
+  --unit-88: 88px;
+  --unit-96: 96px;
+  --unit-328: 328px;
+  --unit-420: 420px;
+  --unit-720: 720px;
+
+  /* ----------------------------------------------------------------------------
+   * 3. SEMANTIC COLORS  —  mirrors colors/value.ts (ColorMode.VALUE)
+   *
+   * Every consumable token lives on one of these axes:
+   *    <role>       surface | border | text | icon
+   *    <intent>     brand | base | neutral | error | success | warning | info
+   *                 + surface-only: elevation, greyAlpha, WhiteAlpha
+   *    <weight>     Dark | Medium | Light | Lighter
+   *                 (surface brand adds "Lightest"; neutrals use numeric 00..50/100)
+   * ---------------------------------------------------------------------------- */
+
+  /* surface · brand */
+  --fc_colour_surface_brandDark:     var(--fc_color_orange_90);
+  --fc_colour_surface_brandMedium:   var(--fc_color_orange_60);
+  --fc_colour_surface_brandLight:    var(--fc_color_orange_80);
+  --fc_colour_surface_brandLighter:  var(--fc_color_whiteAlpha_20);
+  --fc_colour_surface_brandLightest: var(--fc_color_whiteAlpha_10);
+
+  /* surface · neutral (scale) */
+  --fc_colour_surface_neutral_50: var(--fc_color_navyBlue_90);
+  --fc_colour_surface_neutral_40: var(--fc_color_navyBlue_80);
+  --fc_colour_surface_neutral_30: var(--fc_color_navyBlue_70);
+  --fc_colour_surface_neutral_20: var(--fc_color_onyx_20);
+  --fc_colour_surface_neutral_10: var(--fc_color_onyx_10);
+  --fc_colour_surface_neutral_05: var(--fc_color_onyx_05);
+  --fc_colour_surface_neutral_00: var(--fc_color_onyx_00);
+
+  /* surface · elevation (page → card → overlay) */
+  --fc_colour_surface_elevation_05: var(--fc_color_onyx_00);   /* #ffffff */
+  --fc_colour_surface_elevation_04: var(--fc_color_onyx_60);
+  --fc_colour_surface_elevation_03: var(--fc_color_onyx_70);
+  --fc_colour_surface_elevation_02: var(--fc_color_onyx_80);
+  --fc_colour_surface_elevation_01: var(--fc_color_onyx_90);
+  --fc_colour_surface_elevation_00: var(--fc_color_onyx_100);  /* page */
+
+  /* surface · error */
+  --fc_colour_surface_errorDark:     var(--fc_color_red_90);
+  --fc_colour_surface_errorMedium:   var(--fc_color_red_60);
+  --fc_colour_surface_errorLight:    var(--fc_color_red_90);
+  --fc_colour_surface_errorLighter:  var(--fc_color_whiteAlpha_20);
+  --fc_colour_surface_errorLightest: var(--fc_color_whiteAlpha_10);
+
+  /* surface · success */
+  --fc_colour_surface_successDark:     var(--fc_color_green_90);
+  --fc_colour_surface_successMedium:   var(--fc_color_green_60);
+  --fc_colour_surface_successLight:    var(--fc_color_green_90);
+  --fc_colour_surface_successLighter:  var(--fc_color_whiteAlpha_20);
+  --fc_colour_surface_successLightest: var(--fc_color_whiteAlpha_10);
+
+  /* surface · warning */
+  --fc_colour_surface_warningDark:     var(--fc_color_yellow_90);
+  --fc_colour_surface_warningMedium:   var(--fc_color_yellow_60);
+  --fc_colour_surface_warningLight:    var(--fc_color_yellow_90);
+  --fc_colour_surface_warningLighter:  var(--fc_color_whiteAlpha_20);
+  --fc_colour_surface_warningLightest: var(--fc_color_whiteAlpha_10);
+
+  /* surface · info */
+  --fc_colour_surface_infoDark:     var(--fc_color_Blue_80);
+  --fc_colour_surface_infoMedium:   var(--fc_color_Blue_60);
+  --fc_colour_surface_infoLight:    var(--fc_color_Blue_80);
+  --fc_colour_surface_infoLighter:  var(--fc_color_whiteAlpha_20);
+  --fc_colour_surface_infoLightest: var(--fc_color_whiteAlpha_10);
+
+  /* surface · alpha overlays */
+  --fc_colour_surface_greyAlpha_04: var(--fc_color_greyAlpha_100);
+  --fc_colour_surface_greyAlpha_03: var(--fc_color_greyAlpha_90);
+  --fc_colour_surface_greyAlpha_02: var(--fc_color_greyAlpha_90);
+  --fc_colour_surface_greyAlpha_01: var(--fc_color_greyAlpha_60);
+  --fc_colour_surface_greyAlpha_00: var(--fc_color_greyAlpha_00);
+  --fc_colour_surface_WhiteAlpha_04: var(--fc_color_whiteAlpha_100);
+  --fc_colour_surface_WhiteAlpha_03: var(--fc_color_whiteAlpha_80);
+  --fc_colour_surface_WhiteAlpha_02: var(--fc_color_whiteAlpha_50);
+  --fc_colour_surface_WhiteAlpha_01: var(--fc_color_whiteAlpha_10);
+  --fc_colour_surface_WhiteAlpha_00: var(--fc_color_whiteAlpha_00);
+
+  /* border · brand */
+  --fc_colour_border_brandDark:    var(--fc_color_orange_70);
+  --fc_colour_border_brandMedium:  var(--fc_color_orange_50);
+  --fc_colour_border_brandLight:   var(--fc_color_orange_40);
+  --fc_colour_border_brandLighter: var(--fc_color_whiteAlpha_10);
+
+  /* border · base (light/mid mode) */
+  --fc_colour_border_baseDark:    var(--fc_color_onyx_80);
+  --fc_colour_border_baseMedium:  var(--fc_color_onyx_40);
+  --fc_colour_border_baseLight:   var(--fc_color_onyx_40);
+  --fc_colour_border_baseLighter: var(--fc_color_onyx_30);
+
+  /* border · neutral (dark-mode scale) */
+  --fc_colour_border_neutral_100: var(--fc_color_grey_00);
+  --fc_colour_border_neutral_90:  var(--fc_color_whiteAlpha_100);
+  --fc_colour_border_neutral_80:  var(--fc_color_whiteAlpha_80);
+  --fc_colour_border_neutral_50:  var(--fc_color_whiteAlpha_50);
+  --fc_colour_border_neutral_40:  var(--fc_color_whiteAlpha_40);
+  --fc_colour_border_neutral_30:  var(--fc_color_whiteAlpha_30);
+  --fc_colour_border_neutral_20:  var(--fc_color_whiteAlpha_20);
+  --fc_colour_border_neutral_10:  var(--fc_color_whiteAlpha_10);
+  --fc_colour_border_neutral_05:  var(--fc_color_whiteAlpha_05);
+  --fc_colour_border_neutral_00:  var(--fc_color_whiteAlpha_00);
+
+  /* border · error / success / warning / info */
+  --fc_colour_border_errorDark:    var(--fc_color_red_70);
+  --fc_colour_border_errorMedium:  var(--fc_color_red_50);
+  --fc_colour_border_errorLight:   var(--fc_color_red_40);
+  --fc_colour_border_errorLighter: var(--fc_color_whiteAlpha_10);
+  --fc_colour_border_successDark:    var(--fc_color_green_70);
+  --fc_colour_border_successMedium:  var(--fc_color_green_50);
+  --fc_colour_border_successLight:   var(--fc_color_green_40);
+  --fc_colour_border_successLighter: var(--fc_color_whiteAlpha_10);
+  --fc_colour_border_warningDark:    var(--fc_color_yellow_70);
+  --fc_colour_border_warningMedium:  var(--fc_color_yellow_50);
+  --fc_colour_border_warningLight:   var(--fc_color_yellow_40);
+  --fc_colour_border_warningLighter: var(--fc_color_whiteAlpha_10);
+  --fc_colour_border_infoDark:    var(--fc_color_Blue_70);
+  --fc_colour_border_infoMedium:  var(--fc_color_Blue_50);
+  --fc_colour_border_infoLight:   var(--fc_color_Blue_40);
+  --fc_colour_border_infoLighter: var(--fc_color_whiteAlpha_10);
+
+  /* text · brand */
+  --fc_colour_text_brandDark:    var(--fc_color_orange_80);
+  --fc_colour_text_brandMedium:  var(--fc_color_orange_50);
+  --fc_colour_text_brandLight:   var(--fc_color_orange_40);
+  --fc_colour_text_brandLighter: var(--fc_color_whiteAlpha_60);
+
+  /* text · base (dark text for light surfaces) */
+  --fc_colour_text_baseDark:    var(--fc_color_onyx_80);
+  --fc_colour_text_baseMedium:  var(--fc_color_onyx_50);
+  --fc_colour_text_baseLight:   var(--fc_color_onyx_40);
+  --fc_colour_text_baseLighter: var(--fc_color_onyx_30);
+
+  /* text · neutral (light text for dark surfaces) */
+  --fc_colour_text_neutralDark:    var(--fc_color_grey_00);
+  --fc_colour_text_neutralMedium:  var(--fc_color_whiteAlpha_100);  /* primary body on dark */
+  --fc_colour_text_neutralLight:   var(--fc_color_whiteAlpha_70);   /* secondary */
+  --fc_colour_text_neutralLighter: var(--fc_color_whiteAlpha_50);   /* tertiary / disabled */
+
+  /* text · error / success / warning / info */
+  --fc_colour_text_errorDark:    var(--fc_color_red_70);
+  --fc_colour_text_errorMedium:  var(--fc_color_red_50);
+  --fc_colour_text_errorLight:   var(--fc_color_red_40);
+  --fc_colour_text_errorLighter: var(--fc_color_whiteAlpha_50);
+  --fc_colour_text_successDark:    var(--fc_color_green_70);
+  --fc_colour_text_successMedium:  var(--fc_color_green_50);
+  --fc_colour_text_successLight:   var(--fc_color_green_40);
+  --fc_colour_text_successLighter: var(--fc_color_whiteAlpha_60);
+  --fc_colour_text_warningDark:    var(--fc_color_yellow_70);
+  --fc_colour_text_warningMedium:  var(--fc_color_yellow_50);
+  --fc_colour_text_warningLight:   var(--fc_color_yellow_40);
+  --fc_colour_text_warningLighter: var(--fc_color_whiteAlpha_60);
+  --fc_colour_text_infoDark:    var(--fc_color_Blue_70);
+  --fc_colour_text_infoMedium:  var(--fc_color_Blue_50);
+  --fc_colour_text_infoLight:   var(--fc_color_Blue_40);
+  --fc_colour_text_infoLighter: var(--fc_color_whiteAlpha_50);
+
+  /* icon · brand */
+  --fc_colour_icon_brandDark:    var(--fc_color_orange_70);
+  --fc_colour_icon_brandMedium:  var(--fc_color_orange_50);
+  --fc_colour_icon_brandLight:   var(--fc_color_orange_40);
+  --fc_colour_icon_brandLighter: var(--fc_color_whiteAlpha_60);
+
+  /* icon · base */
+  --fc_colour_icon_baseDark:    var(--fc_color_onyx_80);
+  --fc_colour_icon_baseMedium:  var(--fc_color_onyx_50);
+  --fc_colour_icon_baseLight:   var(--fc_color_onyx_40);
+  --fc_colour_icon_baseLighter: var(--fc_color_onyx_30);
+
+  /* icon · neutral */
+  --fc_colour_icon_neutralDark:    var(--fc_color_onyx_00);
+  --fc_colour_icon_neutralMedium:  var(--fc_color_whiteAlpha_100);
+  --fc_colour_icon_neutralLight:   var(--fc_color_whiteAlpha_80);
+  --fc_colour_icon_neutralLighter: var(--fc_color_whiteAlpha_50);
+
+  /* icon · error / success / warning / info */
+  --fc_colour_icon_errorDark:    var(--fc_color_red_70);
+  --fc_colour_icon_errorMedium:  var(--fc_color_red_50);
+  --fc_colour_icon_errorLight:   var(--fc_color_red_40);
+  --fc_colour_icon_errorLighter: var(--fc_color_whiteAlpha_50);
+  --fc_colour_icon_successDark:    var(--fc_color_green_70);
+  --fc_colour_icon_successMedium:  var(--fc_color_green_50);
+  --fc_colour_icon_successLight:   var(--fc_color_green_40);
+  --fc_colour_icon_successLighter: var(--fc_color_whiteAlpha_60);
+  --fc_colour_icon_warningDark:    var(--fc_color_yellow_70);
+  --fc_colour_icon_warningMedium:  var(--fc_color_yellow_50);
+  --fc_colour_icon_warningLight:   var(--fc_color_yellow_40);
+  --fc_colour_icon_warningLighter: var(--fc_color_whiteAlpha_60);
+  --fc_colour_icon_infoDark:    var(--fc_color_Blue_70);
+  --fc_colour_icon_infoMedium:  var(--fc_color_Blue_50);
+  --fc_colour_icon_infoLight:   var(--fc_color_Blue_40);
+  --fc_colour_icon_infoLighter: var(--fc_color_whiteAlpha_50);
+
+  /* ----------------------------------------------------------------------------
+   * 4. SEMANTIC MEASURES  —  mirrors measures/measure.ts
+   * ---------------------------------------------------------------------------- */
+  --spacing_3xs: var(--unit-02);
+  --spacing_2xs: var(--unit-04);
+  --spacing_xs:  var(--unit-06);
+  --spacing_sm:  var(--unit-08);
+  --spacing_md:  var(--unit-12);
+  --spacing_lg:  var(--unit-16);
+  --spacing_xl:  var(--unit-20);
+  --spacing_2xl: var(--unit-24);
+  --spacing_3xl: var(--unit-32);
+  --spacing_4xl: var(--unit-40);
+  --spacing_5xl: var(--unit-48);
+  --spacing_6xl: var(--unit-56);
+  --spacing_7xl: var(--unit-64);
+
+  --borderRadius_3xs: var(--unit-02);
+  --borderRadius_2xs: var(--unit-04);
+  --borderRadius_xs:  var(--unit-08);
+  --borderRadius_sm:  var(--unit-12);
+  --borderRadius_md:  var(--unit-16);
+  --borderRadius_lg:  var(--unit-20);
+  --borderRadius_xl:  var(--unit-24);
+  --borderRadius_2xl: var(--unit-32);
+  --borderRadius_3xl: var(--unit-40);
+  --borderRadius_4xl: var(--unit-48);
+  --borderRadius_5xl: var(--unit-56);
+  --borderRadius_6xl: var(--unit-64);
+  --borderRadius_7xl: var(--unit-72);
+
+  /* ----------------------------------------------------------------------------
+   * 5. TYPOGRAPHY — defaults to desktopLarge. Responsive overrides in
+   *    media queries below. Values mirror typography/desktopLarge.ts.
+   * ---------------------------------------------------------------------------- */
+  --fc_font_display: 'Saira', system-ui, sans-serif;
+  --fc_font_body:    'Roboto Flex', 'Roboto', system-ui, sans-serif;
+
+  /* display (Saira 700) — desktopLarge */
+  --fc_text_display_1_size: 80px;  --fc_text_display_1_line: 88px;
+  --fc_text_display_2_size: 72px;  --fc_text_display_2_line: 80px;
+  --fc_text_display_3_size: 48px;  --fc_text_display_3_line: 56px;
+  --fc_text_display_4_size: 44px;  --fc_text_display_4_line: 52px;
+  --fc_text_display_5_size: 32px;  --fc_text_display_5_line: 40px;
+
+  /* title (Roboto Flex 600) */
+  --fc_text_title_1_size: 32px;  --fc_text_title_1_line: 40px;
+  --fc_text_title_2_size: 28px;  --fc_text_title_2_line: 36px;
+  --fc_text_title_3_size: 22px;  --fc_text_title_3_line: 32px;
+
+  /* body (Roboto Flex 400) */
+  --fc_text_body_1_size: 28px;   --fc_text_body_1_line: 36px;
+  --fc_text_body_2_size: 22px;   --fc_text_body_2_line: 32px;
+
+  /* caption (Roboto Flex 400/600 + italic) */
+  --fc_text_caption_1_size: 18px; --fc_text_caption_1_line: 28px;
+  --fc_text_caption_2_size: 16px; --fc_text_caption_2_line: 24px;
+  --fc_text_caption_3_size: 14px; --fc_text_caption_3_line: 20px;
+
+  /* overline (Roboto Flex 400/800 + italic, wide tracking) */
+  --fc_text_overline_size: 16px; --fc_text_overline_line: 24px;
+
+  /* button */
+  --fc_text_button_1_size: 22px; --fc_text_button_1_line: 28px;
+  --fc_text_button_2_size: 18px; --fc_text_button_2_line: 28px;
+
+  /* inline link */
+  --fc_text_inlinelink_1_size: 22px; --fc_text_inlinelink_1_line: 32px;
+  --fc_text_inlinelink_2_size: 18px; --fc_text_inlinelink_2_line: 28px;
+
+  /* letterSpacing */
+  --fc_letterSpacing_default:  0.3px;
+  --fc_letterSpacing_overline: 0.8px;
+}
+
+/* desktopSmall (1280–1599) */
+@media (min-width: 1280px) and (max-width: 1599px) {
+  :root {
+    --fc_text_display_1_size: 72px;  --fc_text_display_1_line: 80px;
+    --fc_text_display_2_size: 64px;  --fc_text_display_2_line: 72px;
+    --fc_text_display_3_size: 44px;  --fc_text_display_3_line: 52px;
+    --fc_text_display_4_size: 40px;  --fc_text_display_4_line: 48px;
+    --fc_text_display_5_size: 28px;  --fc_text_display_5_line: 36px;
+  }
+}
+
+/* tablet (768–1279) */
+@media (min-width: 768px) and (max-width: 1279px) {
+  :root {
+    --fc_text_display_1_size: 60px;  --fc_text_display_1_line: 68px;
+    --fc_text_display_2_size: 44px;  --fc_text_display_2_line: 52px;
+    --fc_text_display_3_size: 40px;  --fc_text_display_3_line: 44px;
+    --fc_text_display_4_size: 28px;  --fc_text_display_4_line: 36px;
+    --fc_text_display_5_size: 24px;  --fc_text_display_5_line: 32px;
+
+    --fc_text_title_1_size: 28px;  --fc_text_title_1_line: 36px;
+    --fc_text_title_2_size: 24px;  --fc_text_title_2_line: 32px;
+    --fc_text_title_3_size: 18px;  --fc_text_title_3_line: 24px;
+
+    --fc_text_body_1_size: 22px;   --fc_text_body_1_line: 32px;
+    --fc_text_body_2_size: 18px;   --fc_text_body_2_line: 28px;
+
+    --fc_text_caption_1_size: 16px; --fc_text_caption_1_line: 24px;
+    --fc_text_caption_2_size: 14px; --fc_text_caption_2_line: 20px;
+    --fc_text_caption_3_size: 12px; --fc_text_caption_3_line: 16px;
+  }
+}
+
+/* mobile (<=767) */
+@media (max-width: 767px) {
+  :root {
+    --fc_text_display_1_size: 48px;  --fc_text_display_1_line: 56px;
+    --fc_text_display_2_size: 32px;  --fc_text_display_2_line: 40px;
+    --fc_text_display_3_size: 24px;  --fc_text_display_3_line: 32px;
+    --fc_text_display_4_size: 20px;  --fc_text_display_4_line: 28px;
+    --fc_text_display_5_size: 18px;  --fc_text_display_5_line: 24px;
+
+    --fc_text_title_1_size: 18px;  --fc_text_title_1_line: 24px;
+    --fc_text_title_2_size: 16px;  --fc_text_title_2_line: 20px;
+    --fc_text_title_3_size: 14px;  --fc_text_title_3_line: 20px;
+
+    --fc_text_body_1_size: 16px;   --fc_text_body_1_line: 20px;
+    --fc_text_body_2_size: 14px;   --fc_text_body_2_line: 20px;
+
+    --fc_text_caption_1_size: 12px; --fc_text_caption_1_line: 16px;
+    --fc_text_caption_2_size: 11px; --fc_text_caption_2_line: 16px;
+    --fc_text_caption_3_size: 10px; --fc_text_caption_3_line: 14px;
+
+    --fc_text_overline_size: 11px;  --fc_text_overline_line: 16px;
+    --fc_text_button_1_size: 14px;  --fc_text_button_1_line: 16px;
+    --fc_text_button_2_size: 12px;  --fc_text_button_2_line: 16px;
+    --fc_text_inlinelink_1_size: 14px; --fc_text_inlinelink_1_line: 20px;
+    --fc_text_inlinelink_2_size: 12px; --fc_text_inlinelink_2_line: 16px;
+
+    --fc_letterSpacing_overline: 0.5px;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+ * COMPONENT MEASURES — mirrors theme/src/components-measures/
+ *
+ * Per-component padding / icon / sizing tokens consumed by the UI kit
+ * components in components/web/. Values are 1:1 ports of the theme package
+ * (@ds-fancode/fanui-theme). All tokens are prefixed with `--fc_cm_*` and
+ * expressed in pixels.
+ *
+ * Like typography, the default :root values are desktopLarge; smaller
+ * breakpoints override via @media blocks below.
+ * ---------------------------------------------------------------------------- */
+:root {
+  /* button */
+  --fc_cm_button_sm_paddingLeftRight: 16px;
+  --fc_cm_button_sm_paddingTopBottom: 8px;
+  --fc_cm_button_sm_iconSize: 32px;
+  --fc_cm_button_sm_iconOnlyBtn_paddingLeftRight: 8px;
+  --fc_cm_button_lg_paddingLeftRight: 20px;
+  --fc_cm_button_lg_paddingTopBottom: 12px;
+  --fc_cm_button_lg_iconSize: 36px;
+  --fc_cm_button_lg_iconOnlyBtn_paddingLeftRight: 12px;
+  --fc_cm_button_cornerRadius: 4px;
+
+  /* pills */
+  --fc_cm_pills_paddingTopBottom: 12px;
+  --fc_cm_pills_paddingLeftRight: 16px;
+  --fc_cm_pills_iconImageSize: 32px;
+
+  /* badge */
+  --fc_cm_badgedot_dotSize: 12px;
+  --fc_cm_badgetext_height: 28px;
+  --fc_cm_badgetext_paddingLeftRight: 8px;
+  --fc_cm_badgecount_height: 28px;
+  --fc_cm_badgecount_paddingLeftRight: 8px;
+
+  /* tag */
+  --fc_cm_tag_height: 28px;
+  --fc_cm_tag_paddingLeftRight: 8px;
+  --fc_cm_taglefticon_height: 28px;
+  --fc_cm_taglefticon_iconSize: 16px;
+  --fc_cm_taglefticon_paddingLeft: 2px;
+  --fc_cm_taglefticon_paddingRight: 8px;
+
+  /* tabs */
+  --fc_cm_tabs_paddingLeftRight: 20px;
+  --fc_cm_tabs_paddingBottom: 20px;
+  --fc_cm_tabs_paddingTop: 24px;
+  --fc_cm_tabs_paddingBadge: 16px;
+
+  /* segment header */
+  --fc_cm_segmentheader_iconSize: 32px;
+  --fc_cm_segmentheader_iconSizeStrong: 64px;
+
+  /* navbar */
+  --fc_cm_navbar_paddingLeftRight: 16px;
+  --fc_cm_navbar_paddingTopBottom: 8px;
+  --fc_cm_navbar_logoHeight: 56px;
+  --fc_cm_navbar_logoMenu_spacing: 12px;
+  --fc_cm_navbar_buttonIcon_spacing: 8px;
+  --fc_cm_navbar_profileHamburger_iconSize: 40px;
+  --fc_cm_navbarmenuitem_paddingLeftRight: 16px;
+  --fc_cm_navbarmenuitem_paddingTop: 6px;
+  --fc_cm_navbarmenuitem_dropdownIconSize: 20px;
+  --fc_cm_navbarmenuitem_textLineSpacing: 8px;
+
+  /* input field — normal */
+  --fc_cm_inputfieldnormal_iconSize: 36px;
+  --fc_cm_inputfieldnormal_paddingLeftRight: 20px;
+  --fc_cm_inputfieldnormal_paddingTopBottom: 20px;
+  --fc_cm_inputfieldnormal_label_paddingTopBottom: 12px;
+
+  /* input field — OTP */
+  --fc_cm_inputfieldotp_paddingLeftRight: 20px;
+  --fc_cm_inputfieldotp_paddingTopBottom: 20px;
+  --fc_cm_inputfieldotp_labelPaddingTopBottom: 12px;
+  --fc_cm_inputfieldotp_textContainerHeight: 36px;
+
+  /* toastbar */
+  --fc_cm_toastbar_iconSize: 28px;
+  --fc_cm_toastbar_paddingLeft: 16px;
+  --fc_cm_toastbar_paddingRight: 0px;
+  --fc_cm_toastbar_paddingTopBottom: 16px;
+  --fc_cm_toastbar_paddingInBetween: 12px;
+  --fc_cm_toastbar_width: 720px;
+
+  /* tour listing FAB */
+  --fc_cm_tourlistingfab_iconSize: 24px;
+  --fc_cm_tourlistingfab_paddingLeft: 20px;
+  --fc_cm_tourlistingfab_paddingRight: 16px;
+  --fc_cm_tourlistingfab_paddingTopBottom: 8px;
+  --fc_cm_tourlistingfab_spacing: 6px;
+
+  /* live tag */
+  --fc_cm_livetag_paddingLeftRight: 8px;
+  --fc_cm_livetag_paddingTopBottom: 4px;
+  --fc_cm_livetag_iconSize: 20px;
+
+  /* offer button */
+  --fc_cm_offerbutton_iconSize: 24px;
+  --fc_cm_offerbutton_paddingLeftRight: 8px;
+  --fc_cm_offerbutton_paddingTopBottom: 6px;
+
+  /* text-only tooltip */
+  --fc_cm_textonlytooltip_iconSize: 28px;
+  --fc_cm_textonlytooltip_paddingLeftRight: 16px;
+  --fc_cm_textonlytooltip_paddingTopBottom: 12px;
+  --fc_cm_textonlytooltip_spacing: 8px;
+  --fc_cm_textonlytooltip_borderRadius: 4px;
+
+  /* web masthead */
+  --fc_cm_webmastheaddots_dotSize: 8px;
+  --fc_cm_webmastheaddots_loaderHeight: 8px;
+  --fc_cm_webmastheaddots_loaderWidth: 32px;
+  --fc_cm_webmastheadarrows_iconSize: 56px;
+  --fc_cm_webmastheadtourinfo_padding: 6px;
+  --fc_cm_webmastheadtourinfo_iconSize: 4px;
+  --fc_cm_webmastheadmatchname_vsIconSize: 28px;
+  --fc_cm_webmastheadmatchname_spacingBtwnNameIcon: 16px;
+  --fc_cm_webmastheadtags_height: 28px;
+}
+
+/* desktopSmall (1280–1599) */
+@media (min-width: 1280px) and (max-width: 1599px) {
+  :root {
+    --fc_cm_button_sm_paddingLeftRight: 12px;
+    --fc_cm_button_sm_paddingTopBottom: 8px;
+    --fc_cm_button_sm_iconSize: 28px;
+    --fc_cm_button_sm_iconOnlyBtn_paddingLeftRight: 8px;
+    --fc_cm_button_lg_paddingLeftRight: 16px;
+    --fc_cm_button_lg_paddingTopBottom: 12px;
+    --fc_cm_button_lg_iconSize: 32px;
+    --fc_cm_button_lg_iconOnlyBtn_paddingLeftRight: 12px;
+    --fc_cm_button_cornerRadius: 4px;
+
+    --fc_cm_pills_paddingTopBottom: 8px;
+    --fc_cm_pills_paddingLeftRight: 8px;
+    --fc_cm_pills_iconImageSize: 28px;
+
+    --fc_cm_badgedot_dotSize: 12px;
+    --fc_cm_badgetext_height: 24px;
+    --fc_cm_badgetext_paddingLeftRight: 8px;
+    --fc_cm_badgecount_height: 24px;
+    --fc_cm_badgecount_paddingLeftRight: 6px;
+
+    --fc_cm_tag_height: 24px;
+    --fc_cm_tag_paddingLeftRight: 8px;
+    --fc_cm_taglefticon_height: 24px;
+    --fc_cm_taglefticon_iconSize: 16px;
+    --fc_cm_taglefticon_paddingLeft: 2px;
+    --fc_cm_taglefticon_paddingRight: 8px;
+
+    --fc_cm_tabs_paddingLeftRight: 16px;
+    --fc_cm_tabs_paddingBottom: 16px;
+    --fc_cm_tabs_paddingTop: 20px;
+    --fc_cm_tabs_paddingBadge: 12px;
+
+    --fc_cm_segmentheader_iconSize: 32px;
+    --fc_cm_segmentheader_iconSizeStrong: 56px;
+
+    --fc_cm_navbar_paddingLeftRight: 16px;
+    --fc_cm_navbar_paddingTopBottom: 8px;
+    --fc_cm_navbar_logoHeight: 48px;
+    --fc_cm_navbar_logoMenu_spacing: 12px;
+    --fc_cm_navbar_buttonIcon_spacing: 8px;
+    --fc_cm_navbar_profileHamburger_iconSize: 36px;
+    --fc_cm_navbarmenuitem_paddingLeftRight: 16px;
+    --fc_cm_navbarmenuitem_paddingTop: 4px;
+    --fc_cm_navbarmenuitem_dropdownIconSize: 20px;
+    --fc_cm_navbarmenuitem_textLineSpacing: 6px;
+
+    --fc_cm_inputfieldnormal_iconSize: 32px;
+    --fc_cm_inputfieldnormal_paddingLeftRight: 16px;
+    --fc_cm_inputfieldnormal_paddingTopBottom: 16px;
+    --fc_cm_inputfieldnormal_label_paddingTopBottom: 8px;
+
+    --fc_cm_inputfieldotp_paddingLeftRight: 16px;
+    --fc_cm_inputfieldotp_paddingTopBottom: 16px;
+    --fc_cm_inputfieldotp_labelPaddingTopBottom: 8px;
+    --fc_cm_inputfieldotp_textContainerHeight: 32px;
+
+    --fc_cm_toastbar_iconSize: 28px;
+    --fc_cm_toastbar_paddingLeft: 16px;
+    --fc_cm_toastbar_paddingRight: 0px;
+    --fc_cm_toastbar_paddingTopBottom: 16px;
+    --fc_cm_toastbar_paddingInBetween: 12px;
+    --fc_cm_toastbar_width: 720px;
+
+    --fc_cm_tourlistingfab_iconSize: 24px;
+    --fc_cm_tourlistingfab_paddingLeft: 20px;
+    --fc_cm_tourlistingfab_paddingRight: 12px;
+    --fc_cm_tourlistingfab_paddingTopBottom: 8px;
+    --fc_cm_tourlistingfab_spacing: 6px;
+
+    --fc_cm_livetag_paddingLeftRight: 8px;
+    --fc_cm_livetag_paddingTopBottom: 2px;
+    --fc_cm_livetag_iconSize: 16px;
+
+    --fc_cm_offerbutton_iconSize: 20px;
+    --fc_cm_offerbutton_paddingLeftRight: 8px;
+    --fc_cm_offerbutton_paddingTopBottom: 6px;
+
+    --fc_cm_textonlytooltip_iconSize: 24px;
+    --fc_cm_textonlytooltip_paddingLeftRight: 16px;
+    --fc_cm_textonlytooltip_paddingTopBottom: 12px;
+    --fc_cm_textonlytooltip_spacing: 6px;
+    --fc_cm_textonlytooltip_borderRadius: 4px;
+
+    --fc_cm_webmastheaddots_dotSize: 6px;
+    --fc_cm_webmastheaddots_loaderHeight: 6px;
+    --fc_cm_webmastheaddots_loaderWidth: 24px;
+    --fc_cm_webmastheadarrows_iconSize: 48px;
+    --fc_cm_webmastheadtourinfo_padding: 6px;
+    --fc_cm_webmastheadtourinfo_iconSize: 4px;
+    --fc_cm_webmastheadmatchname_vsIconSize: 28px;
+    --fc_cm_webmastheadmatchname_spacingBtwnNameIcon: 12px;
+    --fc_cm_webmastheadtags_height: 24px;
+  }
+}
+
+/* tablet (768–1279) */
+@media (min-width: 768px) and (max-width: 1279px) {
+  :root {
+    --fc_cm_button_sm_paddingLeftRight: 8px;
+    --fc_cm_button_sm_paddingTopBottom: 6px;
+    --fc_cm_button_sm_iconSize: 24px;
+    --fc_cm_button_sm_iconOnlyBtn_paddingLeftRight: 6px;
+    --fc_cm_button_lg_paddingLeftRight: 12px;
+    --fc_cm_button_lg_paddingTopBottom: 8px;
+    --fc_cm_button_lg_iconSize: 28px;
+    --fc_cm_button_lg_iconOnlyBtn_paddingLeftRight: 8px;
+    --fc_cm_button_cornerRadius: 2px;
+
+    --fc_cm_pills_paddingTopBottom: 6px;
+    --fc_cm_pills_paddingLeftRight: 6px;
+    --fc_cm_pills_iconImageSize: 24px;
+
+    --fc_cm_badgedot_dotSize: 6px;
+    --fc_cm_badgetext_height: 16px;
+    --fc_cm_badgetext_paddingLeftRight: 4px;
+    --fc_cm_badgecount_height: 16px;
+    --fc_cm_badgecount_paddingLeftRight: 4px;
+
+    --fc_cm_tag_height: 20px;
+    --fc_cm_tag_paddingLeftRight: 6px;
+    --fc_cm_taglefticon_height: 20px;
+    --fc_cm_taglefticon_iconSize: 16px;
+    --fc_cm_taglefticon_paddingLeft: 2px;
+    --fc_cm_taglefticon_paddingRight: 6px;
+
+    --fc_cm_tabs_paddingLeftRight: 12px;
+    --fc_cm_tabs_paddingBottom: 12px;
+    --fc_cm_tabs_paddingTop: 16px;
+    --fc_cm_tabs_paddingBadge: 8px;
+
+    --fc_cm_segmentheader_iconSize: 24px;
+    --fc_cm_segmentheader_iconSizeStrong: 40px;
+
+    --fc_cm_navbar_paddingLeftRight: 16px;
+    --fc_cm_navbar_paddingTopBottom: 8px;
+    --fc_cm_navbar_logoHeight: 40px;
+    --fc_cm_navbar_logoMenu_spacing: 8px;
+    --fc_cm_navbar_buttonIcon_spacing: 4px;
+    --fc_cm_navbar_profileHamburger_iconSize: 32px;
+    --fc_cm_navbarmenuitem_paddingLeftRight: 12px;
+    --fc_cm_navbarmenuitem_paddingTop: 4px;
+    --fc_cm_navbarmenuitem_dropdownIconSize: 16px;
+    --fc_cm_navbarmenuitem_textLineSpacing: 6px;
+
+    --fc_cm_inputfieldnormal_iconSize: 28px;
+    --fc_cm_inputfieldnormal_paddingLeftRight: 12px;
+    --fc_cm_inputfieldnormal_paddingTopBottom: 12px;
+    --fc_cm_inputfieldnormal_label_paddingTopBottom: 4px;
+
+    --fc_cm_inputfieldotp_paddingLeftRight: 12px;
+    --fc_cm_inputfieldotp_paddingTopBottom: 12px;
+    --fc_cm_inputfieldotp_labelPaddingTopBottom: 4px;
+    --fc_cm_inputfieldotp_textContainerHeight: 28px;
+
+    --fc_cm_toastbar_iconSize: 24px;
+    --fc_cm_toastbar_paddingLeft: 8px;
+    --fc_cm_toastbar_paddingRight: 0px;
+    --fc_cm_toastbar_paddingTopBottom: 12px;
+    --fc_cm_toastbar_paddingInBetween: 8px;
+    --fc_cm_toastbar_width: 420px;
+
+    --fc_cm_tourlistingfab_iconSize: 20px;
+    --fc_cm_tourlistingfab_paddingLeft: 16px;
+    --fc_cm_tourlistingfab_paddingRight: 8px;
+    --fc_cm_tourlistingfab_paddingTopBottom: 6px;
+    --fc_cm_tourlistingfab_spacing: 2px;
+
+    --fc_cm_livetag_paddingLeftRight: 6px;
+    --fc_cm_livetag_paddingTopBottom: 2px;
+    --fc_cm_livetag_iconSize: 12px;
+
+    --fc_cm_offerbutton_iconSize: 16px;
+    --fc_cm_offerbutton_paddingLeftRight: 6px;
+    --fc_cm_offerbutton_paddingTopBottom: 4px;
+
+    --fc_cm_textonlytooltip_iconSize: 20px;
+    --fc_cm_textonlytooltip_paddingLeftRight: 12px;
+    --fc_cm_textonlytooltip_paddingTopBottom: 8px;
+    --fc_cm_textonlytooltip_spacing: 6px;
+    --fc_cm_textonlytooltip_borderRadius: 4px;
+
+    --fc_cm_webmastheaddots_dotSize: 4px;
+    --fc_cm_webmastheaddots_loaderHeight: 4px;
+    --fc_cm_webmastheaddots_loaderWidth: 16px;
+    --fc_cm_webmastheadarrows_iconSize: 40px;
+    --fc_cm_webmastheadtourinfo_padding: 4px;
+    --fc_cm_webmastheadtourinfo_iconSize: 2px;
+    --fc_cm_webmastheadmatchname_vsIconSize: 24px;
+    --fc_cm_webmastheadmatchname_spacingBtwnNameIcon: 8px;
+    --fc_cm_webmastheadtags_height: 20px;
+  }
+}
+
+/* mobile (<=767) */
+@media (max-width: 767px) {
+  :root {
+    --fc_cm_button_sm_paddingLeftRight: 8px;
+    --fc_cm_button_sm_paddingTopBottom: 6px;
+    --fc_cm_button_sm_iconSize: 20px;
+    --fc_cm_button_sm_iconOnlyBtn_paddingLeftRight: 6px;
+    --fc_cm_button_lg_paddingLeftRight: 12px;
+    --fc_cm_button_lg_paddingTopBottom: 8px;
+    --fc_cm_button_lg_iconSize: 24px;
+    --fc_cm_button_lg_iconOnlyBtn_paddingLeftRight: 8px;
+    --fc_cm_button_cornerRadius: 2px;
+
+    --fc_cm_pills_paddingTopBottom: 6px;
+    --fc_cm_pills_paddingLeftRight: 8px;
+    --fc_cm_pills_iconImageSize: 20px;
+
+    --fc_cm_badgedot_dotSize: 6px;
+    --fc_cm_badgetext_height: 16px;
+    --fc_cm_badgetext_paddingLeftRight: 4px;
+    --fc_cm_badgecount_height: 16px;
+    --fc_cm_badgecount_paddingLeftRight: 4px;
+
+    --fc_cm_tag_height: 20px;
+    --fc_cm_tag_paddingLeftRight: 6px;
+    --fc_cm_taglefticon_height: 20px;
+    --fc_cm_taglefticon_iconSize: 16px;
+    --fc_cm_taglefticon_paddingLeft: 2px;
+    --fc_cm_taglefticon_paddingRight: 6px;
+
+    --fc_cm_tabs_paddingLeftRight: 12px;
+    --fc_cm_tabs_paddingBottom: 12px;
+    --fc_cm_tabs_paddingTop: 16px;
+    --fc_cm_tabs_paddingBadge: 8px;
+
+    --fc_cm_segmentheader_iconSize: 20px;
+    --fc_cm_segmentheader_iconSizeStrong: 28px;
+
+    --fc_cm_navbar_paddingLeftRight: 16px;
+    --fc_cm_navbar_paddingTopBottom: 8px;
+    --fc_cm_navbar_logoHeight: 36px;
+    --fc_cm_navbar_logoMenu_spacing: 4px;
+    --fc_cm_navbar_buttonIcon_spacing: 0px;
+    --fc_cm_navbar_profileHamburger_iconSize: 24px;
+    --fc_cm_navbarmenuitem_paddingLeftRight: 0px;
+    --fc_cm_navbarmenuitem_paddingTop: 0px;
+    --fc_cm_navbarmenuitem_dropdownIconSize: 0px;
+    --fc_cm_navbarmenuitem_textLineSpacing: 0px;
+
+    --fc_cm_inputfieldnormal_iconSize: 24px;
+    --fc_cm_inputfieldnormal_paddingLeftRight: 12px;
+    --fc_cm_inputfieldnormal_paddingTopBottom: 12px;
+    --fc_cm_inputfieldnormal_label_paddingTopBottom: 4px;
+
+    --fc_cm_inputfieldotp_paddingLeftRight: 12px;
+    --fc_cm_inputfieldotp_paddingTopBottom: 12px;
+    --fc_cm_inputfieldotp_labelPaddingTopBottom: 4px;
+    --fc_cm_inputfieldotp_textContainerHeight: 24px;
+
+    --fc_cm_toastbar_iconSize: 24px;
+    --fc_cm_toastbar_paddingLeft: 12px;
+    --fc_cm_toastbar_paddingRight: 0px;
+    --fc_cm_toastbar_paddingTopBottom: 12px;
+    --fc_cm_toastbar_paddingInBetween: 8px;
+    --fc_cm_toastbar_width: 328px;
+
+    --fc_cm_tourlistingfab_iconSize: 16px;
+    --fc_cm_tourlistingfab_paddingLeft: 12px;
+    --fc_cm_tourlistingfab_paddingRight: 8px;
+    --fc_cm_tourlistingfab_paddingTopBottom: 6px;
+    --fc_cm_tourlistingfab_spacing: 2px;
+
+    --fc_cm_livetag_paddingLeftRight: 6px;
+    --fc_cm_livetag_paddingTopBottom: 2px;
+    --fc_cm_livetag_iconSize: 12px;
+
+    --fc_cm_offerbutton_iconSize: 16px;
+    --fc_cm_offerbutton_paddingLeftRight: 6px;
+    --fc_cm_offerbutton_paddingTopBottom: 4px;
+
+    --fc_cm_textonlytooltip_iconSize: 16px;
+    --fc_cm_textonlytooltip_paddingLeftRight: 12px;
+    --fc_cm_textonlytooltip_paddingTopBottom: 8px;
+    --fc_cm_textonlytooltip_spacing: 4px;
+    --fc_cm_textonlytooltip_borderRadius: 2px;
+
+    --fc_cm_webmastheaddots_dotSize: 4px;
+    --fc_cm_webmastheaddots_loaderHeight: 4px;
+    --fc_cm_webmastheaddots_loaderWidth: 16px;
+    --fc_cm_webmastheadarrows_iconSize: 40px;
+    --fc_cm_webmastheadtourinfo_padding: 4px;
+    --fc_cm_webmastheadtourinfo_iconSize: 2px;
+    --fc_cm_webmastheadmatchname_vsIconSize: 16px;
+    --fc_cm_webmastheadmatchname_spacingBtwnNameIcon: 8px;
+    --fc_cm_webmastheadtags_height: 20px;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+ * FONT FACES
+ * ---------------------------------------------------------------------------- */
+@font-face {
+  font-family: 'Saira';
+  src: url('fonts/Saira-Regular.ttf') format('truetype');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Saira';
+  src: url('fonts/Saira-SemiBold.ttf') format('truetype');
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Saira';
+  src: url('fonts/Saira-Bold.ttf') format('truetype');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Saira';
+  src: url('fonts/Saira-Italic.ttf') format('truetype');
+  font-weight: 400; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: 'Roboto Flex';
+  src: url('fonts/RobotoFlex.ttf') format('truetype');
+  font-weight: 100 1000; font-style: normal; font-display: swap;
+}
+
+/* ----------------------------------------------------------------------------
+ * TYPOGRAPHY UTILITY CLASSES — one class per fc_text_* token.
+ * Use these instead of hand-setting font-size/line-height/weight.
+ * ---------------------------------------------------------------------------- */
+.fc_text_display_1 { font-family: var(--fc_font_display); font-weight: 700; font-size: var(--fc_text_display_1_size); line-height: var(--fc_text_display_1_line); letter-spacing: var(--fc_letterSpacing_default); }
+.fc_text_display_2 { font-family: var(--fc_font_display); font-weight: 700; font-size: var(--fc_text_display_2_size); line-height: var(--fc_text_display_2_line); letter-spacing: var(--fc_letterSpacing_default); }
+.fc_text_display_3 { font-family: var(--fc_font_display); font-weight: 700; font-size: var(--fc_text_display_3_size); line-height: var(--fc_text_display_3_line); letter-spacing: var(--fc_letterSpacing_default); }
+.fc_text_display_4 { font-family: var(--fc_font_display); font-weight: 700; font-size: var(--fc_text_display_4_size); line-height: var(--fc_text_display_4_line); letter-spacing: var(--fc_letterSpacing_default); }
+.fc_text_display_5 { font-family: var(--fc_font_display); font-weight: 700; font-size: var(--fc_text_display_5_size); line-height: var(--fc_text_display_5_line); letter-spacing: var(--fc_letterSpacing_default); }
+
+.fc_text_title_1 { font-family: var(--fc_font_body); font-weight: 600; font-size: var(--fc_text_title_1_size); line-height: var(--fc_text_title_1_line); letter-spacing: var(--fc_letterSpacing_default); }
+.fc_text_title_2 { font-family: var(--fc_font_body); font-weight: 600; font-size: var(--fc_text_title_2_size); line-height: var(--fc_text_title_2_line); letter-spacing: var(--fc_letterSpacing_default); }
+.fc_text_title_3 { font-family: var(--fc_font_body); font-weight: 600; font-size: var(--fc_text_title_3_size); line-height: var(--fc_text_title_3_line); letter-spacing: var(--fc_letterSpacing_default); }
+
+.fc_text_body_1 { font-family: var(--fc_font_body); font-weight: 400; font-size: var(--fc_text_body_1_size); line-height: var(--fc_text_body_1_line); letter-spacing: var(--fc_letterSpacing_default); }
+.fc_text_body_2 { font-family: var(--fc_font_body); font-weight: 400; font-size: var(--fc_text_body_2_size); line-height: var(--fc_text_body_2_line); letter-spacing: var(--fc_letterSpacing_default); }
+
+.fc_text_caption_1 { font-family: var(--fc_font_body); font-weight: 400; font-size: var(--fc_text_caption_1_size); line-height: var(--fc_text_caption_1_line); letter-spacing: var(--fc_letterSpacing_default); }
+.fc_text_caption_1_italic { font-family: var(--fc_font_body); font-weight: 400; font-style: italic; font-size: var(--fc_text_caption_1_size); line-height: var(--fc_text_caption_1_line); letter-spacing: var(--fc_letterSpacing_default); }
+.fc_text_caption_1_heavy { font-family: var(--fc_font_body); font-weight: 600; font-size: var(--fc_text_caption_1_size); line-height: var(--fc_text_caption_1_line); letter-spacing: var(--fc_letterSpacing_default); }
+.fc_text_caption_1_heavyitalic { font-family: var(--fc_font_body); font-weight: 600; font-style: italic; font-size: var(--fc_text_caption_1_size); line-height: var(--fc_text_caption_1_line); letter-spacing: var(--fc_letterSpacing_default); }
+
+.fc_text_caption_2 { font-family: var(--fc_font_body); font-weight: 400; font-size: var(--fc_text_caption_2_size); line-height: var(--fc_text_caption_2_line); letter-spacing: var(--fc_letterSpacing_default); }
+.fc_text_caption_2_italic { font-family: var(--fc_font_body); font-weight: 400; font-style: italic; font-size: var(--fc_text_caption_2_size); line-height: var(--fc_text_caption_2_line); letter-spacing: var(--fc_letterSpacing_default); }
+.fc_text_caption_2_heavy { font-family: var(--fc_font_body); font-weight: 600; font-size: var(--fc_text_caption_2_size); line-height: var(--fc_text_caption_2_line); letter-spacing: var(--fc_letterSpacing_default); }
+.fc_text_caption_2_heavyitalic { font-family: var(--fc_font_body); font-weight: 600; font-style: italic; font-size: var(--fc_text_caption_2_size); line-height: var(--fc_text_caption_2_line); letter-spacing: var(--fc_letterSpacing_default); }
+
+.fc_text_caption_3 { font-family: var(--fc_font_body); font-weight: 400; font-size: var(--fc_text_caption_3_size); line-height: var(--fc_text_caption_3_line); letter-spacing: var(--fc_letterSpacing_default); }
+.fc_text_caption_3_italic { font-family: var(--fc_font_body); font-weight: 400; font-style: italic; font-size: var(--fc_text_caption_3_size); line-height: var(--fc_text_caption_3_line); letter-spacing: var(--fc_letterSpacing_default); }
+.fc_text_caption_3_heavy { font-family: var(--fc_font_body); font-weight: 600; font-size: var(--fc_text_caption_3_size); line-height: var(--fc_text_caption_3_line); letter-spacing: var(--fc_letterSpacing_default); }
+.fc_text_caption_3_heavyitalic { font-family: var(--fc_font_body); font-weight: 600; font-style: italic; font-size: var(--fc_text_caption_3_size); line-height: var(--fc_text_caption_3_line); letter-spacing: var(--fc_letterSpacing_default); }
+
+.fc_text_overline { font-family: var(--fc_font_body); font-weight: 400; font-size: var(--fc_text_overline_size); line-height: var(--fc_text_overline_line); letter-spacing: var(--fc_letterSpacing_overline); }
+.fc_text_overline_heavy { font-family: var(--fc_font_body); font-weight: 800; font-size: var(--fc_text_overline_size); line-height: var(--fc_text_overline_line); letter-spacing: var(--fc_letterSpacing_overline); }
+.fc_text_overline_heavyitalic { font-family: var(--fc_font_body); font-weight: 800; font-style: italic; font-size: var(--fc_text_overline_size); line-height: var(--fc_text_overline_line); letter-spacing: var(--fc_letterSpacing_overline); }
+
+.fc_text_button_1 { font-family: var(--fc_font_body); font-weight: 700; font-size: var(--fc_text_button_1_size); line-height: var(--fc_text_button_1_line); letter-spacing: var(--fc_letterSpacing_overline); }
+.fc_text_button_2 { font-family: var(--fc_font_body); font-weight: 700; font-size: var(--fc_text_button_2_size); line-height: var(--fc_text_button_2_line); letter-spacing: var(--fc_letterSpacing_overline); }
+
+.fc_text_inlinelink_1 { font-family: var(--fc_font_body); font-weight: 600; font-size: var(--fc_text_inlinelink_1_size); line-height: var(--fc_text_inlinelink_1_line); letter-spacing: var(--fc_letterSpacing_default); }
+.fc_text_inlinelink_2 { font-family: var(--fc_font_body); font-weight: 600; font-size: var(--fc_text_inlinelink_2_size); line-height: var(--fc_text_inlinelink_2_line); letter-spacing: var(--fc_letterSpacing_default); }

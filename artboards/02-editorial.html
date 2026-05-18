@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>FanCode Ads — The Editorial</title>
+<link rel="stylesheet" href="../tokens.css">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#f6f4ef;color:#0a0d14;font-family:var(--fc_font_body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  img,svg{display:block;max-width:100%}
+  button{font-family:inherit;cursor:pointer;border:none;background:none}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:#0a0d14;color:#f6f4ef}
+
+  .display{font-family:var(--fc_font_display);font-weight:700;text-transform:uppercase;letter-spacing:-0.02em;line-height:0.88}
+  .overline{font-family:var(--fc_font_body);font-weight:800;font-style:italic;text-transform:uppercase;letter-spacing:0.16em;font-size:11px;line-height:1}
+  .body{font-family:var(--fc_font_body);font-weight:400}
+
+  .wrap{max-width:1320px;margin:0 auto;padding:0 64px}
+
+  /* MASTHEAD */
+  .masthead{padding:32px 64px 24px;border-bottom:1px solid #0a0d14;display:flex;align-items:center;justify-content:space-between}
+  .mh-left{display:flex;align-items:baseline;gap:16px}
+  .mh-issue{font-family:var(--fc_font_body);font-weight:800;font-style:italic;font-size:11px;letter-spacing:0.16em;text-transform:uppercase}
+  .mh-mid{display:flex;align-items:center;gap:14px}
+  .mh-mid img{height:18px;filter:invert(1)}
+  .mh-mid-divider{width:1px;height:14px;background:#0a0d14}
+  .mh-mid-tag{font-family:var(--fc_font_display);font-weight:700;font-size:14px;letter-spacing:-0.01em;text-transform:uppercase}
+  .mh-right{font-size:11px;letter-spacing:0.14em;text-transform:uppercase;display:flex;gap:24px;font-weight:600}
+
+  .strapline{padding:14px 64px;border-bottom:1px solid #0a0d14;display:flex;align-items:center;justify-content:space-between;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;font-weight:700}
+  .strapline em{color:var(--fc_color_orange_60);font-style:italic;font-weight:800}
+
+  /* HERO COVER */
+  .cover{padding:64px 64px 0;border-bottom:1px solid #0a0d14}
+  .cover-tag{display:flex;align-items:center;gap:16px;margin-bottom:48px}
+  .cover-tag-num{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;background:var(--fc_color_orange_60);color:#fff;font-family:var(--fc_font_display);font-weight:700;font-size:14px}
+  .cover-h{font-family:var(--fc_font_display);font-weight:700;font-size:240px;line-height:0.84;letter-spacing:-0.04em;text-transform:uppercase;color:#0a0d14;margin-bottom:48px;text-wrap:balance}
+  .cover-h em{color:var(--fc_color_orange_60);font-style:normal}
+  .cover-h .stroke{-webkit-text-stroke:2px #0a0d14;color:transparent}
+
+  .cover-img{aspect-ratio:21/9;background:#0a0d14;margin:0 -64px 0;border-top:1px solid #0a0d14;position:relative;overflow:hidden}
+  .cover-img::before{content:"";position:absolute;inset:0;background:
+    radial-gradient(ellipse 70% 80% at 30% 60%, #7a2b02 0%, transparent 60%),
+    radial-gradient(ellipse 60% 70% at 75% 40%, #022963 0%, transparent 50%),
+    linear-gradient(180deg, #0a0d14 0%, #1a0900 50%, #0a0d14 100%);
+  }
+  .cover-img::after{content:"";position:absolute;inset:0;
+    background-image:radial-gradient(rgba(255,255,255,0.08) 1px,transparent 1px);background-size:4px 4px;
+    mix-blend-mode:overlay;opacity:0.6;
+  }
+  .cover-figure{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:var(--fc_font_display);font-weight:700;font-size:520px;line-height:0.8;letter-spacing:-0.06em;color:rgba(255,255,255,0.06);white-space:nowrap}
+  .cover-img-meta{position:absolute;bottom:24px;left:64px;right:64px;display:flex;justify-content:space-between;align-items:flex-end;color:rgba(255,255,255,0.7);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;font-weight:700;z-index:5}
+  .cover-img-meta .meta-r{text-align:right}
+
+  .cover-foot{display:grid;grid-template-columns:200px 1fr 220px;gap:48px;padding:48px 0;align-items:start}
+  .cover-foot-l{font-family:var(--fc_font_body);font-weight:800;font-style:italic;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#0a0d14;line-height:1.6}
+  .cover-foot-l span{display:block;color:rgba(10,13,20,0.5);font-weight:700;margin-top:6px;font-style:normal}
+  .cover-deck{font-family:var(--fc_font_display);font-weight:700;font-size:32px;line-height:1.05;letter-spacing:-0.01em;color:#0a0d14;text-wrap:balance}
+  .cover-foot-r{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(10,13,20,0.6);line-height:1.6;font-weight:600;text-align:right}
+
+  /* OPENING ESSAY */
+  .essay{padding:120px 64px;border-bottom:1px solid #0a0d14;background:#f6f4ef}
+  .essay-grid{display:grid;grid-template-columns:1fr 2fr 1fr;gap:64px;max-width:1320px;margin:0 auto}
+  .essay-meta{font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(10,13,20,0.6);line-height:1.6;font-weight:700}
+  .essay-meta-h{font-family:var(--fc_font_display);font-weight:700;font-size:48px;line-height:0.9;letter-spacing:-0.02em;color:#0a0d14;text-transform:uppercase;margin-bottom:24px}
+  .essay-body{column-count:2;column-gap:48px;column-rule:1px solid rgba(10,13,20,0.15);font-size:18px;line-height:30px;color:#0a0d14}
+  .essay-body p{margin-bottom:24px;text-wrap:pretty}
+  .dropcap::first-letter{font-family:var(--fc_font_display);font-weight:700;font-size:140px;line-height:0.82;float:left;padding:8px 14px 0 0;color:var(--fc_color_orange_60);text-transform:uppercase}
+  .essay-pull{font-family:var(--fc_font_display);font-weight:700;font-size:36px;line-height:1.05;letter-spacing:-0.01em;color:#0a0d14;text-transform:uppercase;text-wrap:balance}
+  .essay-pull em{color:var(--fc_color_orange_60);font-style:normal;display:block;margin-top:12px}
+  .essay-byline{font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(10,13,20,0.6);font-weight:700;margin-top:32px;padding-top:24px;border-top:1px solid rgba(10,13,20,0.2)}
+  .essay-byline strong{color:#0a0d14;font-weight:800;display:block;margin-bottom:4px;font-size:13px}
+
+  /* QUOTE */
+  .quote-section{padding:160px 64px;border-bottom:1px solid #0a0d14;background:#0a0d14;color:#f6f4ef}
+  .quote-grid{display:grid;grid-template-columns:1fr 2fr;gap:96px;max-width:1320px;margin:0 auto;align-items:start}
+  .qg-l{display:flex;flex-direction:column;gap:24px}
+  .qg-num{font-family:var(--fc_font_display);font-weight:700;font-size:140px;line-height:0.85;letter-spacing:-0.04em;color:rgba(246,244,239,0.1)}
+  .qg-meta{font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(246,244,239,0.6);font-weight:700;line-height:1.7}
+  .qg-meta strong{display:block;color:#f6f4ef;font-weight:800;margin-bottom:6px;font-size:12px}
+  .quote-text{font-family:var(--fc_font_display);font-weight:700;font-size:64px;line-height:1.05;letter-spacing:-0.01em;text-transform:uppercase;color:#f6f4ef;text-wrap:balance;margin-bottom:48px}
+  .quote-text em{color:var(--fc_color_orange_60);font-style:normal}
+  .qg-mark{font-family:var(--fc_font_display);font-weight:700;font-size:96px;line-height:0.5;color:var(--fc_color_orange_60);margin-bottom:8px}
+  .qg-attr{display:grid;grid-template-columns:1fr auto auto;gap:48px;padding-top:32px;border-top:1px solid rgba(246,244,239,0.2);align-items:end}
+  .qa-name{font-size:14px;font-weight:600;color:#f6f4ef;margin-bottom:2px}
+  .qa-role{font-size:11px;color:rgba(246,244,239,0.5);letter-spacing:0.06em}
+  .qa-stat{font-family:var(--fc_font_display);font-weight:700;font-size:64px;color:var(--fc_color_orange_60);line-height:0.9;letter-spacing:-0.02em}
+  .qa-stat-label{font-size:10px;color:rgba(246,244,239,0.5);text-transform:uppercase;letter-spacing:0.16em;margin-top:4px;font-weight:700}
+
+  /* FORMATS */
+  .formats{padding:120px 64px;border-bottom:1px solid #0a0d14;background:#f6f4ef}
+  .formats-head{display:grid;grid-template-columns:200px 1fr 320px;gap:48px;margin-bottom:96px;align-items:end;max-width:1320px;margin-left:auto;margin-right:auto}
+  .fh-section{font-family:var(--fc_font_body);font-weight:800;font-style:italic;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(10,13,20,0.6);line-height:1.6}
+  .fh-section span{display:block;color:#0a0d14;font-style:normal;font-weight:700;font-size:11px;margin-top:4px}
+  .fh-h{font-family:var(--fc_font_display);font-weight:700;font-size:96px;line-height:0.88;letter-spacing:-0.02em;text-transform:uppercase;color:#0a0d14;text-wrap:balance}
+  .fh-h em{color:var(--fc_color_orange_60);font-style:normal}
+  .fh-sub{font-size:15px;line-height:24px;color:rgba(10,13,20,0.7);text-wrap:pretty}
+
+  .formats-list{max-width:1320px;margin:0 auto;border-top:2px solid #0a0d14}
+  .format{display:grid;grid-template-columns:80px 1fr 1.2fr;gap:80px;padding:80px 0;border-bottom:1px solid rgba(10,13,20,0.2);align-items:start;position:relative}
+  .format-num{font-family:var(--fc_font_display);font-weight:700;font-size:64px;color:#0a0d14;line-height:0.85;letter-spacing:-0.04em}
+  .format-num small{font-family:var(--fc_font_body);font-weight:800;font-style:italic;display:block;font-size:11px;letter-spacing:0.18em;color:rgba(10,13,20,0.5);margin-top:12px;text-transform:uppercase}
+  .format-info{padding-top:8px}
+  .format-tag{display:inline-flex;align-items:center;gap:8px;font-family:var(--fc_font_body);font-weight:800;font-style:italic;font-size:11px;letter-spacing:0.18em;color:var(--fc_color_orange_60);text-transform:uppercase;margin-bottom:24px}
+  .format-tag::before{content:"";width:6px;height:6px;background:var(--fc_color_orange_60)}
+  .format-name{font-family:var(--fc_font_display);font-weight:700;font-size:72px;color:#0a0d14;text-transform:uppercase;letter-spacing:-0.02em;line-height:0.92;margin-bottom:24px;text-wrap:balance}
+  .format-desc{font-size:18px;line-height:28px;color:rgba(10,13,20,0.75);margin-bottom:32px;max-width:480px;text-wrap:pretty}
+  .format-stats{display:flex;gap:48px;padding-top:24px;border-top:1px solid rgba(10,13,20,0.2)}
+  .fs{display:flex;flex-direction:column;gap:6px}
+  .fs-label{font-size:10px;color:rgba(10,13,20,0.5);text-transform:uppercase;letter-spacing:0.16em;font-weight:700}
+  .fs-val{font-family:var(--fc_font_display);font-weight:700;font-size:32px;color:#0a0d14;letter-spacing:-0.01em}
+  .format-mock{aspect-ratio:4/3;background:#0a0d14;border:1px solid #0a0d14;position:relative;overflow:hidden}
+
+  /* mock variants - editorial: more restrained */
+  .mock-1{background:radial-gradient(ellipse at 50% 60%, #7a2b02 0%, #1a0900 60%, #0a0d14 100%)}
+  .mock-1::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,rgba(0,0,0,0.7))}
+  .mock-1::after{content:"AD · 0:08";position:absolute;left:20px;top:20px;font-family:var(--fc_font_body);font-weight:800;font-style:italic;font-size:11px;letter-spacing:0.16em;color:#fff;background:var(--fc_color_orange_60);padding:6px 12px;text-transform:uppercase}
+  .mock-1 .pc{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:90px;height:90px;border:2px solid rgba(255,255,255,0.7);border-radius:50%;display:flex;align-items:center;justify-content:center}
+  .mock-1 .pc::after{content:"";width:0;height:0;border-left:20px solid #fff;border-top:14px solid transparent;border-bottom:14px solid transparent;margin-left:6px}
+  .mock-1 .pg{position:absolute;left:20px;right:20px;bottom:20px;height:3px;background:rgba(255,255,255,0.18)}
+  .mock-1 .pg::before{content:"";position:absolute;left:0;top:0;height:100%;width:32%;background:var(--fc_color_orange_60)}
+
+  .mock-2{background:#f6f4ef}
+  .mock-2 .top-band{position:absolute;left:0;right:0;top:0;height:55%;background:linear-gradient(135deg,#3d1501 0%,#7a2b02 100%);display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--fc_font_display);font-weight:700;font-size:64px;letter-spacing:-0.02em}
+  .mock-2 .feed-card{position:absolute;left:24px;bottom:24px;right:24px;height:35%;background:#fff;border:1px solid rgba(10,13,20,0.15);padding:14px}
+  .mock-2 .feed-card::before{content:"";display:block;width:60%;height:8px;background:rgba(10,13,20,0.85);margin-bottom:10px}
+  .mock-2 .feed-card::after{content:"";display:block;width:40%;height:6px;background:rgba(10,13,20,0.3)}
+
+  .mock-3{background:radial-gradient(circle at 50% 40%, #1a0900 0%, #0a0d14 70%)}
+  .mock-3 .ctv{position:absolute;inset:8% 8% 18% 8%;border:6px solid #1a1a1a;background:linear-gradient(135deg,#3d1501,#7a2b02);overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,0.5)}
+  .mock-3 .ctv::after{content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:48px;height:48px;background:var(--fc_color_orange_60);border-radius:50%;box-shadow:0 0 60px rgba(245,85,5,0.8)}
+  .mock-3 .ctv-stand{position:absolute;left:50%;bottom:8%;transform:translateX(-50%);width:64px;height:5px;background:#1a1a1a}
+
+  .mock-4{background:#0a0d14}
+  .mock-4 .fr{position:absolute;left:24px;right:24px;height:88px;border:1px solid rgba(255,255,255,0.1);padding:14px 18px}
+  .mock-4 .fr.r1{top:24px;background:linear-gradient(90deg,rgba(245,85,5,0.18),transparent);border-color:rgba(245,85,5,0.3)}
+  .mock-4 .fr.r1::before{content:"SPONSORED · BRAND";font-family:var(--fc_font_body);font-weight:800;font-style:italic;font-size:11px;letter-spacing:0.16em;color:var(--fc_color_orange_60);text-transform:uppercase}
+  .mock-4 .fr.r1::after{content:"";display:block;margin-top:14px;width:50%;height:6px;background:rgba(255,255,255,0.4)}
+  .mock-4 .fr.r2{top:128px;}
+  .mock-4 .fr.r3{top:232px;}
+  .mock-4 .fr.r2::before,.mock-4 .fr.r3::before{content:"";display:block;width:60%;height:8px;background:rgba(255,255,255,0.12);margin-bottom:8px}
+  .mock-4 .fr.r2::after,.mock-4 .fr.r3::after{content:"";display:block;width:35%;height:6px;background:rgba(255,255,255,0.08)}
+
+  .mock-5{background:linear-gradient(180deg,#0a0d14,#1a0900)}
+  .mock-5::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%, rgba(245,85,5,0.4) 0%, transparent 50%)}
+  .mock-5 .live-strip{position:absolute;left:24px;top:24px;display:inline-flex;align-items:center;gap:8px;padding:6px 12px;background:var(--fc_color_red_60);font-family:var(--fc_font_body);font-weight:800;font-style:italic;font-size:11px;letter-spacing:0.16em;color:#fff;text-transform:uppercase}
+  .mock-5 .live-strip::before{content:"";width:6px;height:6px;border-radius:50%;background:#fff}
+  .mock-5 .scoreboard{position:absolute;left:24px;right:24px;bottom:24px;display:flex;align-items:center;justify-content:space-between;padding:18px 22px;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.12)}
+  .mock-5 .team{font-family:var(--fc_font_display);font-weight:700;font-size:24px;color:#fff;letter-spacing:-0.01em}
+  .mock-5 .score{font-family:var(--fc_font_display);font-weight:700;font-size:36px;color:var(--fc_color_orange_60);letter-spacing:-0.02em}
+  .mock-5 .sponsor-stamp{position:absolute;top:24px;right:24px;font-family:var(--fc_font_display);font-weight:700;font-size:14px;color:#fff;letter-spacing:0.04em;background:rgba(255,255,255,0.1);padding:8px 12px;border:1px solid rgba(255,255,255,0.2)}
+  .mock-5 .sponsor-stamp em{color:var(--fc_color_orange_60);font-style:normal}
+
+  /* COLOPHON / CTA */
+  .colophon{padding:160px 64px;background:#0a0d14;color:#f6f4ef;position:relative;overflow:hidden}
+  .colophon::before{content:"FANCODE";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:var(--fc_font_display);font-weight:700;font-size:480px;line-height:0.85;letter-spacing:-0.04em;color:rgba(246,244,239,0.04);white-space:nowrap;pointer-events:none}
+  .colophon-grid{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:96px;max-width:1320px;margin:0 auto;align-items:end}
+  .col-eyebrow{font-family:var(--fc_font_body);font-weight:800;font-style:italic;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--fc_color_orange_60);margin-bottom:24px}
+  .col-h{font-family:var(--fc_font_display);font-weight:700;font-size:120px;line-height:0.88;letter-spacing:-0.02em;text-transform:uppercase;color:#f6f4ef;margin-bottom:32px;text-wrap:balance}
+  .col-h em{color:var(--fc_color_orange_60);font-style:normal}
+  .col-sub{font-size:18px;line-height:28px;color:rgba(246,244,239,0.7);max-width:420px;text-wrap:pretty;margin-bottom:48px}
+  .col-cta{display:inline-flex;align-items:center;gap:14px;padding:22px 36px;background:var(--fc_color_orange_60);color:#fff;font-size:14px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase}
+  .col-r{display:flex;flex-direction:column;gap:24px;border-left:1px solid rgba(246,244,239,0.2);padding-left:64px}
+  .col-r-row{display:flex;flex-direction:column;gap:6px;padding-bottom:24px;border-bottom:1px solid rgba(246,244,239,0.15)}
+  .col-r-row:last-child{border-bottom:none}
+  .col-r-label{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(246,244,239,0.5);font-weight:700}
+  .col-r-val{font-family:var(--fc_font_display);font-weight:700;font-size:24px;color:#f6f4ef;letter-spacing:-0.01em}
+  .col-r-val em{color:var(--fc_color_orange_60);font-style:normal}
+
+  .foot{padding:32px 64px;background:#0a0d14;color:rgba(246,244,239,0.4);display:flex;justify-content:space-between;align-items:center;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;font-weight:700;border-top:1px solid rgba(246,244,239,0.1)}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="mh-left">
+    <span class="mh-issue">Vol 01 · 2026</span>
+  </div>
+  <div class="mh-mid">
+    <img src="../assets/fancode-logo.svg" alt="FanCode">
+    <div class="mh-mid-divider"></div>
+    <span class="mh-mid-tag">For Brands</span>
+  </div>
+  <div class="mh-right">
+    <span>Inquiries</span>
+    <span>Book a Call</span>
+  </div>
+</header>
+
+<div class="strapline">
+  <span>The quarterly brief on attention in live sport.</span>
+  <span>Issue · 01 — <em>Lights Out, Brand On.</em></span>
+  <span>India · 2026</span>
+</div>
+
+<!-- COVER -->
+<section class="cover" data-screen-label="01 Cover">
+  <div class="cover-tag">
+    <span class="cover-tag-num">01</span>
+    <span class="overline">THE COVER STORY</span>
+  </div>
+  <h1 class="cover-h">Lights<br>out.<br><em>Brand on.</em></h1>
+  <div class="cover-img">
+    <div class="cover-figure">F1</div>
+    <div class="cover-img-meta">
+      <span>Photographed at Marina Bay · Singapore GP · 2025</span>
+      <span class="meta-r">Cover Story · Issue 01</span>
+    </div>
+  </div>
+  <div class="cover-foot">
+    <div class="cover-foot-l">
+      The Cover Story
+      <span>5 Million Fans · 12 Sports · 1 Screen</span>
+    </div>
+    <p class="cover-deck">Inside the last appointment medium left in India — and the formats that put your brand inside the moment fans <em>refuse</em> to look away.</p>
+    <div class="cover-foot-r">Pp · 04 — 18<br>Read Time · 6 Min</div>
+  </div>
+</section>
+
+<!-- ESSAY -->
+<section class="essay" data-screen-label="02 Essay">
+  <div class="essay-grid">
+    <div class="essay-meta">
+      Section 02
+      <div class="essay-meta-h">The Brief</div>
+      <div>Filed by FanCode<br>Editorial · Brands<br>Pp · 04</div>
+    </div>
+    <div class="essay-body">
+      <p class="dropcap">Live sport is the last appointment medium India has left. Fans don't time-shift it, they don't scroll past it, and on the big nights they put the rest of their lives on hold for it. That is not a media buy. That is a captive audience showing up on a clock you can plan around.</p>
+      <p>FanCode reaches five million of those fans every month, across twelve sports — IPL, F1, La Liga, MotoGP, Pro Kabaddi, NFL, and a dozen more — through one product designed for the kind of fan who wants every ball, every lap, every set.</p>
+      <p>This issue is the brief: who they are, what we sell, and the formats that win when attention is a finite resource and the toss is twelve seconds away.</p>
+    </div>
+    <div>
+      <p class="essay-pull">Where attention <em>actually</em> exists.</p>
+      <div class="essay-byline">
+        <strong>FanCode Editorial</strong>
+        Brand Partnerships Desk<br>
+        Bengaluru · 2026
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section class="quote-section" data-screen-label="03 Quote">
+  <div class="quote-grid">
+    <div class="qg-l">
+      <div class="qg-num">02</div>
+      <div class="qg-meta">
+        <strong>Case Study · 01</strong>
+        F1 Singapore GP<br>
+        Race&middot;Fuel · 2025<br>
+        Format · Pre-roll Live<br>
+        Window · 14 Days
+      </div>
+    </div>
+    <div>
+      <div class="qg-mark">"</div>
+      <p class="quote-text">FanCode put us in front of F1 fans <em>twelve minutes before lights out</em> — the highest-attention buy we ran all year.</p>
+      <div class="qg-attr">
+        <div>
+          <div class="qa-name">Priya Krishnan</div>
+          <div class="qa-role">Head of Brand · Race·Fuel</div>
+        </div>
+        <div>
+          <div class="qa-stat">+193%</div>
+          <div class="qa-stat-label">AIDED RECALL</div>
+        </div>
+        <div>
+          <div class="qa-stat">2.4×</div>
+          <div class="qa-stat-label">PURCHASE INTENT</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORMATS -->
+<section class="formats" data-screen-label="04 Formats">
+  <div class="formats-head">
+    <div class="fh-section">
+      Section 04
+      <span>The Catalogue</span>
+    </div>
+    <h2 class="fh-h">Five formats.<br>Built for the moment<br>fans <em>look up</em>.</h2>
+    <p class="fh-sub">Every spot lives inside live sport. No skip-button shortcuts, no scroll-past banners. Just attention, where it actually exists — at full price.</p>
+  </div>
+
+  <div class="formats-list">
+
+    <div class="format">
+      <div class="format-num">01<small>Video · In-Stream</small></div>
+      <div class="format-info">
+        <div class="format-tag">The Slot They Cannot Skip</div>
+        <h3 class="format-name">Pre-roll<br>Live</h3>
+        <p class="format-desc">The slot fans don't skip — because the toss is twelve seconds away. Non-skippable, full-attention, locked to the live event start. Sold by event window, capped per category.</p>
+        <div class="format-stats">
+          <div class="fs"><div class="fs-label">Duration</div><div class="fs-val">15–30s</div></div>
+          <div class="fs"><div class="fs-label">Completion</div><div class="fs-val">96%</div></div>
+        </div>
+      </div>
+      <div class="format-mock mock-1"><div class="pc"></div><div class="pg"></div></div>
+    </div>
+
+    <div class="format">
+      <div class="format-num">02<small>Display · 24 hrs</small></div>
+      <div class="format-info">
+        <div class="format-tag">The Whole Front Door</div>
+        <h3 class="format-name">Homepage<br>Takeover</h3>
+        <p class="format-desc">The whole front door is yours. Masthead plus sponsored rail plus native pre-roll for twenty-four hours, scheduled to event launch days — IPL opening, F1 lights-out, Champions League final.</p>
+        <div class="format-stats">
+          <div class="fs"><div class="fs-label">Window</div><div class="fs-val">24 hrs</div></div>
+          <div class="fs"><div class="fs-label">Reach</div><div class="fs-val">1.8M+</div></div>
+        </div>
+      </div>
+      <div class="format-mock mock-2"><div class="top-band">BRAND</div><div class="feed-card"></div></div>
+    </div>
+
+    <div class="format">
+      <div class="format-num">03<small>CTV · Big Screen</small></div>
+      <div class="format-info">
+        <div class="format-tag">The Big Screen</div>
+        <h3 class="format-name">Connected<br>TV</h3>
+        <p class="format-desc">Lean-back, full-screen, household viewing on smart TVs. An affluent metro audience watching on the biggest panel they own — and the one ad environment in India where 4K still means something.</p>
+        <div class="format-stats">
+          <div class="fs"><div class="fs-label">Format</div><div class="fs-val">4K</div></div>
+          <div class="fs"><div class="fs-label">HHI &gt; ₹15L</div><div class="fs-val">62%</div></div>
+        </div>
+      </div>
+      <div class="format-mock mock-3"><div class="ctv"></div><div class="ctv-stand"></div></div>
+    </div>
+
+    <div class="format">
+      <div class="format-num">04<small>Display · Native</small></div>
+      <div class="format-info">
+        <div class="format-tag">Native Inside The Feed</div>
+        <h3 class="format-name">Sponsored<br>Rails</h3>
+        <p class="format-desc">Native rails inside the home feed — "Brand presents Top Moments", co-branded VOD playlists, hosted highlight reels. Built like content, performs like content, sells like media.</p>
+        <div class="format-stats">
+          <div class="fs"><div class="fs-label">CTR Lift</div><div class="fs-val">2.4×</div></div>
+          <div class="fs"><div class="fs-label">Min Run</div><div class="fs-val">7 days</div></div>
+        </div>
+      </div>
+      <div class="format-mock mock-4">
+        <div class="fr r1"></div>
+        <div class="fr r2"></div>
+        <div class="fr r3"></div>
+      </div>
+    </div>
+
+    <div class="format" style="border-bottom:2px solid #0a0d14">
+      <div class="format-num">05<small>Live · Title</small></div>
+      <div class="format-info">
+        <div class="format-tag">Title Inside The Match</div>
+        <h3 class="format-name">Match<br>Sponsorship</h3>
+        <p class="format-desc">Title presence on the live broadcast — scoreboard sting, half-time card, replay bug, post-match wrap. Branded into the moment, not next to it. One slot per event, sold direct.</p>
+        <div class="format-stats">
+          <div class="fs"><div class="fs-label">Exposure</div><div class="fs-val">Full Match</div></div>
+          <div class="fs"><div class="fs-label">Slots</div><div class="fs-val">1 / event</div></div>
+        </div>
+      </div>
+      <div class="format-mock mock-5">
+        <div class="live-strip">LIVE</div>
+        <div class="sponsor-stamp">Presented by <em>BRAND</em></div>
+        <div class="scoreboard">
+          <span class="team">CSK</span>
+          <span class="score">182<span style="opacity:0.5;font-size:18px">/4</span></span>
+          <span class="team">MI</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- COLOPHON / CTA -->
+<section class="colophon" data-screen-label="05 Colophon">
+  <div class="colophon-grid">
+    <div>
+      <div class="col-eyebrow">— Colophon · Get In Touch —</div>
+      <h2 class="col-h">Lights out.<br><em>Brand on.</em></h2>
+      <p class="col-sub">Most briefs come back inside 48 hours. Talk to a sales lead, walk away with a plan and ballpark numbers — no spec doc required.</p>
+      <a class="col-cta">Book a 30-min call <span style="font-size:18px">→</span></a>
+    </div>
+    <div class="col-r">
+      <div class="col-r-row">
+        <span class="col-r-label">Editorial — Brand Partnerships</span>
+        <span class="col-r-val">brands<em>@</em>fancode.com</span>
+      </div>
+      <div class="col-r-row">
+        <span class="col-r-label">Phone — Bengaluru HQ</span>
+        <span class="col-r-val">+91 80 4567 8900</span>
+      </div>
+      <div class="col-r-row">
+        <span class="col-r-label">Filed By — Issue 01 · 2026</span>
+        <span class="col-r-val">FanCode <em>For Brands</em></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <span>© 2026 Dreamset Inc · FanCode</span>
+  <span>Vol 01 · Issue 01 · 2026</span>
+  <span>Printed In Bengaluru</span>
+</footer>
+
+</body>
+</html>
